@@ -1,3 +1,5 @@
+<?php $data = wsuwp_event_get_data( get_the_ID() ); ?>
+
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 
 	<header class="card-header">
