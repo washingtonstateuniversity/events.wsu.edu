@@ -16,8 +16,42 @@ $post_share_placement = spine_get_option( 'post_social_placement' );
 		?>
 	</header>
 
+	<div class="card-dates">
+		<span class="start-date"></span>
+		<span class="end-date"></span>
+	</div>
+
+	<div class="card-action">
+		<a href="">Text</a>
+	</div>
+
 	<div class="card-content">
 		<?php the_content(); ?>
+	</div>
+
+	<div class="card-location">
+
+		<div class="card-location-notes">
+
+		</div>
+	</div>
+
+	<div class="card-organizer">
+		<div class="organizer-name">
+
+		</div>
+
+		<div class="organizer-email">
+
+		</div>
+
+		<div class="organizer-phone">
+
+		</div>
+	</div>
+
+	<div class="card-cost">
+
 	</div>
 
 	<?php
