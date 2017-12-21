@@ -23,7 +23,8 @@ module.exports = function( grunt ) {
 				processors: [
 					require( "autoprefixer" )( {
 						browsers: [ "> 1%", "ie 8-11", "Firefox ESR" ]
-					} )
+					} ),
+					require( "postcss-custom-properties" )
 				]
 			},
 			dist: {

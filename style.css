@@ -12,31 +12,21 @@
 :root {
 
 	/* primary colors */
-	--color-primary: #a60f2d;
-	--color-primary-bright: #ca1237;
-	--color-primary-dark: #820c23;
 
 	/* gray colors */
-	--color-gray-light: #f2f2f2;
-	--color-gray-middle: #777;
-	--color-gray-dark: #191919;
 
 	/* links */
-	--color-link: #da1e00;
-	--color-link-hover: #be000f;
-	--color-link-dark: #a30023;
 
 	/* spacing */
-	--spacing: 3rem;
 }
 
 html {
-	background-color: var(--color-gray-light);
+	background-color: #f2f2f2;
 }
 
 /* --- general typography --- */
 body {
-	color: var(--color-gray-dark);
+	color: #191919;
 }
 
 main {
@@ -69,7 +59,7 @@ h3 {
 
 /* links and call to actions */
 main a {
-	border-bottom: 1px solid var(--color-link);
+	border-bottom: 1px solid #da1e00;
 	color: inherit;
 	transition: all .3s ease;
 }
@@ -81,12 +71,12 @@ main p a {
 main a:hover {
 	border-bottom-color: inherit;
 	border-bottom-width: 2px;
-	color: var(--color-link-hover);
+	color: #be000f;
 }
 
 main a:active {
 	border-bottom-color: inherit;
-	color: var(--color-link-dark);
+	color: #a30023;
 }
 
 main figure a {
@@ -97,16 +87,16 @@ main figure a {
 
 .button {
 	background: #fff;
-	border: 1px solid var(--color-link);
+	border: 1px solid #da1e00;
 	border-radius: 5px;
-	color: var(--color-link);
+	color: #da1e00;
 	font-weight: 900;
-	padding: calc(var(--spacing) / 4) var(--spacing);
+	padding: calc(3rem / 4) 3rem;
 }
 
 .button:hover {
-	background: var(--color-link-dark);
-	border: 1px solid var(--color-link-dark);
+	background: #a30023;
+	border: 1px solid #a30023;
 	color: #fff;
 }
 
@@ -117,16 +107,16 @@ main figure a {
 
 main {
 	background: #fff;
-	border: solid calc(var(--spacing) / 3) var(--color-gray-light);
+	border: solid calc(3rem / 3) #f2f2f2;
 	border-top-width: 0;
 	border-bottom-width: 0;
-	padding: var(--spacing) 0 0;
+	padding: 3rem 0 0;
 }
 
 main section,
 main header,
 main footer {
-	padding: 0 var(--spacing);
+	padding: 0 3rem;
 }
 
 main header {
@@ -134,18 +124,18 @@ main header {
 }
 
 main footer {
-	background: var(--color-gray-light);
+	background: #f2f2f2;
 }
 
 /* --- spacing between components --- */
 .card-title,
 .card-image {
-	padding-bottom: var(--spacing);
+	padding-bottom: 3rem;
 }
 
 .card-event-details span {
 	display: block;
-	margin-bottom: calc(var(--spacing) / 4);
+	margin-bottom: calc(3rem / 4);
 }
 
 .card-contact-details span {
@@ -157,21 +147,21 @@ main footer {
 @media (max-width: 791px) {
 
 	#binder.fluid #spine header {
-		border-bottom: 1px solid var(--color-gray-light);
+		border-bottom: 1px solid #f2f2f2;
 	}
 }
 
 @media (max-width: 500px) {
 
 	#binder.fluid main {
-		border-width: calc(var(--spacing) / 6);
+		border-width: calc(3rem / 6);
 		border-top-width: 0;
 	}
 
 	main section,
 	main header,
 	main footer {
-		padding: 0 calc(var(--spacing) / 2);
+		padding: 0 calc(3rem / 2);
 	}
 }
 
