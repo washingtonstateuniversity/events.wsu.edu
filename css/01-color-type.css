@@ -1,0 +1,101 @@
+/* --- site variables --- */
+:root {
+
+	/* primary colors */
+	--color-primary: #a60f2d;
+	--color-primary-bright: #ca1237;
+	--color-primary-dark: #820c23;
+
+	/* gray colors */
+	--color-gray-light: #f2f2f2;
+	--color-gray-middle: #777;
+	--color-gray-dark: #191919;
+
+	/* links */
+	--color-link: #da1e00;
+	--color-link-hover: #be000f;
+	--color-link-dark: #a30023;
+
+	/* spacing */
+	--spacing: 3rem;
+}
+
+html {
+	background-color: var(--color-gray-light);
+}
+
+/* --- general typography --- */
+body {
+	color: var(--color-gray-dark);
+}
+
+main {
+	font-family: "Source Sans Pro";
+	font-size: 18px;
+	font-weight: 300;
+	line-height: 1.5;
+}
+
+/* header elements */
+h1,
+h2,
+h3 {
+	font-weight: 900;
+	line-height: 1.1;
+}
+
+h1 {
+	font-size: 2.5em;
+}
+
+h2 {
+	font-size: 1.75em;
+}
+
+h3 {
+	font-size: 1.4;
+	text-transform: uppercase;
+}
+
+/* links and call to actions */
+main a {
+	border-bottom: 1px solid var(--color-link);
+	color: inherit;
+	transition: all .3s ease;
+}
+
+main p a {
+	font-weight: 900;
+}
+
+main a:hover {
+	border-bottom-color: inherit;
+	border-bottom-width: 2px;
+	color: var(--color-link-hover);
+}
+
+main a:active {
+	border-bottom-color: inherit;
+	color: var(--color-link-dark);
+}
+
+main figure a {
+
+	/* remove border from linked images */
+	border-bottom: none;
+}
+
+.button {
+	background: #fff;
+	border: 1px solid var(--color-link);
+	border-radius: 5px;
+	color: var(--color-link);
+	font-weight: 900;
+	padding: calc(var(--spacing) / 4) var(--spacing);
+}
+
+.button:hover {
+	background: var(--color-link-dark);
+	border: 1px solid var(--color-link-dark);
+	color: #fff;
+}

@@ -7,4 +7,163 @@
  Template:       spine
  Version:        0.0.1
 */
+
+/* --- site variables --- */
+:root {
+
+	/* primary colors */
+
+	/* gray colors */
+
+	/* links */
+
+	/* spacing */
+}
+
+html {
+	background-color: #f2f2f2;
+}
+
+/* --- general typography --- */
+body {
+	color: #191919;
+}
+
+main {
+	font-family: "Source Sans Pro";
+	font-size: 18px;
+	font-weight: 300;
+	line-height: 1.5;
+}
+
+/* header elements */
+h1,
+h2,
+h3 {
+	font-weight: 900;
+	line-height: 1.1;
+}
+
+h1 {
+	font-size: 2.5em;
+}
+
+h2 {
+	font-size: 1.75em;
+}
+
+h3 {
+	font-size: 1.4;
+	text-transform: uppercase;
+}
+
+/* links and call to actions */
+main a {
+	border-bottom: 1px solid #da1e00;
+	color: inherit;
+	transition: all .3s ease;
+}
+
+main p a {
+	font-weight: 900;
+}
+
+main a:hover {
+	border-bottom-color: inherit;
+	border-bottom-width: 2px;
+	color: #be000f;
+}
+
+main a:active {
+	border-bottom-color: inherit;
+	color: #a30023;
+}
+
+main figure a {
+
+	/* remove border from linked images */
+	border-bottom: none;
+}
+
+.button {
+	background: #fff;
+	border: 1px solid #da1e00;
+	border-radius: 5px;
+	color: #da1e00;
+	font-weight: 900;
+	padding: calc(3rem / 4) 3rem;
+}
+
+.button:hover {
+	background: #a30023;
+	border: 1px solid #a30023;
+	color: #fff;
+}
+
+/* site header is currently uncertain */
+.site-header {
+	display: none;
+}
+
+main {
+	background: #fff;
+	border: solid calc(3rem / 3) #f2f2f2;
+	border-top-width: 0;
+	border-bottom-width: 0;
+	padding: 3rem 0 0;
+}
+
+main section,
+main header,
+main footer {
+	padding: 0 3rem;
+}
+
+main header {
+	max-width: 800px;
+}
+
+main footer {
+	background: #f2f2f2;
+}
+
+/* --- spacing between components --- */
+.card-title,
+.card-image {
+	padding-bottom: 3rem;
+}
+
+.card-event-details span {
+	display: block;
+	margin-bottom: calc(3rem / 4);
+}
+
+.card-contact-details span {
+	display: block;
+}
+
+/* --- responsiveness --- */
+
+@media (max-width: 791px) {
+
+	#binder.fluid #spine header {
+		border-bottom: 1px solid #f2f2f2;
+	}
+}
+
+@media (max-width: 500px) {
+
+	#binder.fluid main {
+		border-width: calc(3rem / 6);
+		border-top-width: 0;
+	}
+
+	main section,
+	main header,
+	main footer {
+		padding: 0 calc(3rem / 2);
+	}
+}
+
+/* --- styles specific to the component --- */
 /*# sourceMappingURL=style.css.map */
