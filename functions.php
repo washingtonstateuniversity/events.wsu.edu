@@ -1,5 +1,17 @@
 <?php
 
+add_filter( 'spine_child_theme_version', 'events_theme_version' );
+/**
+ * Provides a theme version for use in cache busting.
+ *
+ * @since 0.0.1
+ *
+ * @return string
+ */
+function events_theme_version() {
+	return '0.0.1';
+}
+
 /**
  * Returns a usable subset of data for displaying an event.
  *
@@ -38,4 +50,14 @@ function get_event_data( $post_id ) {
 	);
 
 	return $data;
+}
+
+add_action( 'wp_enqueue_scripts', 'events_enqueue_scripts' );
+/**
+ * Enqueues custom styles.
+ *
+ * @since 0.0.1
+ */
+function events_enqueue_scripts() {
+	wp_enqueue_style( 'source-sans-pro', '//fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,900,900i' );
 }

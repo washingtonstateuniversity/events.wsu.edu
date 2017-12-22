@@ -6,12 +6,10 @@ $event_data = get_event_data( get_the_ID() );
 ?>
 <article id="event-<?php the_ID(); ?>" class="card card--event">
 
-	<header class="card-title">
+	<header class="card-header">
 		<?php if ( is_single() ) { ?>
-		<header class="card-header">
-			<!-- We should re-enable the Type taxonomy for this --><p class="card-event-type"></p>
-			<h1 class="card-title"><?php the_title(); ?></h1>
-		</header>
+		<!-- We should re-enable the Type taxonomy for this --><p class="card-event-type"></p>
+		<h1 class="card-title"><?php the_title(); ?></h1>
 		<?php } else { ?>
 		<h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
 		<?php } ?>
