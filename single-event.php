@@ -4,22 +4,14 @@ get_header();
 
 ?>
 <main id="wsuwp-main">
+
 	<?php get_template_part( 'parts/headers' ); ?>
-	<section class="row side-right gutter pad-ends">
 
-		<div class="column one">
+	<?php while ( have_posts() ) : the_post(); ?>
 
-			<?php while ( have_posts() ) : the_post(); ?>
+		<?php get_template_part( 'components/event/content' ) ?>
 
-				<?php get_template_part( 'components/event/content' ) ?>
-
-			<?php endwhile; ?>
-
-		</div><!--/column-->
-
-		<div class="column two"></div><!--/column two-->
-
-	</section>
+	<?php endwhile; ?>
 
 	<footer class="main-footer">
 		<section class="row halves gutter pad-ends pagination">
