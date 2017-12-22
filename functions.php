@@ -51,3 +51,13 @@ function get_event_data( $post_id ) {
 
 	return $data;
 }
+
+add_action( 'wp_enqueue_scripts', 'events_enqueue_scripts' );
+/**
+ * Enqueues custom styles.
+ *
+ * @since 0.0.1
+ */
+function events_enqueue_scripts() {
+	wp_enqueue_style( 'source-sans-pro', '//fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,900,900i' );
+}
