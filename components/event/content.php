@@ -8,10 +8,17 @@ $event_data = get_event_data( get_the_ID() );
 
 	<header class="card-header">
 		<?php if ( is_single() ) { ?>
-		<!-- We should re-enable the Type taxonomy for this --><p class="card-event-type"></p>
-		<h1 class="card-title"><?php the_title(); ?></h1>
+			<?php // Display the event type.
+			$types = wp_get_post_terms( get_the_ID(), 'event-type' );
+			if ( $types ) {
+				foreach ( $types as $type ) {
+					?><p class="card-event-type"><?php echo esc_html( $type->name ); ?></p><?php
+				}
+			}
+			?>
+			<h1 class="card-title"><?php the_title(); ?></h1>
 		<?php } else { ?>
-		<h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+			<h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
 		<?php } ?>
 	</header>
 
