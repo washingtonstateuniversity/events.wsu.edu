@@ -120,11 +120,17 @@ main footer {
 }
 
 main header {
+	box-sizing: border-box;
 	max-width: 800px;
+	width: calc(100% - 120px);
 }
 
 main footer {
 	background: #f2f2f2;
+}
+
+.single-post .card--event {
+	position: relative;
 }
 
 /* --- spacing between components --- */
@@ -140,6 +146,33 @@ main footer {
 
 .card-contact-details span {
 	display: block;
+}
+
+/* --- sharing links --- */
+.card-share {
+	margin-right: -3rem;
+	position: absolute;
+	right: 48px;
+	top: 1.3em;
+}
+
+.card-share p {
+	color: #da1e00;
+	font-size: .75em;
+	font-weight: 400;
+	padding: 0 .2em .1em;
+}
+
+.card-share a {
+	background: #f2f2f2;
+	border-bottom: none;
+	float: left;
+	line-height: 0;
+	padding: 12px;
+}
+
+.card-share a:hover use {
+	fill: #da1e00;
 }
 
 /* --- responsiveness --- */
