@@ -7,32 +7,30 @@
 	--color-primary-dark: #820c23;
 
 	/* gray colors */
-	--color-gray-light: #f2f2f2;
-	--color-gray-middle: #777;
-	--color-gray-dark: #191919;
+	--color-gray-5: #f2f2f2;
+	--color-gray: #777;
+	--color-gray-80: #333;
+	--color-gray-90: #191919;
 
 	/* links */
-	--color-link: #da1e00;
+	--color-link: #f95735;
 	--color-link-hover: #be000f;
 	--color-link-dark: #a30023;
-
-	/* spacing */
-	--spacing: 3rem;
 }
 
 html {
-	background-color: var(--color-gray-light);
+	background-color: var(--color-gray-5);
 }
 
 /* --- general typography --- */
 body {
-	color: var(--color-gray-dark);
+	color: var(--color-gray-90);
 }
 
 main {
 	font-family: "Source Sans Pro";
-	font-size: 18px;
-	font-weight: 300;
+	font-size: 16px;
+	font-weight: 400;
 	line-height: 1.5;
 }
 
@@ -40,7 +38,8 @@ main {
 h1,
 h2,
 h3 {
-	font-weight: 900;
+	color: var(--color-gray-80);
+	font-weight: 700;
 	line-height: 1.1;
 }
 
@@ -49,11 +48,12 @@ h1 {
 }
 
 h2 {
+	color: var(--color-link);
 	font-size: 1.75em;
 }
 
 h3 {
-	font-size: 1.4;
+	font-size: 1.4em;
 	text-transform: uppercase;
 }
 
@@ -65,13 +65,12 @@ main a {
 }
 
 main p a {
-	font-weight: 900;
+	font-weight: 700;
 }
 
 main a:hover {
 	border-bottom-color: inherit;
-	border-bottom-width: 2px;
-	color: var(--color-link-hover);
+	color: var(--color-link);
 }
 
 main a:active {
@@ -79,23 +78,125 @@ main a:active {
 	color: var(--color-link-dark);
 }
 
+/* remove border from linked images */
 main figure a {
-
-	/* remove border from linked images */
 	border-bottom: none;
 }
 
 .button {
 	background: #fff;
 	border: 1px solid var(--color-link);
-	border-radius: 5px;
+	border-radius: .3125em;
 	color: var(--color-link);
-	font-weight: 900;
-	padding: calc(var(--spacing) / 4) var(--spacing);
+	font-weight: 700;
+	padding: .5em 1.875em;
 }
 
 .button:hover {
 	background: var(--color-link-dark);
 	border: 1px solid var(--color-link-dark);
 	color: #fff;
+}
+
+.card-event-type {
+	font-size: 1.2em;
+	line-height: 1;
+	text-transform: uppercase;
+}
+
+.card-taxonomy.card-event-type a {
+	color: var(--color-link);
+	font-weight: 400;
+}
+
+.card-event-details span {
+	font-weight: 700;
+}
+
+.card-date a,
+.card-directions a,
+.card-contact-details a,
+.card-location-notes,
+.wp-caption-text,
+.card-footer {
+	border-bottom-color: inherit;
+	color: var(--color-gray);
+	font-size: .875em;
+	font-weight: 400;
+}
+
+.card-date a {
+	white-space: nowrap;
+}
+
+.related-link {
+	border-bottom-color: var(--color-gray-5);
+}
+
+/* --- iconography --- */
+.card-date,
+.card-time,
+.card-location,
+.card-cost,
+.card-directions {
+	padding-left: 1.375em;
+}
+
+.card-time {
+	background: url(images/icons/time.svg) left center / .8125em no-repeat;
+}
+
+.card-location {
+	background: url(images/icons/location.svg) left .3125em / .75em 1em no-repeat;
+}
+
+figcaption {
+	background: url(images/icons/photo.svg) .25em .875em / 1em .8125em no-repeat;
+	padding: .625em 1.875em;
+}
+
+.card-related-links li {
+	background: url(images/icons/link.svg) left .3125em / .875em .875em no-repeat;
+}
+
+.card-about h2 {
+	font-size: 1em;
+	font-weight: 400;
+	padding-bottom: .5em;
+	text-transform: uppercase;
+}
+
+.card-footer h2 {
+	font-size: 1.03em;
+	line-height: 1;
+	padding: 0;
+}
+
+.card-taxonomy a {
+	border-bottom-color: transparent;
+	color: var(--color-gray-80);
+}
+
+.card-taxonomy a:hover {
+	border-bottom-color: inherit;
+	color: var(--color-link);
+}
+
+/* --- sharing links --- */
+.card-share p {
+	color: var(--color-link);
+	font-size: .93em;
+	padding: 0 .2em .2em;
+}
+
+.card-share a {
+	background: var(--color-gray-5);
+	border-bottom: none;
+	float: left;
+	line-height: 0;
+	padding: .75em;
+}
+
+.card-share a:hover use {
+	fill: var(--color-link-hover);
 }
