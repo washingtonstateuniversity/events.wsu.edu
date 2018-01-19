@@ -351,5 +351,10 @@ main footer {
 	}
 }
 
+/* --- hide icon SVG --- */
+.social-media-icons {
+	display: none;
+}
+
 /* --- styles specific to the component --- */
 /*# sourceMappingURL=style.css.map */

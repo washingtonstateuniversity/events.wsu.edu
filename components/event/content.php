@@ -129,6 +129,8 @@ $event_data = get_event_data( get_the_ID() );
 
 	<footer class="row side-right card-footer">
 
+		<?php get_template_part( 'parts/share-tools' ); ?>
+
 		<div class="column one card-taxonomy">
 
 			<?php if ( has_term( '', 'event-category' ) ) { ?>

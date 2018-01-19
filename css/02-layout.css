@@ -140,3 +140,8 @@ main footer {
 		padding: 0 20px;
 	}
 }
+
+/* --- hide icon SVG --- */
+.social-media-icons {
+	display: none;
+}
