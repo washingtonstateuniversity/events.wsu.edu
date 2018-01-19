@@ -37,11 +37,13 @@ $event_data = get_event_data( get_the_ID() );
 			<div class="card-location">
 
 				<?php if ( ! empty( $event_data['location']['name'] ) ) { ?>
-				<span class="card-address"><?php echo esc_html( $event_data['location']['name'] ); ?></span>
+				<span class="card-address"><?php echo esc_html( $event_data['location']['name'] ); ?> - <?php echo esc_html( $event_data['location']['address'] ); ?></span>
 				<?php } ?>
 
 				<?php if ( ! empty( $event_data['location']['notes'] ) ) { ?>
-				<span class="card-location-notes"></span>
+				<div class="card-location-notes">
+					<?php echo wp_kses_post( $event_data['location']['notes'] ); ?>
+				</div>
 				<?php } ?>
 
 				<span class="card-directions">
