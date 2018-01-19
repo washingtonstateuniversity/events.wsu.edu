@@ -12,7 +12,7 @@ $event_data = get_event_data( get_the_ID() );
 			$types = wp_get_post_terms( get_the_ID(), 'event-type' );
 			if ( $types ) {
 				foreach ( $types as $type ) {
-					?><p class="card-event-type"><?php echo esc_html( $type->name ); ?></p><?php
+					?><p class="card-taxonomy card-event-type"><a href="#"><?php echo esc_html( $type->name ); ?></a></p><?php
 				}
 			}
 			?>
@@ -44,7 +44,7 @@ $event_data = get_event_data( get_the_ID() );
 				<span class="card-location-notes"></span>
 				<?php } ?>
 
-				<span>
+				<span class="card-directions">
 					<a href="#">View directions</a>
 				</span>
 			</div>
@@ -83,7 +83,7 @@ $event_data = get_event_data( get_the_ID() );
 
 	</section>
 
-	<section class="row side-right card-about">
+	<section class="row side-right card-event-details card-about">
 
 		<div class="column one">
 
@@ -111,10 +111,6 @@ $event_data = get_event_data( get_the_ID() );
 				<?php if ( ! empty( $event_data['contact']['name'] ) ) { ?>
 				<span class="card-contact-name"><?php echo esc_html( $event_data['contact']['name'] ); ?></span>
 				<?php } ?>
-
-				<!-- This information is not currently captured
-				<span class="card-contact-title"></span>
-				-->
 
 				<?php if ( ! empty( $event_data['contact']['email'] ) ) { ?>
 				<a href="mailto:<?php echo esc_attr( $event_data['contact']['email'] ); ?>" class="card-contact-email"><?php echo esc_html( $event_data['contact']['email'] ); ?></a><br />
