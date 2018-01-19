@@ -201,6 +201,13 @@ figcaption {
 	fill: #be000f;
 }
 
+@media screen and (max-width: 791px) {
+
+	.card-share a {
+		background-color: #fff;
+	}
+}
+
 /* site header is currently uncertain */
 .site-header {
 	display: none;
@@ -242,7 +249,7 @@ main footer {
 
 /* --- spacing between components --- */
 .card-title,
-.card-image {
+.card-event-details .column {
 	padding-bottom: 48px;
 }
 
@@ -291,6 +298,7 @@ main footer {
 	position: absolute;
 	right: 48px;
 	top: 1.1em;
+	z-index: 1;
 }
 
 .card-footer .column {
@@ -310,10 +318,22 @@ main footer {
 	}
 }
 
-@media screen and (max-width: 791px) {
+@media screen and (max-width: 989px) {
 
 	#binder.fluid #spine header {
 		border-bottom: 1px solid #f2f2f2;
+	}
+}
+
+@media screen and (max-width: 791px) {
+
+	main header {
+		width: 100%;
+	}
+
+	.card-share {
+		margin-top: -2.04em;
+		top: auto;
 	}
 }
 
@@ -327,7 +347,7 @@ main footer {
 	main section .column,
 	main header,
 	main footer {
-		padding: 0 10px;
+		padding: 0 20px;
 	}
 }
 

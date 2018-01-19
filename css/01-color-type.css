@@ -200,3 +200,10 @@ figcaption {
 .card-share a:hover use {
 	fill: var(--color-link-hover);
 }
+
+@media screen and (max-width: 791px) {
+
+	.card-share a {
+		background-color: #fff;
+	}
+}
