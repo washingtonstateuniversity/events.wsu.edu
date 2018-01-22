@@ -31,22 +31,21 @@ function get_event_data( $post_id ) {
 			'time' => date( 'g:i a', $start_date ),
 		),
 		'location' => array(
-			'name' => get_post_meta( $post_id, '_location_name', true ),
-			'latitude' => get_post_meta( $post_id, '_location_latitude', true ),
-			'longitude' => get_post_meta( $post_id, '_location_longitude', true ),
-			'notes' => get_post_meta( $post_id, '_location_notes', true ),
+			'name' => get_post_meta( $post_id, '_wsuwp_event_location_name', true ),
+			'address' => get_post_meta( $post_id, '_wsuwp_event_location_address', true ),
+			'notes' => get_post_meta( $post_id, '_wsuwp_event_location_notes', true ),
 		),
 		'contact' => array(
-			'name' => get_post_meta( $post_id, '_contact_name', true ),
-			'email' => get_post_meta( $post_id, '_contact_email', true ),
-			'phone' => get_post_meta( $post_id, '_contact_phone', true ),
+			'name' => get_post_meta( $post_id, '_wsuwp_event_contact_name', true ),
+			'email' => get_post_meta( $post_id, '_wsuwp_event_contact_email', true ),
+			'phone' => get_post_meta( $post_id, '_wsuwp_event_contact_phone', true ),
 		),
 		'action' => array(
-			'text' => get_post_meta( $post_id, '_action_text', true ),
-			'url' => get_post_meta( $post_id, '_action_url', true ),
+			'text' => get_post_meta( $post_id, '_wsuwp_event_action_text', true ),
+			'url' => get_post_meta( $post_id, '_wsuwp_event_action_url', true ),
 		),
-		'cost' => get_post_meta( $post_id, '_cost', true ),
-		'related' => get_post_meta( $post_id, '_related_site', true ),
+		'cost' => get_post_meta( $post_id, '_wsuwp_event_cost', true ),
+		'related' => get_post_meta( $post_id, '_wsuwp_event_related_site', true ),
 	);
 
 	return $data;
