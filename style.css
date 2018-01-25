@@ -384,8 +384,11 @@ main a.button.card-cta:focus {
 	border: 1px solid #f95735;
 	border-radius: .3125em;
 	color: #f95735;
-	font-weight: 700;
+	font-size: 1em;
+	font-weight: 400;
+	letter-spacing: normal;
 	padding: .5em 1.875em;
+	text-transform: unset;
 }
 
 main a.button.card-cta:hover,
