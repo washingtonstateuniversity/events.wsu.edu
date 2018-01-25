@@ -13,15 +13,22 @@ main {
 	width: 100%;
 }
 
+.site-header div {
+	display: inline-block;
+	max-width: 254px;
+	width: 100%;
+}
+
 .site-title {
 	background: url(images/wsu-events-mark.svg) no-repeat;
 	border-bottom: none;
 	display: inline-block;
-	height: 45px;
+	height: 0;
 	overflow: hidden;
+	padding-bottom: 18.4%;
 	text-indent: 100%;
 	white-space: nowrap;
-	width: 254px;
+	width: 100%;
 }
 
 .site-title.gray {
@@ -34,11 +41,12 @@ main {
 
 main section .column,
 main > header,
-main > footer {
+main > footer,
+main > article > .card-header {
 	padding: 0 48px;
 }
 
-.single main > .card-header {
+main > article > .card-header {
 	box-sizing: border-box;
 	max-width: 800px;
 	width: calc(100% - 120px);
@@ -201,6 +209,10 @@ main footer {
 	position: relative;
 }
 
+.filter li select {
+	display: none;
+}
+
 .filter .column li ul {
 	background: #fff;
 	box-shadow: 2px 2px 2px rgba(0, 0, 0, .25);
@@ -248,7 +260,7 @@ main footer {
 	font-size: 1.2em;
 	padding: 0 1.2em 0 .2em;
 	width: 10em;
-	transition: all .4s ease;
+	transition: border-bottom-color .4s ease, width .4s ease;
 }
 
 .site-search .search-field::placeholder {
@@ -320,7 +332,15 @@ main footer {
 	padding: 62px 0 50px;
 }
 
-.site-footer a {
+.site-footer a,
+.site-footer a.button,
+.site-footer a.button:hover,
+.site-footer a.button:focus {
+	display: block;
+	margin: 0 auto;
+	max-width: 300px;
+	padding-left: 0;
+	padding-right: 0;
 	width: 100%;
 }
 
@@ -347,17 +367,138 @@ main footer {
 
 @media screen and (max-width: 791px) {
 
+	main {
+		border: none;
+	}
+
+	.site-header div {
+		max-width: 375px;
+	}
+
 	main header {
 		width: 100%;
 	}
 
-	.card-share {
-		margin-top: -2.04em;
-		top: auto;
+	.hero > .tagline {
+		display: none;
 	}
-}
 
-@media screen and (max-width: 693px) {
+	.home .today {
+		display: block;
+		background: none;
+		padding: 0;
+	}
+
+	.home .today:before {
+		content: none;
+	}
+
+	.today .tagline {
+		font-size: 3.75em;
+		line-height: 1.05;
+		text-align: left;
+		padding: 72px 48px 52px;
+		width: 100%;
+	}
+
+	.today .tagline a {
+		border-bottom-width: 3px;
+		font-size: 1em;
+	}
+
+	.deck-today {
+		background: #000;
+		box-sizing: border-box;
+		overflow: visible;
+		padding: 0 48px 25px;
+		position: relative;
+		width: 100%;
+	}
+
+	.deck-today:before {
+		background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, #000 100%);
+		bottom: 100%;
+		content: "";
+		height: 100%;
+		left: 0;
+		position: absolute;
+		width: 100%;
+	}
+
+	.deck-today:after {
+		background: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, #000 calc(100% - 48px), #000 100%);
+		content: "";
+		height: 100%;
+		position: absolute;
+		right: 0;
+		top: 0;
+		width: calc(100% / 3);
+	}
+
+	.filter .column {
+		padding-bottom: 6px;
+	}
+
+	.filter .column > *,
+	.site-search label,
+	.site-search .search-field,
+	.site-search .search-field:focus {
+		width: 100%;
+	}
+
+	.filter .site-search {
+		order: -1;
+		padding-bottom: 15px;
+		position: relative;
+	}
+
+	.site-search:after {
+		background: var(--color-gray-5);
+		bottom: 0;
+		content: "";
+		height: 15px;
+		position: absolute;
+		right: -48px;
+		width: calc(100% + 48px);
+	}
+
+	.site-search .search-field {
+		border-bottom: none;
+		margin-bottom: 20px;
+	}
+
+	.site-search .search-field::placeholder {
+		color: var(--color-primary-on-black);
+	}
+
+	.filter p {
+		display: block;
+		font-size: 1.125em;
+		margin: 20px 0 10px;
+	}
+
+	.filter .column > ul > li {
+		background: url(images/icons/arrow-down-gray-25.svg) center right 16px / 20px no-repeat;
+		display: block;
+		border-top: solid 1px #e5e5e5;
+		padding: 8px 16px;
+	}
+
+	.filter li button,
+	.filter li:hover ul {
+		display: none;
+	}
+
+	.filter li select {
+		appearance: none;
+		background: transparent;
+		border: 0;
+		color: inherit;
+		display: block;
+		font-family: inherit;
+		font-size: inherit;
+		width: 100%;
+	}
 
 	.deck-features .card {
 		border-bottom: solid 6px var(--color-gray-5);
@@ -367,23 +508,23 @@ main footer {
 	.deck-features .card:nth-last-child(-n+2) {
 		border-bottom: none;
 	}
-}
 
-@media screen and (max-width: 500px) {
-
-	#binder.fluid main {
-		border-width: 10px;
-		border-top-width: 0;
+	.card-share {
+		margin-top: -2.04em;
+		top: auto;
 	}
 
-	main section .column,
-	main header,
-	main footer {
-		padding: 0 20px;
+	#binder .quarters .column {
+		padding: 0 48px 36px;
+		width: 100%;
 	}
 }
 
-@media only screen and (max-width: 425px) {
+@media screen and (max-width: 693px) {
+
+	.deck-today .card {
+		flex: 1 0 calc(100% / 2);
+	}
 
 	.deck-features .card {
 		width: 100%;
@@ -391,6 +532,22 @@ main footer {
 
 	.deck-features .card:nth-last-child(2) {
 		border-bottom: solid 6px var(--color-gray-5);
+	}
+}
+
+@media screen and (max-width: 500px) {
+
+	main section .column,
+	main > header,
+	main > footer,
+	main > article > .card-header {
+		padding: 0 20px;
+	}
+
+	.today .tagline,
+	.deck-today {
+		padding-left: 20px;
+		padding-right: 20px;
 	}
 }
 
