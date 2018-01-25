@@ -8,6 +8,7 @@ main {
 
 .site-header {
 	box-sizing: border-box;
+	padding-bottom: 20px;
 	padding-top: 20px;
 	text-align: right;
 	width: 100%;
@@ -35,10 +36,6 @@ main {
 	background: url(images/wsu-events-mark-gray.svg) no-repeat;
 }
 
-.single-event main {
-	padding: 62px 0 0;
-}
-
 main section .column,
 main > header,
 main > footer,
@@ -56,6 +53,10 @@ main footer {
 	background: var(--color-gray-5);
 	border-top: none;
 	margin-top: 0;
+}
+
+.card-footer {
+	padding: 0 48px;
 }
 
 .site-footer {
@@ -397,7 +398,7 @@ main footer {
 		font-size: 3.75em;
 		line-height: 1.05;
 		text-align: left;
-		padding: 72px 48px 52px;
+		padding: 58px 48px 52px;
 		width: 100%;
 	}
 
@@ -510,7 +511,7 @@ main footer {
 	}
 
 	.card-share {
-		margin-top: -2.04em;
+		margin-top: -2.4em;
 		top: auto;
 	}
 
@@ -540,14 +541,15 @@ main footer {
 	main section .column,
 	main > header,
 	main > footer,
-	main > article > .card-header {
-		padding: 0 20px;
+	main > article > .card-header,
+	.card-footer {
+		padding: 0 24px;
 	}
 
 	.today .tagline,
 	.deck-today {
-		padding-left: 20px;
-		padding-right: 20px;
+		padding-left: 24px;
+		padding-right: 24px;
 	}
 }
 

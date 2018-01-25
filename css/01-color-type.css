@@ -88,21 +88,6 @@ main figure a {
 	border-bottom: none;
 }
 
-.button {
-	background: #fff;
-	border: 1px solid var(--color-link);
-	border-radius: .3125em;
-	color: var(--color-link);
-	font-weight: 700;
-	padding: .5em 1.875em;
-}
-
-.button:hover {
-	background: var(--color-link-dark);
-	border: 1px solid var(--color-link-dark);
-	color: #fff;
-}
-
 .card-event-type {
 	font-size: 1.2em;
 	line-height: 1;
@@ -391,6 +376,24 @@ main input[type="submit"].gray:hover,
 main input[type="submit"].gray:focus {
 	background: var(--color-gray-25);
 	color: var(--color-primary);
+}
+
+main a.button.card-cta,
+main a.button.card-cta:hover,
+main a.button.card-cta:focus {
+	background: #fff;
+	border: 1px solid var(--color-link);
+	border-radius: .3125em;
+	color: var(--color-link);
+	font-weight: 700;
+	padding: .5em 1.875em;
+}
+
+main a.button.card-cta:hover,
+main a.button.card-cta:focus {
+	background: var(--color-link-dark);
+	border: 1px solid var(--color-link-dark);
+	color: #fff;
 }
 
 .filter li button,
