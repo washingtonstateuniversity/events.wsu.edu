@@ -1037,6 +1037,11 @@ main footer {
 		padding-left: 36px;
 		padding-right: 36px;
 	}
+
+	#binder main .filter:after {
+		margin-left: 36px;
+		width: calc(100% - 36px);
+	}
 }
 
 /* --- hide icon SVG --- */
