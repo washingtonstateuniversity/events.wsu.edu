@@ -42,7 +42,7 @@ module.exports = function( grunt ) {
 
 		jscs: {
 			scripts: {
-				src: [ "Gruntfile.js", "src/js/*.js" ],
+				src: [ "Gruntfile.js", "js/*.js" ],
 				options: {
 					preset: "jquery",
 					requireCamelCaseOrUpperCaseIdentifiers: false, // We rely on name_name too much to change them all.
@@ -66,7 +66,7 @@ module.exports = function( grunt ) {
 				}
 			},
 			theme_scripts: {
-				src: [ "src/js/*.js" ],
+				src: [ "js/*.js" ],
 				options: {
 					bitwise: true,
 					curly: true,
@@ -78,6 +78,7 @@ module.exports = function( grunt ) {
 					quotmark: "double",
 					undef: true,
 					unused: true,
+					esversion: 6,
 					browser: true, // Define globals exposed by modern browsers.
 					jquery: true   // Define globals exposed by jQuery.
 				}
