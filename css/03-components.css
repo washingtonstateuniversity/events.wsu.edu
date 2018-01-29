@@ -1,1 +1,83 @@
-/* --- styles specific to the component --- */
+.deck-today {
+	position: relative;
+}
+
+.deck-today button,
+.deck-today button:hover,
+.deck-today button:focus {
+	background: center / 90% no-repeat;
+	border: none;
+	border-radius: 0;
+	height: 32px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	text-indent: 100%;
+	white-space: nowrap;
+	width: 32px;
+	z-index: 1;
+}
+
+.deck-today button[aria-label="previous"] {
+	background-image: url(images/icons/arrow-left-crimson.svg);
+	right: 0;
+	top: 50%;
+}
+
+.deck-today button[aria-label="next"] {
+	bottom: 50%;
+	right: 0;
+	background-image: url(images/icons/arrow-right-crimson.svg);
+}
+
+.deck-today button[aria-label="previous"]:disabled {
+	background-image: url(images/icons/arrow-left-gray.svg);
+	cursor: default;
+}
+
+.deck-today button[aria-label="next"]:disabled {
+	background-image: url(images/icons/arrow-right-gray.svg);
+	cursor: default;
+}
+
+.js .deck-today .card--event {
+	display: none;
+	opacity: 0;
+	transition: opacity 1s ease;
+}
+
+.deck-today .card--event.up {
+	display: block;
+	opacity: 1;
+}
+
+/* Prevent the link icon from invading control button territory */
+.deck-today .up + .up + .up header {
+	padding-right: 32px;
+}
+
+@media screen and (max-width: 791px) {
+
+	.deck-today button {
+		margin-right: 16px;
+	}
+}
+
+@media screen and (max-width: 693px) {
+
+	.deck-today button[aria-label="previous"] {
+		left: 0;
+		margin: -16px 0 0;
+		right: auto;
+	}
+
+	.deck-today button[aria-label="next"] {
+		bottom: auto;
+		margin: -16px 0 0;
+		top: 50%;
+	}
+
+	.deck-today .up + .up + .up header {
+		padding-right: 0;
+	}
+}
