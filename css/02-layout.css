@@ -225,7 +225,7 @@ main footer {
 }
 
 .filter li:hover ul,
-.filter li button:focus + ul {
+.filter button[aria-expanded="true"] + ul {
 	display: block;
 }
 
