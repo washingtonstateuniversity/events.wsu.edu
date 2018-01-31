@@ -105,4 +105,13 @@ jQuery( document ).ready( function( $ ) {
 	menu_container.mouseout( function() {
 		$( this ).find( button ).removeAttr( "aria-expanded" );
 	} );
+
+	// Handles menu selections for mobile devices and narrower browser widths.
+	let select_menu = $( ".filter select" );
+
+	select_menu.change( function() {
+		if ( "" !== $( this ).val() ) {
+			window.location = $( this ).val();
+		}
+	} );
 } );
