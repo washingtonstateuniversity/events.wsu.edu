@@ -1094,12 +1094,34 @@ main footer {
 .js .deck-today .card--event {
 	display: none;
 	opacity: 0;
-	transition: opacity 1s ease;
 }
 
 .deck-today .card--event.up {
 	display: block;
-	opacity: 1;
+	-webkit-animation: fade-in .4s ease forwards;
+	        animation: fade-in .4s ease forwards;
+}
+
+@-webkit-keyframes fade-in {
+
+	0% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+	}
+}
+
+@keyframes fade-in {
+
+	0% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+	}
 }
 
 /* Prevent the link icon from invading control button territory */
