@@ -399,12 +399,13 @@ main a.button.card-cta:focus {
 	color: #fff;
 }
 
-.filter li button,
-.filter li button:hover
-.filter li button:focus {
+.filter .column li button,
+.filter .column li button:hover
+.filter .column li button:focus {
 	border: none;
 	font-size: inherit;
 	letter-spacing: normal;
+	padding-right: 3.8em;
 	text-transform: unset;
 }
 
@@ -412,7 +413,7 @@ main a.button.card-cta:focus {
 	background: url(images/icons/arrow-down-gray-25.svg) center .1em no-repeat;
 	content: "";
 	display: inline-block;
-	height: 1.2em;
+	height: 100%;
 	margin: 0 0 0 .25em;
 	position: absolute;
 	width: 1.2em;
