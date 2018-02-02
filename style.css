@@ -398,12 +398,13 @@ main a.button.card-cta:focus {
 	color: #fff;
 }
 
-.filter li button,
-.filter li button:hover
-.filter li button:focus {
+.filter .column li button,
+.filter .column li button:hover
+.filter .column li button:focus {
 	border: none;
 	font-size: inherit;
 	letter-spacing: normal;
+	padding-right: 3.8em;
 	text-transform: unset;
 }
 
@@ -411,7 +412,7 @@ main a.button.card-cta:focus {
 	background: url(images/icons/arrow-down-gray-25.svg) center .1em no-repeat;
 	content: "";
 	display: inline-block;
-	height: 1.2em;
+	height: 100%;
 	margin: 0 0 0 .25em;
 	position: absolute;
 	width: 1.2em;
@@ -631,8 +632,8 @@ main footer {
 	display: flex;
 	-ms-flex-wrap: wrap;
 	    flex-wrap: wrap;
-	padding-bottom: 20px;
-	padding-top: 20px;
+	padding-bottom: 22px;
+	padding-top: 22px;
 }
 
 .filter .column * {
@@ -644,12 +645,12 @@ main footer {
 }
 
 .filter .column ul {
+	line-height: 1.3;
 	list-style: none;
 }
 
 .filter .column > ul > li {
 	display: inline-block;
-	padding-right: 3.8em;
 	position: relative;
 }
 
@@ -668,7 +669,7 @@ main footer {
 }
 
 .filter li:hover ul,
-.filter li button:focus + ul {
+.filter button[aria-expanded="true"] + ul {
 	display: block;
 }
 
@@ -683,6 +684,7 @@ main footer {
 }
 
 .site-search {
+	line-height: 1.35;
 	margin: 0 0 0 auto;
 	position: relative;
 }
@@ -690,10 +692,6 @@ main footer {
 .site-search label {
 	display: inline-block;
 	vertical-align: bottom;
-}
-
-.site-search .search-form {
-	position: relative;
 }
 
 .site-search .search-field {
@@ -1094,12 +1092,34 @@ main footer {
 .js .deck-today .card--event {
 	display: none;
 	opacity: 0;
-	transition: opacity 1s ease;
 }
 
 .deck-today .card--event.up {
 	display: block;
-	opacity: 1;
+	-webkit-animation: fade-in .4s ease forwards;
+	        animation: fade-in .4s ease forwards;
+}
+
+@-webkit-keyframes fade-in {
+
+	0% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+	}
+}
+
+@keyframes fade-in {
+
+	0% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+	}
 }
 
 /* Prevent the link icon from invading control button territory */
