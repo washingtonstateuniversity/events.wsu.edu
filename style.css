@@ -129,21 +129,33 @@ main figure a {
 	padding-left: 1.375em;
 }
 
+.single-event .card-date {
+	background: url(images/icons/date.svg) left center / .8125em no-repeat;
+}
+
 .card-time {
-	background: url(images/icons/time.svg) left center / .8125em no-repeat;
+	background: url(images/icons/time.svg) left center / .875em no-repeat;
 }
 
 .card-location {
-	background: url(images/icons/location.svg) left .3125em / .75em 1em no-repeat;
+	background: url(images/icons/location.svg) .05em .3125em / .75em no-repeat;
+}
+
+.card-directions {
+	background: url(images/icons/directions.svg) left .3125em / 1em no-repeat;
+}
+
+.card-cost {
+	background: url(images/icons/cost.svg) left center / .65em no-repeat;
 }
 
 figcaption {
-	background: url(images/icons/photo.svg) .25em .875em / 1em .8125em no-repeat;
+	background: url(images/icons/photo.svg) .25em .875em / 1.2em no-repeat;
 	padding: .625em 1.875em;
 }
 
 .card-related-links li {
-	background: url(images/icons/link.svg) left .3125em / .875em .875em no-repeat;
+	background: url(images/icons/link.svg) left .3125em / .875em no-repeat;
 }
 
 .deck-features .card-taxonomy {
@@ -746,16 +758,16 @@ main footer {
 	-webkit-appearance: none;
 	   -moz-appearance: none;
 	        appearance: none;
-	background: url(images/icons/search.svg) center / 100% no-repeat;
+	background: url(images/icons/search.svg) center .2em / 100% no-repeat;
 	border: none;
 	font-size: .5em;
-	height: 2em;
+	height: 100%;
 	padding: 0;
 	position: absolute;
 	right: 0;
-	text-indent: 2em;
-	top: .6em;
-	width: 2em;
+	text-indent: 2.2em;
+	top: 0;
+	width: 2.2em;
 }
 
 .site-search .search-submit:hover,

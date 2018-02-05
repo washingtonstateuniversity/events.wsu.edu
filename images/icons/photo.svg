@@ -1,4 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="20" height="16" viewBox="0 0 20 16">
-	<title>Photo Icon</title>
-	<path d="M10,7.5a4,4,0,1,0,4,4,4,4,0,0,0-4-4ZM7,4h6V2H7Zm8-4H5V4H0V16H4V14H2V6H18v8H16v2h4V4H19V2H17V4H15ZM10,9.5a2,2,0,1,1-2,2,2,2,0,0,1,2-2Z" fill="#ca1237"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23 18">
+	<title>Photo icon</title>
+	<g fill="#ca1237">
+		<path d="M11.5 7.9a4.5 4.5 0 1 0 4.6 4.5 4.6 4.6 0 0 0-4.6-4.5zm0 6.7a2.3 2.3 0 1 1 2.3-2.2 2.3 2.3 0 0 1-2.3 2.2z"/>
+		<path d="M21.9 4.5V2.3h-2.3v2.2h-2.3V0H5.8v4.5H0V18h4.6v-2.2H2.3v-9h18.4v9h-2.3V18H23V4.5zm-6.9 0H8.1V2.3H15z"/>
+	</g>
 </svg>
