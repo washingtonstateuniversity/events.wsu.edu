@@ -132,12 +132,20 @@ main figure a {
 	padding-left: 1.375em;
 }
 
+.single-event .card-date {
+	background: url(images/icons/date.svg) left center / .8125em no-repeat;
+}
+
 .card-time {
 	background: url(images/icons/time.svg) left center / .8125em no-repeat;
 }
 
 .card-location {
 	background: url(images/icons/location.svg) left .3125em / .75em 1em no-repeat;
+}
+
+.card-cost {
+	background: url(images/icons/cost.svg) left center / .65em no-repeat;
 }
 
 figcaption {
