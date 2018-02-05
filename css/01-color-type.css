@@ -249,7 +249,7 @@ figcaption {
 	color: var(--color-primary-on-black);
 }
 
-.deck-today .card-categories {
+.deck-today .card-type {
 	color: var(--color-primary-on-black);
 	display: block;
 	font-size: .74em;
