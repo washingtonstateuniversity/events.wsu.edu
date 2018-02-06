@@ -1,5 +1,7 @@
 <?php
 
+require_once __DIR__ . '/includes/featured-events.php';
+
 add_filter( 'spine_child_theme_version', 'events_theme_version' );
 add_action( 'wp_enqueue_scripts', 'events_enqueue_scripts' );
 add_action( 'wp_footer', 'events_social_media_icons' );
