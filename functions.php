@@ -66,6 +66,7 @@ function get_event_data( $post_id ) {
 			'date_time' => date( 'Y-m-d H:i', $start_date ),
 			'date' => date( 'l, F j, Y', $start_date ),
 			'time' => date( 'g:i a', $start_date ),
+			'river_date' => date( 'l, M. j', $start_date ),
 		),
 		'location' => array(
 			'name' => get_post_meta( $post_id, '_wsuwp_event_location_name', true ),
