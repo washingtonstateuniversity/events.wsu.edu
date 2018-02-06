@@ -23,6 +23,7 @@ function events_theme_version() {
  */
 function events_enqueue_scripts() {
 	wp_enqueue_style( 'source-sans-pro', '//fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,900,900i' );
+	wp_enqueue_script( 'today', esc_url( get_stylesheet_directory_uri() . '/js/today.js' ), array( 'jquery' ), spine_get_child_version(), true );
 }
 
 /**
