@@ -45,7 +45,7 @@
 			<div class="deck deck-features">
 
 				<?php
-				$featured_posts = WSU\Events\Page_Curation\get_featured_posts( 'query' );
+				$featured_posts = WSU\Events\Page_Curation\get_featured_events( 'query' );
 				if ( $featured_posts->have_posts() ) {
 					while ( $featured_posts->have_posts() ) {
 						$featured_posts->the_post();
