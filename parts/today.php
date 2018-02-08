@@ -11,6 +11,7 @@ happening<br />
 	$args = array(
 		'post_type' => 'event',
 		'posts_per_page' => 10,
+		'wsuwp_events_today' => true,
 	);
 
 	$events_today = new WP_Query( $args );
@@ -22,6 +23,7 @@ happening<br />
 			get_template_part( 'components/event/content' );
 		}
 	}
+
 	wp_reset_postdata();
 
 	$is_today = false;

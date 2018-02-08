@@ -7,6 +7,7 @@ require_once __DIR__ . '/includes/page-curation-customizer.php';
 add_filter( 'spine_child_theme_version', 'events_theme_version' );
 add_action( 'wp_enqueue_scripts', 'events_enqueue_scripts' );
 add_action( 'wp_footer', 'events_social_media_icons' );
+add_filter( 'pre_get_posts', 'events_filter_today_query', 11 );
 
 /**
  * Provides a theme version for use in cache busting.
@@ -142,4 +143,49 @@ function display_event_filter( $button_text, $taxonomy ) {
 		<?php } ?>
 	</select>
 	<?php
+}
+
+/**
+ * Filter the query for the "What's happening today" component.
+ *
+ * @since 0.0.1
+ *
+ * @param \WP_Query $wp_query
+ */
+function events_filter_today_query( $wp_query ) {
+
+	// Bail if the `wsuwp_events_today` argument is not set.
+	if ( empty( $wp_query->query['wsuwp_events_today'] ) ) {
+		return;
+	}
+
+	date_default_timezone_set( 'America/Los_Angeles' );
+
+	$today = date( 'Y-m-d 00:00:00' );
+	$tomorrow = date( 'Y-m-d 00:00:00', strtotime( $today . ' +1 day' ) );
+
+	$wp_query->set( 'meta_query', array(
+		'relation' => 'AND',
+		'wsuwp_event_start_date' => array(
+			'key' => 'wp_event_calendar_date_time',
+			'value' => $today,
+			'compare' => '>=',
+			'type' => 'DATETIME',
+		),
+		'wsuwp_tomorrow_date' => array(
+			'key' => 'wp_event_calendar_date_time',
+			'value' => $tomorrow,
+			'compare' => '<',
+			'type' => 'DATETIME',
+		),
+		'wsuwp_event_end_date' => array(
+			'key' => 'wp_event_calendar_end_date_time',
+			'value' => date( 'Y-m-d H:i:s' ),
+			'compare' => '>',
+			'type' => 'DATETIME',
+		),
+	) );
+
+	$wp_query->set( 'orderby', 'wsuwp_event_start_date' );
+	$wp_query->set( 'order', 'ASC' );
 }
