@@ -137,15 +137,37 @@ main footer {
 .home .site-header {
 	float: left;
 	position: relative;
-	z-index: 1;
+	z-index: 2;
+}
+
+.home .site-title {
+	background: url(images/wsu-events-mark-white.svg) no-repeat;
 }
 
 .home .hero {
-	background: center bottom no-repeat;
-	background-image: url(https://images.unsplash.com/photo-1476362555312-ab9e108a0b7e?auto=format&fit=crop&w=1350&q=80);
-	background-image: url(https://images.unsplash.com/photo-1504892612018-159ffa1d147f?auto=format&fit=crop&w=1350&q=80);
+	background: center no-repeat;
 	border-bottom: solid 15px var(--color-gray-5);
 	clear: none;
+}
+
+.home.five1 .hero {
+	background-image: url(images/hero-1.jpg);
+}
+
+.home.five2 .hero {
+	background-image: url(images/hero-2.jpg);
+}
+
+.home.five3 .hero {
+	background-image: url(images/hero-3.jpg);
+}
+
+.home.five4 .hero {
+	background-image: url(images/hero-4.jpg);
+}
+
+.home.five5 .hero {
+	background-image: url(images/hero-5.jpg);
 }
 
 .home .today {
