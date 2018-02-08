@@ -1,28 +1,27 @@
 <?php
 
-$post_share_placement = spine_get_option( 'post_social_placement' );
+global $is_today;
+
 $event_data = get_event_data( get_the_ID() );
+$types = wp_get_post_terms( get_the_ID(), 'event-type' );
 
 ?>
 <article id="event-<?php the_ID(); ?>" class="card card--event">
 
+<?php if ( is_single() ) { ?>
+
 	<header class="card-header">
-		<?php if ( is_single() ) { ?>
-			<?php // Display the event type.
-			$types = wp_get_post_terms( get_the_ID(), 'event-type' );
-			if ( $types ) {
-				foreach ( $types as $type ) {
-					?><p class="card-taxonomy card-event-type"><a href="#"><?php echo esc_html( $type->name ); ?></a></p><?php
-				}
-			}
-			?>
-			<h1 class="card-title"><?php the_title(); ?></h1>
-		<?php } else { ?>
-			<h2><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+
+		<?php if ( ! empty( $types[0] ) ) { ?>
+		<p class="card-taxonomy card-event-type">
+			<a href="<?php echo esc_url( get_term_link( $types[0]->term_id ) ); ?>"><?php echo esc_html( $types[0]->name ); ?></a>
+		</p>
 		<?php } ?>
+
+		<h1 class="card-title"><?php the_title(); ?></h1>
+
 	</header>
 
-	<?php if ( is_single() ) { ?>
 	<section class="card-event-details row halves">
 
 		<div class="column one">
@@ -162,9 +161,45 @@ $event_data = get_event_data( get_the_ID() );
 
 	</footer>
 
+<?php } else { ?>
+
+	<?php if ( $is_today ) { ?>
+
+		<?php if ( ! empty( $types[0] ) ) { ?>
+		<div class="card-taxonomy card-type"><?php echo esc_html( $types[0]->name ); ?></div>
+		<?php } ?>
+
 	<?php } else { ?>
 
-	<!-- Not yet determined -->
+		<div class="card-date"><?php echo esc_html( $event_data['start']['river_date'] ); ?></div>
 
 	<?php } ?>
+
+	<header class="card-title">
+		<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
+	</header>
+
+	<?php if ( $is_today ) { ?>
+
+		<div class="card-date"><?php echo esc_html( $event_data['start']['time'] ); ?></div>
+
+	<?php } else { ?>
+
+		<?php if ( ! empty( $types[0] ) ) { ?>
+		<div class="card-taxonomy card-type"><?php echo esc_html( $types[0]->name ); ?></div>
+		<?php } ?>
+
+		<?php $locations = wp_get_post_terms( get_the_ID(), 'wsuwp_university_location' ); ?>
+		<?php if ( ! empty( $locations[0] ) ) { ?>
+		<div class="card-taxonomy card-location"><?php echo esc_html( $locations[0]->name ); ?></div>
+		<?php } ?>
+
+		<div class="card-excerpt">
+			<?php the_excerpt(); ?>
+		</div>
+
+	<?php } ?>
+
+<?php } ?>
+
 </article>
