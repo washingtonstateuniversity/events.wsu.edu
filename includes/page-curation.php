@@ -99,12 +99,7 @@ function get_featured_events( $output = 'ids' ) {
 
 	if ( false === $featured_event_ids || empty( $featured_event_ids ) || is_object( $featured_event_ids ) ) {
 		$args['posts_per_page'] = 8;
-		$args['meta_query'] = array(
-			array(
-				'key' => '_wsuwp_event_featured',
-				'value' => 'yes',
-			),
-		);
+		$args['wsuwp_events_featured_status_fallback'] = true;
 	} else {
 		$featured_event_ids = explode( ',', $featured_event_ids );
 		$args['posts_per_page'] = count( $featured_event_ids );
@@ -119,6 +114,24 @@ function get_featured_events( $output = 'ids' ) {
 
 	if ( 'ids' === $output ) {
 		wp_reset_postdata();
+		return $featured_query;
+
+	}
+
+	// If the events curated through Customizer have all passed,
+	// query for events with featured status.
+	if ( false !== $featured_event_ids && ! empty( $featured_event_ids ) && 0 === $featured_query->found_posts ) {
+		$args['post__in'] = false;
+		$args['posts_per_page'] = 8;
+		$args['wsuwp_events_featured_status_fallback'] = true;
+		$featured_query = new \WP_Query( $args );
+	}
+
+	// If all events with featured status have also passed,
+	// query for upcoming events.
+	if ( 0 === $featured_query->found_posts ) {
+		$args['wsuwp_events_featured_status_fallback'] = false;
+		$featured_query = new \WP_Query( $args );
 	}
 
 	return $featured_query;
