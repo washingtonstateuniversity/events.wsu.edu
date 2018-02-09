@@ -6,7 +6,6 @@ add_action( 'add_meta_boxes_event', 'WSU\Events\Featured\add_meta_boxes', 10 );
 add_action( 'save_post_event', 'WSU\Events\Featured\save_post', 10, 2 );
 add_filter( 'manage_event_posts_columns', 'WSU\Events\Featured\manage_columns', 10, 1 );
 add_action( 'manage_event_posts_custom_column', 'WSU\Events\Featured\manage_custom_column', 10, 2 );
-add_filter( 'pre_get_posts', 'WSU\Events\Featured\filter_front_page_featured_events_query', 11 );
 
 /**
  * Adds meta boxes used to manage featured events.
@@ -116,31 +115,4 @@ function manage_custom_column( $column_name, $post_id ) {
 
 		echo esc_html( ucwords( $featured ) );
 	}
-}
-
-/**
- * Filter the query for the front page featured events.
- *
- * @since 0.0.1
- *
- * @param \WP_Query $wp_query
- */
-function filter_front_page_featured_events_query( $wp_query ) {
-
-	// Bail if the `post_type` argument is not set.
-	if ( empty( $wp_query->query['post_type'] ) ) {
-		return;
-	}
-
-	// Bail if the `post_type` argument is not set to `event`.
-	if ( 'event' !== $wp_query->query['post_type'] ) {
-		return;
-	}
-
-	// Bail if the `post__in` argument is not set.
-	if ( empty( $wp_query->query['post__in'] ) ) {
-		return;
-	}
-
-	$wp_query->set( 'orderby', 'post__in' );
 }
