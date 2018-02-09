@@ -35,6 +35,10 @@ main {
 	background: url(images/wsu-events-mark-gray.svg) no-repeat;
 }
 
+.page-header {
+	padding-bottom: 48px;
+}
+
 main section .column,
 main > header,
 main > footer,
@@ -351,7 +355,8 @@ main footer {
 	right: 0;
 }
 
-.deck-features .card {
+.deck-features .card,
+.deck-river .card {
 	border-bottom: solid 6px var(--color-gray-5);
 	box-sizing: border-box;
 	margin-bottom: 12px;
@@ -359,9 +364,14 @@ main footer {
 	width: 100%;
 }
 
-.deck-features .card:last-child {
+.deck-features .card:last-child,
+.deck-river .card:last-child {
 	border-bottom: none;
 	margin-bottom: 0;
+}
+
+.deck-river {
+	max-width: 700px;
 }
 
 .site-footer {

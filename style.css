@@ -85,6 +85,10 @@ main figure a {
 	border-bottom: none;
 }
 
+.page-header h1 {
+	font-size: 4.5em;
+}
+
 .card-event-type {
 	font-size: 1.2em;
 	line-height: 1;
@@ -121,7 +125,7 @@ main figure a {
 }
 
 /* --- iconography --- */
-.card-date,
+.single-event .card-date,
 .card-time,
 .card-location,
 .card-cost,
@@ -158,11 +162,13 @@ figcaption {
 	background: url(images/icons/link.svg) left .3125em / .875em no-repeat;
 }
 
-.deck-features .card-taxonomy {
+.deck-features .card-taxonomy,
+.deck-river .card-taxonomy {
 	padding-left: 1.25em;
 }
 
-.deck-features .card-type {
+.deck-features .card-type,
+.deck-river .card-type {
 	background: url(images/icons/type.svg) left .25em / .9em no-repeat;
 }
 
@@ -310,7 +316,8 @@ figcaption {
 	font-size: 2.5em;
 }
 
-.deck-features .card-date {
+.deck-features .card-date,
+.deck-river .card-date {
 	color: #db3246;
 	font-size: .9em;
 	font-weight: 700;
@@ -318,26 +325,32 @@ figcaption {
 	text-transform: uppercase;
 }
 
-.deck-features .card-title {
+.deck-features .card-title,
+.deck-river .card-title {
 	font-size: 1.5em;
 	font-weight: 700;
 	line-height: 1.2;
 	padding: .5em 0;
 }
 
-.deck-features .card-title a {
+.deck-features .card-title a,
+.deck-river .card-title a {
 	border-bottom-color: transparent;
 }
 
 .deck-features .card-title a:hover,
-.deck-features .card-title a:focus {
+.deck-features .card-title a:focus,
+.deck-river .card-title a:hover,
+.deck-river .card-title a:focus {
 	border-bottom-color: inherit;
 }
 
-.deck-features .card-taxonomy {
+.deck-features .card-taxonomy,
+.deck-river .card-taxonomy {
 	font-size: .9em;
 }
 
+/* --- buttons --- */
 main a.button,
 main a.button:hover,
 main a.button:focus,
@@ -480,6 +493,10 @@ main {
 
 .site-title.gray {
 	background: url(images/wsu-events-mark-gray.svg) no-repeat;
+}
+
+.page-header {
+	padding-bottom: 48px;
 }
 
 main section .column,
@@ -832,7 +849,8 @@ main footer {
 	right: 0;
 }
 
-.deck-features .card {
+.deck-features .card,
+.deck-river .card {
 	border-bottom: solid 6px #f2f2f2;
 	box-sizing: border-box;
 	margin-bottom: 12px;
@@ -840,9 +858,14 @@ main footer {
 	width: 100%;
 }
 
-.deck-features .card:last-child {
+.deck-features .card:last-child,
+.deck-river .card:last-child {
 	border-bottom: none;
 	margin-bottom: 0;
+}
+
+.deck-river {
+	max-width: 700px;
 }
 
 .site-footer {
