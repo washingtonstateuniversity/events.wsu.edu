@@ -1,3 +1,9 @@
+.today-footer {
+	background: #000;
+	border-top: solid 15px #f2f2f2;
+	padding-top: 25px;
+}
+
 .row .today {
 	background: #000;
 	display: flex;
@@ -102,7 +108,7 @@
 
 @media screen and (max-width: 791px) {
 
-	.home .today {
+	.row .today {
 		display: block;
 		background: none;
 		padding: 0;
@@ -134,7 +140,7 @@
 		width: 100%;
 	}
 
-	.deck-today:before {
+	.home .deck-today:before {
 		background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, #000 100%);
 		bottom: 100%;
 		content: "";
