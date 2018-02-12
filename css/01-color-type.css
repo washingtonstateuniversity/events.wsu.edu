@@ -245,7 +245,7 @@ main a.button.card-cta:focus {
 }
 
 /* --- individual event views --- */
-.single-event .card-type {
+.single-event .hentry .card-type {
 	font-size: 1.2em;
 	line-height: 1;
 	text-transform: uppercase;
@@ -280,7 +280,7 @@ main a.button.card-cta:focus {
 	border-bottom-color: var(--color-gray-5);
 }
 
-.single-event .card-date {
+.single-event .hentry .card-date {
 	background: url(images/icons/date.svg) left center / .8125em no-repeat;
 }
 

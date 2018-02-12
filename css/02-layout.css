@@ -194,11 +194,11 @@ main > footer {
 	width: calc(100% - 120px);
 }
 
-.single-event .card {
+.single-event .hentry.card {
 	position: relative;
 }
 
-.single-event .card-date,
+.single-event .hentry .card-date,
 .card-time,
 .card-location,
 .card-cost,
@@ -214,7 +214,7 @@ main > footer {
 	padding-top: 30px;
 }
 
-.single-event .card-title,
+.single-event .hentry .card-title,
 .card-event-details .column {
 	padding-bottom: 48px;
 }
@@ -256,7 +256,7 @@ main > footer {
 }
 
 .card-footer {
-	padding: 0 48px;
+	padding: 0 48px 60px;
 }
 
 .card-share {
@@ -268,7 +268,7 @@ main > footer {
 }
 
 .card-footer .column {
-	padding-top: 2.5em;
+	padding-top: 48px;
 }
 
 .card-taxonomy > div {
@@ -314,13 +314,20 @@ main > footer {
 		margin-top: -2.4em;
 		top: auto;
 	}
+
+	.card-footer .card-taxonomy {
+		padding-top: 72px;
+	}
 }
 
 @media screen and (max-width: 500px) {
 
-	.single-event .card-header,
-	.card-footer {
+	.single-event .card-header {
 		padding: 0 36px;
+	}
+
+	.card-footer {
+		padding: 0 36px 60px;
 	}
 }
 
