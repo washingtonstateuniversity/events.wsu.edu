@@ -20,14 +20,36 @@ function filter_query( $wp_query ) {
 
 	date_default_timezone_set( 'America/Los_Angeles' );
 
-	$wp_query->set( 'meta_query', array(
-		'wsuwp_event_start_date' => array(
-			'key' => 'wp_event_calendar_date_time',
-			'value' => date( 'Y-m-d 00:00:00' ),
-			'compare' => '>=',
-			'type' => 'DATETIME',
-		),
-	) );
+	$today = date( 'Y-m-d 00:00:00' );
+
+	if ( $wp_query->is_post_type_archive( 'event' ) ) {
+		$tomorrow = date( 'Y-m-d 00:00:00', strtotime( $today . ' +1 day' ) );
+
+		$wp_query->set( 'meta_query', array(
+			'relation' => 'AND',
+			'wsuwp_event_start_date' => array(
+				'key' => 'wp_event_calendar_date_time',
+				'value' => $today,
+				'compare' => '>=',
+				'type' => 'DATETIME',
+			),
+			'wsuwp_tomorrow_date' => array(
+				'key' => 'wp_event_calendar_date_time',
+				'value' => $tomorrow,
+				'compare' => '<',
+				'type' => 'DATETIME',
+			),
+		) );
+	} else {
+		$wp_query->set( 'meta_query', array(
+			'wsuwp_event_start_date' => array(
+				'key' => 'wp_event_calendar_date_time',
+				'value' => $today,
+				'compare' => '>=',
+				'type' => 'DATETIME',
+			),
+		) );
+	}
 
 	$wp_query->set( 'orderby', 'wsuwp_event_start_date' );
 	$wp_query->set( 'order', 'ASC' );
