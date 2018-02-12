@@ -53,10 +53,25 @@ main > footer {
 	padding: 0 48px;
 }
 
-main footer {
+.card-footer {
 	background: var(--color-gray-5);
 	border-top: none;
 	margin-top: 0;
+}
+
+.archive-footer {
+	background: #fff;
+	display: flex;
+}
+
+.archive-footer .pagination {
+	max-width: 302px;
+	padding: 25px 0;
+	width: 100%;
+}
+
+.archive-footer .next {
+	text-align: right;
 }
 
 .site-footer {

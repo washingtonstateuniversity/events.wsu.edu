@@ -526,10 +526,27 @@ main > footer {
 	padding: 0 48px;
 }
 
-main footer {
+.card-footer {
 	background: #f2f2f2;
 	border-top: none;
 	margin-top: 0;
+}
+
+.archive-footer {
+	background: #fff;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+}
+
+.archive-footer .pagination {
+	max-width: 302px;
+	padding: 25px 0;
+	width: 100%;
+}
+
+.archive-footer .next {
+	text-align: right;
 }
 
 .site-footer {
