@@ -61,23 +61,7 @@
 
 	</section>
 
-	<footer class="row quarters gutter site-footer">
-
-		<div class="column one">&nbsp;</div>
-
-		<div class="column two">
-			<a href="#" class="button gray">Submit an event</a>
-		</div>
-
-		<div class="column three">
-			<a href="#" class="button gray">Contact us</a>
-		</div>
-
-		<div class="column four">
-			<a href="#" class="site-title gray">WSU Events</a>
-		</div>
-
-	</footer>
+	<?php get_template_part( 'parts/footers' ); ?>
 
 </main>
 
