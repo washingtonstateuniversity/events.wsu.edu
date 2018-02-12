@@ -1,5 +1,31 @@
+.row .today {
+	background: #000;
+	display: flex;
+	padding-bottom: 25px;
+}
+
+.home .today:before {
+	background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 100%);
+	bottom: 100%;
+	content: "";
+	height: 100%;
+	left: 0;
+	position: absolute;
+	width: 100%;
+}
+
+.today .tagline {
+	box-sizing: border-box;
+	width: 25%;
+	padding: 12px 20px 0 0;
+}
+
 .deck-today {
+	color: #fff;
+	display: flex;
+	overflow: hidden;
 	position: relative;
+	width: 75%;
 }
 
 .deck-today button,
@@ -40,6 +66,14 @@
 	cursor: default;
 }
 
+.deck-today .card--event {
+	border-bottom: none;
+	border-left: solid 1px rgba(255, 255, 255, .25);
+	box-sizing: border-box;
+	flex: 0 1 calc(100% / 3);
+	padding: 12px 1.7em 0 20px;
+}
+
 .js .deck-today .card--event {
 	display: none;
 	opacity: 0;
@@ -68,6 +102,58 @@
 
 @media screen and (max-width: 791px) {
 
+	.home .today {
+		display: block;
+		background: none;
+		padding: 0;
+	}
+
+	.home .today:before {
+		content: none;
+	}
+
+	.today .tagline {
+		font-size: 3.75em;
+		line-height: 1.05;
+		text-align: left;
+		padding: 58px 48px 52px;
+		width: 100%;
+	}
+
+	.today .tagline a {
+		border-bottom-width: 3px;
+		font-size: 1em;
+	}
+
+	.deck-today {
+		background: #000;
+		box-sizing: border-box;
+		overflow: visible;
+		padding: 0 48px 25px;
+		position: relative;
+		width: 100%;
+	}
+
+	.deck-today:before {
+		background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, #000 100%);
+		bottom: 100%;
+		content: "";
+		height: 100%;
+		left: 0;
+		position: absolute;
+		width: 100%;
+	}
+
+	.deck-today:after {
+		background: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, #000 calc(100% - 48px), #000 100%);
+		content: "";
+		height: 100%;
+		position: absolute;
+		right: 0;
+		top: 0;
+		width: calc(100% / 3);
+	}
+
 	.deck-today button {
 		margin-right: 16px;
 	}
@@ -87,7 +173,20 @@
 		top: 50%;
 	}
 
+	.deck-today .card--event {
+		flex: 1 0 calc(100% / 2);
+	}
+
 	.deck-today .up + .up + .up header {
 		padding-right: 0;
+	}
+}
+
+@media screen and (max-width: 500px) {
+
+	.today .tagline,
+	.deck-today {
+		padding-left: 36px;
+		padding-right: 36px;
 	}
 }
