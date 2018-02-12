@@ -19,7 +19,7 @@
 
 	</section>
 
-	<section class="row single filter">
+	<section class="row single filter divider-bottom">
 		<div class="column one">
 
 			<p>Browse by<span>&hellip;</span></p>
