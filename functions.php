@@ -151,7 +151,7 @@ function display_event_filter( $button_text, $taxonomy ) {
  *
  * @since 0.0.1
  *
- * @param \WP_Query $wp_query
+ * @param WP_Query $wp_query
  */
 function events_filter_today_query( $wp_query ) {
 
