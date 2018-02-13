@@ -8,7 +8,7 @@ $types = wp_get_post_terms( get_the_ID(), 'event-type' );
 ?>
 <article id="event-<?php the_ID(); ?>" class="card card--event">
 
-<?php if ( is_single() ) { ?>
+<?php if ( is_single() && ! $is_today ) { ?>
 
 	<header class="card-header">
 
