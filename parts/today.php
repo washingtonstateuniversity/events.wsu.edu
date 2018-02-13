@@ -1,4 +1,4 @@
-<header class="tagline">What's<br />
+<header class="tagline">What’s<br />
 happening<br />
 <a href="#">today<span>.</span></a>
 </header>
