@@ -242,18 +242,16 @@ main a.button.card-cta:focus {
 	font-size: .82em;
 	font-weight: 400;
 	padding: .6em 0 0;
+	text-transform: unset;
 }
 
 /* --- individual event views --- */
-.single-event .hentry .card-type {
+.single-event main > article .card-type a {
+	color: var(--color-link);
 	font-size: 1.2em;
+	font-weight: 400;
 	line-height: 1;
 	text-transform: uppercase;
-}
-
-.single-event .card-taxonomy.card-type a {
-	color: var(--color-link);
-	font-weight: 400;
 }
 
 .card-event-details span {
@@ -280,7 +278,7 @@ main a.button.card-cta:focus {
 	border-bottom-color: var(--color-gray-5);
 }
 
-.single-event .hentry .card-date {
+.single-event main > article .card-date {
 	background: url(images/icons/date.svg) left center / .8125em no-repeat;
 }
 
