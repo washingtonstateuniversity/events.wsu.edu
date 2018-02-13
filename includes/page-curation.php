@@ -7,7 +7,7 @@ add_filter( 'pre_get_posts', 'WSU\Events\Page_Curation\filter_front_page_feature
 /**
  * Filter the query for the front page featured events.
  *
- * @since 0.0.1
+ * @since 0.1.0
  *
  * @param \WP_Query $wp_query
  */
@@ -85,7 +85,7 @@ function filter_front_page_featured_events_query( $wp_query ) {
 /**
  * Retrieve the current featured events displayed on the front page.
  *
- * @since 0.0.1
+ * @since 0.1.0
  *
  * @return array|\WP_Query
  */

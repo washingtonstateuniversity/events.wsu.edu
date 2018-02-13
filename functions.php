@@ -18,11 +18,11 @@ add_filter( 'pre_get_posts', 'events_filter_today_query', 11 );
  * @return string
  */
 function events_theme_version() {
-	return '0.0.1';
+	return '0.1.0';
 }
 
 /**
- * Enqueues custom styles.
+ * Enqueues custom styles and scripts.
  *
  * @since 0.0.1
  */
@@ -34,7 +34,7 @@ function events_enqueue_scripts() {
 /**
  * Provides social media sharing icons.
  *
- * @since 0.0.1
+ * @since 0.1.0
  */
 function events_social_media_icons() {
 	if ( ! is_singular( 'event' ) ) {
@@ -98,7 +98,7 @@ function get_event_data( $post_id ) {
 /**
  * Outputs markup for the "Browse by..." taxonomy filters on the home page.
  *
- * @since 0.0.1
+ * @since 0.1.0
  *
  * @param string $button_text The button/top select option text.
  * @param string $taxonomy    The taxonomy from which to retrieve terms.
@@ -149,7 +149,7 @@ function display_event_filter( $button_text, $taxonomy ) {
 /**
  * Filter the query for the "What's happening today" component.
  *
- * @since 0.0.1
+ * @since 0.1.0
  *
  * @param WP_Query $wp_query
  */

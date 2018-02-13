@@ -10,7 +10,7 @@ add_action( 'customize_controls_enqueue_scripts', 'WSU\Events\Page_Curation\Cust
 /**
  * Register a custom endpoint to handle lookups for featured events from the Customizer.
  *
- * @since 0.0.1
+ * @since 0.1.0
  */
 function register_rest_route() {
 	\register_rest_route( 'events/v1', '/featured', array(
@@ -22,7 +22,7 @@ function register_rest_route() {
 /**
  * Return search results for featured events.
  *
- * @since 0.0.1
+ * @since 0.1.0
  *
  * @param \WP_REST_Request $request
  *
@@ -59,7 +59,7 @@ function rest_search_featured( $request ) {
  * Register the section, setting, and control used for curating featured events
  * at the top of the front page.
  *
- * @since 0.0.1
+ * @since 0.1.0
  *
  * @param \WP_Customize_Manager $wp_customize
  */
@@ -94,7 +94,7 @@ function register_featured_events( $wp_customize ) {
 /**
  * Sanitize the new saved input of curated sections from the Customizer.
  *
- * @since 0.0.1
+ * @since 0.1.0
  *
  * @param $input
  *
@@ -108,7 +108,7 @@ function sanitize_sections( $input ) {
  * Enqueue the additional scripts required for front page curation in
  * the Customizer.
  *
- * @since 0.0.1
+ * @since 0.1.0
  */
 function enqueue_scripts() {
 	wp_enqueue_script( 'page-curation-customizer', esc_url( get_stylesheet_directory_uri() . '/includes/js/page-curation-customizer.js' ), array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-core', 'jquery-ui-autocomplete' ), spine_get_child_version() );
@@ -121,7 +121,7 @@ function enqueue_scripts() {
  * Enqueue the additional styles required for front page curation in
  * the Customizer.
  *
- * @since 0.0.1
+ * @since 0.1.0
  */
 function enqueue_styles() {
 	wp_enqueue_style( 'page-curation-customizer', esc_url( get_stylesheet_directory_uri() . '/includes/css/page-curation-customizer.css' ), '', spine_get_child_version() );

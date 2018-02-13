@@ -10,7 +10,7 @@ add_action( 'manage_event_posts_custom_column', 'WSU\Events\Featured\manage_cust
 /**
  * Adds meta boxes used to manage featured events.
  *
- * @since 0.0.1
+ * @since 0.1.0
  *
  * @param string $post_type
  */
@@ -28,7 +28,7 @@ function add_meta_boxes() {
 /**
  * Displays the meta box used to capture an event's featured status.
  *
- * @since 0.0.1
+ * @since 0.1.0
  *
  * @param \WP_Post $post
  */
@@ -53,7 +53,7 @@ function display_meta_box( $post ) {
 /**
  * Saves the featured status of an event.
  *
- * @since 0.0.1
+ * @since 0.1.0
  *
  * @param int      $post_id
  * @param \WP_Post $post
@@ -85,7 +85,7 @@ function save_post( $post_id, $post ) {
 /**
  * Add a custom column to the events list table for displaying featured status.
  *
- * @since 0.0.1
+ * @since 0.1.0
  *
  * @param array $post_columns
  *
@@ -100,7 +100,7 @@ function manage_columns( $post_columns ) {
 /**
  * Output an event's featured status in a custom list table column.
  *
- * @since 0.0.1
+ * @since 0.1.0
  *
  * @param string $column_name
  * @param int    $post_id

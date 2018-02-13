@@ -8,7 +8,7 @@ add_filter( 'register_taxonomy_args', 'WSU\Events\Archives\taxonomy_rewrites', 1
 /**
  * Filter the query for all archive views.
  *
- * @since 0.0.1
+ * @since 0.1.0
  *
  * @param \WP_Query $wp_query
  */
@@ -58,7 +58,7 @@ function filter_query( $wp_query ) {
 /**
  * (Re)sets the `rewrite` argument for taxonomies registered for events.
  *
- * @since 0.0.1
+ * @since 0.1.0
  *
  * @param array  $args     Arguments for registering a taxonomy.
  * @param string $taxonomy Taxonomy key.
