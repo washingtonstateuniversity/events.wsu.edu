@@ -11,7 +11,13 @@ $is_today = false;
 	<?php get_template_part( 'parts/headers' ); ?>
 
 	<header class="page-header">
-		<h1><?php single_term_title(); ?></h1>
+		<h1><?php
+		if ( is_tax() ) {
+			single_term_title();
+		} elseif ( is_post_type_archive( 'event' ) ) {
+			echo 'What’s happening today';
+		}
+		?></h1>
 	</header>
 
 	<section class="row single">
