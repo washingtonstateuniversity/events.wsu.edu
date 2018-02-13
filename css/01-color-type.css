@@ -88,259 +88,7 @@ main figure a {
 	border-bottom: none;
 }
 
-.card-event-type {
-	font-size: 1.2em;
-	line-height: 1;
-	text-transform: uppercase;
-}
-
-.card-taxonomy.card-event-type a {
-	color: var(--color-link);
-	font-weight: 400;
-}
-
-.card-event-details span {
-	font-weight: 700;
-}
-
-.card-date a,
-.card-directions a,
-.card-contact-details a,
-.card-location-notes,
-.wp-caption-text,
-.card-footer {
-	border-bottom-color: inherit;
-	color: var(--color-gray);
-	font-size: .875em;
-	font-weight: 400;
-}
-
-.card-date a {
-	white-space: nowrap;
-}
-
-.related-link {
-	border-bottom-color: var(--color-gray-5);
-}
-
-/* --- iconography --- */
-.card-date,
-.card-time,
-.card-location,
-.card-cost,
-.card-directions {
-	padding-left: 1.375em;
-}
-
-.single-event .card-date {
-	background: url(images/icons/date.svg) left center / .8125em no-repeat;
-}
-
-.card-time {
-	background: url(images/icons/time.svg) left center / .875em no-repeat;
-}
-
-.card-location {
-	background: url(images/icons/location.svg) .05em .3125em / .75em no-repeat;
-}
-
-.card-directions {
-	background: url(images/icons/directions.svg) left .3125em / 1em no-repeat;
-}
-
-.card-cost {
-	background: url(images/icons/cost.svg) left center / .65em no-repeat;
-}
-
-figcaption {
-	background: url(images/icons/photo.svg) .25em .875em / 1.2em no-repeat;
-	padding: .625em 1.875em;
-}
-
-.card-related-links li {
-	background: url(images/icons/link.svg) left .3125em / .875em no-repeat;
-}
-
-.deck-features .card-taxonomy {
-	padding-left: 1.25em;
-}
-
-.deck-features .card-type {
-	background: url(images/icons/type.svg) left .25em / .9em no-repeat;
-}
-
-.deck-features .card-location {
-	background-position: .05em .2em;
-}
-
-.card-about h2 {
-	font-size: 1em;
-	font-weight: 400;
-	padding-bottom: .5em;
-	text-transform: uppercase;
-}
-
-.card-footer h2 {
-	font-size: 1.03em;
-	line-height: 1;
-	padding: 0;
-}
-
-.card-taxonomy a {
-	border-bottom-color: transparent;
-	color: var(--color-gray-80);
-}
-
-.card-taxonomy a:hover {
-	border-bottom-color: inherit;
-	color: var(--color-link);
-}
-
-/* --- sharing links --- */
-.card-share p {
-	color: var(--color-link);
-	font-size: .93em;
-	padding: 0 .2em .2em;
-}
-
-.card-share a {
-	background: var(--color-gray-5);
-	border-bottom: none;
-	float: left;
-	line-height: 0;
-	padding: .75em;
-}
-
-.card-share a:hover use {
-	fill: var(--color-link-hover);
-}
-
-/* --- home page --- */
-.tagline {
-	color: #fff;
-	font-weight: 700;
-	line-height: .845;
-}
-
-.tagline span {
-	color: var(--color-primary-on-black);
-}
-
-.hero .tagline {
-	font-size: 7.5em;
-	padding: 100px 48px;
-	position: relative;
-	z-index: 1;
-}
-
-.today .tagline {
-	font-size: 1.45em;
-	line-height: 1.2;
-	text-align: right;
-}
-
-.today .tagline a {
-	border-bottom-color: var(--color-primary-on-black);
-	font-size: 1.4em;
-}
-
-.today .tagline a:hover,
-.today .tagline a:focus {
-	color: var(--color-primary-on-black);
-}
-
-.deck-today .card-type {
-	color: var(--color-primary-on-black);
-	display: block;
-	font-size: .74em;
-	letter-spacing: 1px;
-	padding-bottom: .6em;
-	text-transform: uppercase;
-}
-
-.deck-today a {
-	border-bottom: transparent;
-	color: var(--color-gray-10);
-	position: relative;
-}
-
-.home .card-title a:after {
-	background: url(images/icons/link-gray-5.svg) center / 80% no-repeat;
-	content: "";
-	display: inline-block;
-	height: 1.2em;
-	margin: .25em 0 0 .5em;
-	position: absolute;
-	width: 1.2em;
-}
-
-.features .card-title a:after {
-	background: url(images/icons/link-gray-25.svg) center / 55% no-repeat;
-	margin: .05em 0 0 .1em;
-}
-
-.deck-today a:hover,
-.deck-today a:focus {
-	color: #fff;
-	border-bottom: 1px solid var(--color-primary-on-black);
-}
-
-.deck-today .card-date {
-	display: block;
-	color: var(--color-gray-10);
-	font-size: .82em;
-	padding: .6em 0 0;
-}
-
-.filter {
-	font-size: 1.3em;
-}
-
-.filter p {
-	font-weight: 700;
-}
-
-.filter p span {
-	color: var(--color-primary-on-black);
-}
-
-.filter li {
-	font-size: .85em;
-}
-
-.features h2 {
-	color: #333;
-	font-size: 2.5em;
-}
-
-.deck-features .card-date {
-	color: var(--color-primary-on-black);
-	font-size: .9em;
-	font-weight: 700;
-	padding: 0;
-	text-transform: uppercase;
-}
-
-.deck-features .card-title {
-	font-size: 1.5em;
-	font-weight: 700;
-	line-height: 1.2;
-	padding: .5em 0;
-}
-
-.deck-features .card-title a {
-	border-bottom-color: transparent;
-}
-
-.deck-features .card-title a:hover,
-.deck-features .card-title a:focus {
-	border-bottom-color: inherit;
-}
-
-.deck-features .card-taxonomy {
-	font-size: .9em;
-}
-
+/* --- buttons --- */
 main a.button,
 main a.button:hover,
 main a.button:focus,
@@ -411,6 +159,284 @@ main a.button.card-cta:focus {
 	color: #fff;
 }
 
+/* --- event cards --- */
+.deck .card-date {
+	color: var(--color-primary-on-black);
+	font-size: .9em;
+	font-weight: 700;
+	padding: 0;
+	text-transform: uppercase;
+}
+
+.deck .card-title a {
+	border-bottom-color: transparent;
+	position: relative;
+}
+
+.deck .card-title a:hover,
+.deck .card-title a:focus {
+	border-bottom-color: inherit;
+}
+
+.deck .card-title a:after {
+	background: url(images/icons/link-gray-25.svg) center / 55% no-repeat;
+	content: "";
+	display: inline-block;
+	height: 1.2em;
+	margin: .05em 0 0 .1em;
+	position: absolute;
+	width: 1.2em;
+	z-index: 1;
+}
+
+.deck .card-taxonomy {
+	font-size: .9em;
+	padding-left: 1.25em;
+}
+
+.deck .card-type {
+	background: url(images/icons/type.svg) left .25em / .9em no-repeat;
+}
+
+.card-location {
+	background: url(images/icons/location.svg) .05em .2em / .75em no-repeat;
+}
+
+/* --- deck-specific rules --- */
+.deck-features .card-title,
+.deck-river .card-title {
+	font-size: 1.5em;
+	font-weight: 700;
+	line-height: 1.2;
+	padding: .5em 0;
+}
+
+.deck-today .card-type {
+	background: none;
+	color: var(--color-primary-on-black);
+	display: block;
+	font-size: .74em;
+	letter-spacing: 1px;
+	padding: 0 0 .6em;
+	text-transform: uppercase;
+}
+
+.deck-today .card-title a {
+	color: var(--color-gray-10);
+}
+
+.deck-today .card-title a:hover,
+.deck-today .card-title a:focus {
+	color: #fff;
+	border-bottom: 1px solid var(--color-primary-on-black);
+}
+
+.deck-today .card-title a:after {
+	background: url(images/icons/link-gray-5.svg) center / 80% no-repeat;
+	margin: .25em 0 0 .5em;
+}
+
+.deck-today .card-date {
+	display: block;
+	color: var(--color-gray-10);
+	font-size: .82em;
+	font-weight: 400;
+	padding: .6em 0 0;
+	text-transform: unset;
+}
+
+/* --- individual event views --- */
+.single-event main > article .card-type a {
+	color: var(--color-link);
+	font-size: 1.2em;
+	font-weight: 400;
+	line-height: 1;
+	text-transform: uppercase;
+}
+
+.card-event-details span {
+	font-weight: 700;
+}
+
+.card-date a,
+.card-directions a,
+.card-contact-details a,
+.card-location-notes,
+.wp-caption-text,
+.card-footer {
+	border-bottom-color: inherit;
+	color: var(--color-gray);
+	font-size: .875em;
+	font-weight: 400;
+}
+
+.card-date a {
+	white-space: nowrap;
+}
+
+.related-link {
+	border-bottom-color: var(--color-gray-5);
+}
+
+.single-event main > article .card-date {
+	background: url(images/icons/date.svg) left center / .8125em no-repeat;
+}
+
+.card-time {
+	background: url(images/icons/time.svg) left center / .875em no-repeat;
+}
+
+.single-event .card-location {
+	background-position: .05em .25em;
+}
+
+.card-directions a {
+	position: relative;
+}
+
+.card-directions a:before {
+	background: url(images/icons/directions.svg) center / 100% no-repeat;
+	content: "";
+	height: 100%;
+	left: -1.375em;
+	position: absolute;
+	top: .05em;
+	width: 1em;
+}
+
+.card-cost {
+	background: url(images/icons/cost.svg) left center / .65em no-repeat;
+}
+
+figcaption {
+	background: url(images/icons/photo.svg) .25em .875em / 1.2em no-repeat;
+	padding: .625em 1.875em;
+}
+
+.related-link {
+	position: relative;
+}
+
+.related-link:before {
+	background: url(images/icons/link.svg) center / 87.5% no-repeat;
+	content: "";
+	height: 100%;
+	left: -1.5em;
+	position: absolute;
+	top: .05em;
+	width: 1em;
+}
+
+.card-about h2 {
+	font-size: 1em;
+	font-weight: 400;
+	padding-bottom: .5em;
+	text-transform: uppercase;
+}
+
+.card-footer h2 {
+	font-size: 1.03em;
+	line-height: 1;
+	padding: 0;
+}
+
+.card-taxonomy a {
+	border-bottom-color: transparent;
+	color: var(--color-gray-80);
+}
+
+.card-taxonomy a:hover {
+	border-bottom-color: inherit;
+	color: var(--color-link);
+}
+
+/* --- sharing links --- */
+.card-share p {
+	color: var(--color-link);
+	padding: 0 .2em .2em;
+}
+
+.card-share a {
+	background: var(--color-gray-5);
+	border-bottom: none;
+	float: left;
+	line-height: 0;
+	padding: .75em;
+}
+
+.card-share a:hover use {
+	fill: var(--color-link-hover);
+}
+
+@media screen and (max-width: 791px) {
+
+	.card-share a {
+		background-color: #fff;
+	}
+}
+
+/* --- archive pages --- */
+.page-header h1 {
+	font-size: 4.5em;
+}
+
+@media screen and (max-width: 791px) {
+
+	.page-header h1 {
+		font-size: 11vw;
+	}
+}
+
+/* --- home page --- */
+.tagline {
+	color: #fff;
+	font-weight: 700;
+	line-height: .845;
+}
+
+.tagline span {
+	color: var(--color-primary-on-black);
+}
+
+.hero .tagline {
+	font-size: 7.5em;
+	padding: 100px 48px;
+	position: relative;
+	z-index: 1;
+}
+
+.today .tagline {
+	font-size: 1.45em;
+	line-height: 1.2;
+	text-align: right;
+}
+
+.today .tagline a {
+	border-bottom-color: var(--color-primary-on-black);
+	font-size: 1.4em;
+}
+
+.today .tagline a:hover,
+.today .tagline a:focus {
+	color: var(--color-primary-on-black);
+}
+
+.filter {
+	font-size: 1.3em;
+}
+
+.filter p {
+	font-weight: 700;
+}
+
+.filter p span {
+	color: var(--color-primary-on-black);
+}
+
+.filter li {
+	font-size: .85em;
+}
+
 .filter .column li button,
 .filter .column li button:hover
 .filter .column li button:focus {
@@ -439,9 +465,7 @@ main a.button.card-cta:focus {
 	background-image: url(images/icons/arrow-down-crimson.svg);
 }
 
-@media screen and (max-width: 791px) {
-
-	.card-share a {
-		background-color: #fff;
-	}
+.features h2 {
+	color: #333;
+	font-size: 2.5em;
 }

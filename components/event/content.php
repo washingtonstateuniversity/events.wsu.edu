@@ -8,12 +8,12 @@ $types = wp_get_post_terms( get_the_ID(), 'event-type' );
 ?>
 <article id="event-<?php the_ID(); ?>" class="card card--event">
 
-<?php if ( is_single() ) { ?>
+<?php if ( is_single() && ! $is_today ) { ?>
 
 	<header class="card-header">
 
 		<?php if ( ! empty( $types[0] ) ) { ?>
-		<p class="card-taxonomy card-event-type">
+		<p class="card-taxonomy card-type">
 			<a href="<?php echo esc_url( get_term_link( $types[0]->term_id ) ); ?>"><?php echo esc_html( $types[0]->name ); ?></a>
 		</p>
 		<?php } ?>

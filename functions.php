@@ -3,6 +3,7 @@
 require_once __DIR__ . '/includes/featured-events.php';
 require_once __DIR__ . '/includes/page-curation.php';
 require_once __DIR__ . '/includes/page-curation-customizer.php';
+require_once __DIR__ . '/includes/archives.php';
 
 add_filter( 'spine_child_theme_version', 'events_theme_version' );
 add_action( 'wp_enqueue_scripts', 'events_enqueue_scripts' );
@@ -150,7 +151,7 @@ function display_event_filter( $button_text, $taxonomy ) {
  *
  * @since 0.0.1
  *
- * @param \WP_Query $wp_query
+ * @param WP_Query $wp_query
  */
 function events_filter_today_query( $wp_query ) {
 
