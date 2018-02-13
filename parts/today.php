@@ -1,6 +1,6 @@
 <header class="tagline">What’s<br />
 happening<br />
-<a href="#">today<span>.</span></a>
+<a href="<?php echo esc_url( get_post_type_archive_link( 'event' ) ); ?>">today<span>.</span></a>
 </header>
 
 <div class="deck deck-today">
