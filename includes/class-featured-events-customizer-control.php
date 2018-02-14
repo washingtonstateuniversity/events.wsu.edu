@@ -12,7 +12,7 @@ class Featured_Events_Control extends \WP_Customize_Control {
 	 * Output the elements used to select featured events for display on
 	 * the front page.
 	 *
-	 * @since 0.0.1
+	 * @since 0.1.0
 	 */
 	public function render_content() {
 		$post_ids = $this->value();
