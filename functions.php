@@ -142,8 +142,8 @@ function display_event_filter( $button_text, $taxonomy ) {
 
 	<select>
 		<option value=""><?php echo esc_html( $button_text ); ?></option>
-		<?php $term_link = get_term_link( $term->term_id ); ?>
 		<?php foreach ( $terms as $term ) { ?>
+		<?php $term_link = get_term_link( $term->term_id ); ?>
 		<option value="<?php echo esc_url( $term_link ); ?>"><?php echo esc_html( $term->name ); ?></option>
 		<?php } ?>
 	</select>
