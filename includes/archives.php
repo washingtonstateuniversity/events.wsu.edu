@@ -53,6 +53,7 @@ function filter_query( $wp_query ) {
 
 	$wp_query->set( 'orderby', 'wsuwp_event_start_date' );
 	$wp_query->set( 'order', 'ASC' );
+	$wp_query->set( 'posts_per_page', '100' );
 }
 
 /**
