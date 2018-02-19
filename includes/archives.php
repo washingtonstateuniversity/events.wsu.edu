@@ -4,6 +4,7 @@ namespace WSU\Events\Archives;
 
 add_filter( 'pre_get_posts', 'WSU\Events\Archives\filter_query', 11 );
 add_filter( 'register_taxonomy_args', 'WSU\Events\Archives\taxonomy_rewrites', 10, 2 );
+add_action( 'generate_rewrite_rules', 'WSU\Events\Archives\generate_date_archive_rewrite_rules', 10, 1 );
 
 /**
  * Filter the query for all archive views.
@@ -110,6 +111,49 @@ function taxonomy_rewrites( $args, $taxonomy ) {
 	}
 
 	return $args;
+}
+
+/**
+ * Generate day based archive rewrite rules.
+ *
+ * @since 0.1.1
+ *
+ * @param \WP_Rewrite $wp_rewrite
+ *
+ * @return \WP_Rewrite
+ */
+function generate_date_archive_rewrite_rules( $wp_rewrite ) {
+	$rules = array();
+
+	$post_type = get_post_type_object( 'event' );
+
+	if ( false === $post_type->has_archive ) {
+		return $wp_rewrite;
+	}
+
+	$rule = 'event/([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})';
+	$query = 'index.php?post_type=event';
+	$query .= '&year=' . $wp_rewrite->preg_index( 1 );
+	$query .= '&monthnum=' . $wp_rewrite->preg_index( 2 );
+	$query .= '&day=' . $wp_rewrite->preg_index( 3 );
+
+	$rules[ $rule . '/?$' ] = $query;
+
+	$taxonomies = get_object_taxonomies( 'event', 'objects' );
+
+	foreach ( $taxonomies as $taxonomy ) {
+		$rule = $taxonomy->rewrite['slug'] . '/([^/]+)/([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})';
+		$query = 'index.php?' . $taxonomy->query_var . '=' . $wp_rewrite->preg_index( 1 );
+		$query .= '&year=' . $wp_rewrite->preg_index( 2 );
+		$query .= '&monthnum=' . $wp_rewrite->preg_index( 3 );
+		$query .= '&day=' . $wp_rewrite->preg_index( 4 );
+
+		$rules[ $rule . '/?$' ] = $query;
+	}
+
+	$wp_rewrite->rules = $rules + $wp_rewrite->rules;
+
+	return $wp_rewrite;
 }
 
 /**
