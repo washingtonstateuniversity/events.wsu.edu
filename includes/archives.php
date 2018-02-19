@@ -23,20 +23,29 @@ function filter_query( $wp_query ) {
 
 	$today = date( 'Y-m-d 00:00:00' );
 
-	if ( $wp_query->is_post_type_archive( 'event' ) ) {
-		$tomorrow = date( 'Y-m-d 00:00:00', strtotime( $today . ' +1 day' ) );
+	if ( $wp_query->is_post_type_archive( 'event' ) || $wp_query->is_date() ) {
+		if ( $wp_query->is_date() ) {
+			$year = get_query_var( 'year' );
+			$month = $wp_query->query['monthnum'];
+			$day = get_query_var( 'day' );
+			$current_day = $year . '-' . $month . '-' . $day . ' 00:00:00';
+		} else {
+			$current_day = $today;
+		}
+
+		$next_day = date( 'Y-m-d 00:00:00', strtotime( $current_day . ' +1 day' ) );
 
 		$wp_query->set( 'meta_query', array(
 			'relation' => 'AND',
 			'wsuwp_event_start_date' => array(
 				'key' => 'wp_event_calendar_date_time',
-				'value' => $today,
+				'value' => $current_day,
 				'compare' => '>=',
 				'type' => 'DATETIME',
 			),
-			'wsuwp_tomorrow_date' => array(
+			'wsuwp_next_day_date' => array(
 				'key' => 'wp_event_calendar_date_time',
-				'value' => $tomorrow,
+				'value' => $next_day,
 				'compare' => '<',
 				'type' => 'DATETIME',
 			),
