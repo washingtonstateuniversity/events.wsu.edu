@@ -5,6 +5,7 @@ namespace WSU\Events\Archives;
 add_filter( 'pre_get_posts', 'WSU\Events\Archives\filter_query', 11 );
 add_filter( 'register_taxonomy_args', 'WSU\Events\Archives\taxonomy_rewrites', 10, 2 );
 add_action( 'generate_rewrite_rules', 'WSU\Events\Archives\generate_date_archive_rewrite_rules', 10, 1 );
+add_filter( 'spine_get_title', 'WSU\Events\Archives\filter_page_title', 11, 3 );
 
 /**
  * Filter the query for all archive views.
@@ -163,6 +164,48 @@ function generate_date_archive_rewrite_rules( $wp_rewrite ) {
 	$wp_rewrite->rules = $rules + $wp_rewrite->rules;
 
 	return $wp_rewrite;
+}
+
+/**
+ * Filter the document title used for daily archives.
+ *
+ * @since 0.1.1
+ *
+ * @param string $title
+ * @param string $site_part
+ * @param string $global_part
+ *
+ * @return string
+ */
+function filter_page_title( $title, $site_part, $global_part ) {
+	if ( ! is_archive() ) {
+		return $title;
+	}
+
+	$title = '';
+
+	if ( is_tax() ) {
+		$title = single_term_title( '', false );
+	}
+
+	if ( is_day() ) {
+		$year = get_query_var( 'year' );
+		$month = get_query_var( 'monthnum' );
+		$day = get_query_var( 'day' );
+		$date = date( 'F j, Y', strtotime( $year . '-' . $month . '-' . $day ) );
+
+		if ( date( 'F j, Y' ) !== $date ) {
+			$title .= ' ' . $date;
+		}
+	}
+
+	if ( is_post_type_archive( 'event' ) && ( ! is_day() || date( 'F j, Y' ) === $date ) ) {
+		$title = 'What’s happening today';
+	}
+
+	$title .= ' | ' . $site_part . $global_part;
+
+	return $title;
 }
 
 /**
