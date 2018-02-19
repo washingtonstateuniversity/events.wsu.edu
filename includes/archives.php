@@ -111,3 +111,116 @@ function taxonomy_rewrites( $args, $taxonomy ) {
 
 	return $args;
 }
+
+/**
+ * Generate the URLs used to view previous and next date archives.
+ *
+ * @since 0.1.1
+ *
+ * @return array
+ */
+function get_pagination_urls() {
+	if ( is_date() ) {
+		$year = get_query_var( 'year' );
+		$month = get_query_var( 'monthnum' );
+		$day = get_query_var( 'day' );
+		$date = $year . '-' . $month . '-' . $day . ' 00:00:00';
+	} else {
+		$date = date( 'Y-m-d 00:00:00' );
+	}
+
+	$days = 1;
+
+	while ( $days <= 9 ) {
+		$previous_day = date( 'd', strtotime( $date ) - ( DAY_IN_SECONDS * $days ) );
+		$previous_month = date( 'm', strtotime( $date ) - ( DAY_IN_SECONDS * $days ) );
+		$previous_year = date( 'Y', strtotime( $date ) - ( DAY_IN_SECONDS * $days ) );
+
+		$previous_date = $previous_year . '-' . $previous_month . '-' . $previous_day . ' 00:00:00';
+
+		$previous_check = get_posts( array(
+			'post_type' => 'event',
+			'posts_per_page' => 1,
+			'fields' => 'ids',
+			'meta_query' => array(
+				array(
+					'key' => 'wp_event_calendar_date_time',
+					'value' => $previous_date,
+					'compare' => '>=',
+					'type' => 'DATETIME',
+				),
+			),
+		) );
+
+		if ( 0 < count( $previous_check ) ) {
+			break;
+		}
+
+		$days++;
+	}
+
+	$days = 1;
+
+	while ( $days <= 9 ) {
+		if ( is_post_type_archive( 'event' ) && ! is_day() ) {
+			$next_check = array();
+			break;
+		}
+
+		if ( strtotime( $date ) > ( time() - DAY_IN_SECONDS ) ) {
+			$next_check = array();
+			break;
+		}
+
+		$next_day = date( 'd', strtotime( $date ) + ( DAY_IN_SECONDS * $days ) );
+		$next_month = date( 'm', strtotime( $date ) + ( DAY_IN_SECONDS * $days ) );
+		$next_year = date( 'Y', strtotime( $date ) + ( DAY_IN_SECONDS * $days ) );
+
+		$next_date = $next_year . '-' . $next_month . '-' . $next_day . ' 00:00:00';
+
+		$next_check = get_posts( array(
+			'post_type' => 'event',
+			'posts_per_page' => 1,
+			'fields' => 'ids',
+			'meta_query' => array(
+				array(
+					'key' => 'wp_event_calendar_date_time',
+					'value' => $next_date,
+					'compare' => '>=',
+					'type' => 'DATETIME',
+				),
+			),
+		) );
+
+		if ( 0 < count( $next_check ) ) {
+			break;
+		}
+
+		$days++;
+	}
+
+	if ( is_tax() ) {
+		$term = get_query_var( 'term' );
+		$taxonomy = get_query_var( 'taxonomy' );
+		$base_url = get_term_link( $term, $taxonomy );
+	} else {
+		$base_url = get_post_type_archive_link( 'event' );
+	}
+
+	if ( 0 !== count( $previous_check ) ) {
+		$previous_url = $base_url . $previous_year . '/' . $previous_month . '/' . $previous_day . '/';
+	} else {
+		$previous_url = false;
+	}
+
+	if ( 0 !== count( $next_check ) ) {
+		$next_url = $base_url . $next_year . '/' . $next_month . '/' . $next_day . '/';
+	} else {
+		$next_url = false;
+	}
+
+	return array(
+		'previous' => $previous_url,
+		'next' => $next_url,
+	);
+}

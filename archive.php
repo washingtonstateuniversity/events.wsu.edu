@@ -20,7 +20,7 @@ $is_today = false;
 		?></h1>
 	</header>
 
-	<section class="row single">
+	<section class="row single divider-bottom">
 
 		<div class="column one deck deck-river">
 
@@ -34,7 +34,17 @@ $is_today = false;
 
 	</section>
 
-	<footer class="main-footer">
+	<?php $pagination = WSU\Events\Archives\get_pagination_urls(); ?>
+
+	<footer class="main-footer archive-footer">
+
+		<div class="pagination previous">
+			<?php if ( $pagination['previous'] ) { ?><a href="<?php echo esc_url( $pagination['previous'] ); ?>">Previous events</a><?php } ?>
+		</div>
+
+		<div class="pagination next">
+			<?php if ( $pagination['next'] ) { ?><a href="<?php echo esc_url( $pagination['next'] ); ?>">Next events</a><?php } ?>
+		</div>
 
 	</footer>
 
