@@ -6,7 +6,7 @@ global $is_today;
 
 $is_today = false;
 
-if ( is_date() ) {
+if ( is_post_type_archive( 'event' ) || is_date() ) {
 	$date = strtotime( get_query_var( 'wsuwp_event_date' ) );
 	$current_view = date( 'F j, Y', $date );
 	$todays_date = date( 'F j, Y' );
@@ -30,7 +30,7 @@ if ( is_date() ) {
 		}
 		?></h1>
 
-		<?php if ( is_date() && $current_view !== $todays_date ) { ?>
+		<?php if ( is_post_type_archive( 'event' ) || ( is_date() && $current_view !== $todays_date ) ) { ?>
 		<p><?php echo esc_html( $subtitle ); ?></p>
 		<?php } ?>
 	</header>
