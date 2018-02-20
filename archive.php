@@ -58,7 +58,7 @@ if ( is_date() ) {
 		</div>
 
 		<div class="pagination next">
-			<?php if ( $pagination['next'] ) { ?><a href="<?php echo esc_url( $pagination['next'] ); ?>">Next events</a><?php } ?>
+			<?php if ( $pagination['next'] ) { ?><a href="<?php echo esc_url( $pagination['next'] ); ?>"><?php echo esc_html( $pagination['next_label'] ); ?></a><?php } ?>
 		</div>
 
 	</footer>

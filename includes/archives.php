@@ -260,12 +260,8 @@ function get_pagination_urls() {
 	$days = 1;
 
 	while ( $days <= 9 ) {
-		if ( is_post_type_archive( 'event' ) && ! is_day() ) {
-			$next_check = array();
-			break;
-		}
-
-		if ( strtotime( $date ) > ( time() - DAY_IN_SECONDS ) ) {
+		// Taxonomy archives for the current day already show all upcoming events.
+		if ( is_tax() && ! is_day() ) {
 			$next_check = array();
 			break;
 		}
@@ -312,13 +308,21 @@ function get_pagination_urls() {
 	}
 
 	if ( 0 !== count( $next_check ) ) {
-		$next_url = $base_url . $next_year . '/' . $next_month . '/' . $next_day . '/';
+		if ( date( 'Y-m-d 00:00:00' ) === $next_date ) {
+			$next_url = $base_url;
+			$next_label = ( is_tax() ) ? 'Upcoming events' : 'Today’s events';
+		} else {
+			$next_url = $base_url . $next_year . '/' . $next_month . '/' . $next_day . '/';
+			$next_label = ( $next_date > date( 'Y-m-d 00:00:00' ) ) ? 'Upcoming events' : 'Next events';
+		}
 	} else {
 		$next_url = false;
+		$next_label = false;
 	}
 
 	return array(
 		'previous' => $previous_url,
 		'next' => $next_url,
+		'next_label' => $next_label,
 	);
 }
