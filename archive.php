@@ -7,10 +7,7 @@ global $is_today;
 $is_today = false;
 
 if ( is_date() ) {
-	$year = get_query_var( 'year' );
-	$month = get_query_var( 'monthnum' );
-	$day = get_query_var( 'day' );
-	$date = strtotime( $year . '-' . $month . '-' . $day );
+	$date = strtotime( get_query_var( 'wsuwp_event_date' ) );
 	$current_view = date( 'F j, Y', $date );
 	$todays_date = date( 'F j, Y' );
 	$subtitle = date( 'l, F j, Y', $date );

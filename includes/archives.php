@@ -30,6 +30,14 @@ function filter_query( $wp_query ) {
 			$month = $wp_query->query['monthnum'];
 			$day = get_query_var( 'day' );
 			$current_day = $year . '-' . $month . '-' . $day . ' 00:00:00';
+
+			// Set a custom query var with date information for later use.
+			set_query_var( 'wsuwp_event_date', $year . '-' . $month . '-' . $day );
+
+			// Prevent the default publish date query.
+			$wp_query->set( 'year', 0 );
+			$wp_query->set( 'monthnum', 0 );
+			$wp_query->set( 'day', 0 );
 		} else {
 			$current_day = $today;
 		}
@@ -189,10 +197,7 @@ function filter_page_title( $title, $site_part, $global_part ) {
 	}
 
 	if ( is_day() ) {
-		$year = get_query_var( 'year' );
-		$month = get_query_var( 'monthnum' );
-		$day = get_query_var( 'day' );
-		$date = date( 'F j, Y', strtotime( $year . '-' . $month . '-' . $day ) );
+		$date = date( 'F j, Y', strtotime( get_query_var( 'wsuwp_event_date' ) ) );
 
 		if ( date( 'F j, Y' ) !== $date ) {
 			$title .= ' ' . $date;
@@ -217,10 +222,7 @@ function filter_page_title( $title, $site_part, $global_part ) {
  */
 function get_pagination_urls() {
 	if ( is_date() ) {
-		$year = get_query_var( 'year' );
-		$month = get_query_var( 'monthnum' );
-		$day = get_query_var( 'day' );
-		$date = $year . '-' . $month . '-' . $day . ' 00:00:00';
+		$date = get_query_var( 'wsuwp_event_date' ) . ' 00:00:00';
 	} else {
 		$date = date( 'Y-m-d 00:00:00' );
 	}
