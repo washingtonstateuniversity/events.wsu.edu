@@ -171,7 +171,9 @@ $types = wp_get_post_terms( get_the_ID(), 'event-type' );
 
 	<?php } else { ?>
 
+		<?php if ( ! is_day() && ! is_post_type_archive( 'event' ) ) { ?>
 		<div class="card-date"><?php echo esc_html( $event_data['start']['river_date'] ); ?></div>
+		<?php } ?>
 
 	<?php } ?>
 
@@ -185,12 +187,12 @@ $types = wp_get_post_terms( get_the_ID(), 'event-type' );
 
 	<?php } else { ?>
 
-		<?php if ( ! empty( $types[0] ) ) { ?>
+		<?php if ( ! empty( $types[0] ) && ! is_tax( 'event-type' ) ) { ?>
 		<div class="card-taxonomy card-type"><?php echo esc_html( $types[0]->name ); ?></div>
 		<?php } ?>
 
 		<?php $locations = wp_get_post_terms( get_the_ID(), 'wsuwp_university_location' ); ?>
-		<?php if ( ! empty( $locations[0] ) ) { ?>
+		<?php if ( ! empty( $locations[0] ) && ! is_tax( 'wsuwp_university_location' ) ) { ?>
 		<div class="card-taxonomy card-location"><?php echo esc_html( $locations[0]->name ); ?></div>
 		<?php } ?>
 
