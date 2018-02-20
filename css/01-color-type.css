@@ -379,6 +379,15 @@ figcaption {
 /* --- archive pages --- */
 .page-header h1 {
 	font-size: 4.5em;
+	padding-bottom: 0;
+}
+
+.page-header p {
+	color: var(--color-link);
+	font-size: .9em;
+	font-weight: 400;
+	letter-spacing: .1em;
+	text-transform: uppercase;
 }
 
 .pagination a {
