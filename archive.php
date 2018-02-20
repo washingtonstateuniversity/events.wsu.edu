@@ -5,6 +5,16 @@ get_header();
 global $is_today;
 
 $is_today = false;
+
+if ( is_date() ) {
+	$year = get_query_var( 'year' );
+	$month = get_query_var( 'monthnum' );
+	$day = get_query_var( 'day' );
+	$date = strtotime( $year . '-' . $month . '-' . $day );
+	$current_view = date( 'F j, Y', $date );
+	$todays_date = date( 'F j, Y' );
+	$subtitle = date( 'l, F j, Y', $date );
+}
 ?>
 <main id="wsuwp-main">
 
@@ -15,9 +25,17 @@ $is_today = false;
 		if ( is_tax() ) {
 			single_term_title();
 		} elseif ( is_post_type_archive( 'event' ) ) {
-			echo 'What’s happening today';
+			echo 'What’s happening';
+
+			if ( ! is_date() || $current_view === $todays_date ) {
+				echo ' today';
+			}
 		}
 		?></h1>
+
+		<?php if ( is_date() && $current_view !== $todays_date ) { ?>
+		<p><?php echo esc_html( $subtitle ); ?></p>
+		<?php } ?>
 	</header>
 
 	<section class="row single divider-bottom">
