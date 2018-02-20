@@ -59,6 +59,10 @@ main > footer {
 	margin-top: 0;
 }
 
+.archive .deck-river {
+	min-height: calc(100vh - 692px);
+}
+
 .archive-footer {
 	background: #fff;
 	display: flex;
