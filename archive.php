@@ -5,6 +5,13 @@ get_header();
 global $is_today;
 
 $is_today = false;
+
+if ( is_post_type_archive( 'event' ) || is_date() ) {
+	$date = strtotime( get_query_var( 'wsuwp_event_date' ) );
+	$current_view = date( 'F j, Y', $date );
+	$todays_date = date( 'F j, Y' );
+	$subtitle = date( 'l, F j, Y', $date );
+}
 ?>
 <main id="wsuwp-main">
 
@@ -15,12 +22,20 @@ $is_today = false;
 		if ( is_tax() ) {
 			single_term_title();
 		} elseif ( is_post_type_archive( 'event' ) ) {
-			echo 'What’s happening today';
+			echo 'What’s happening';
+
+			if ( ! is_date() || $current_view === $todays_date ) {
+				echo ' today';
+			}
 		}
 		?></h1>
+
+		<?php if ( is_post_type_archive( 'event' ) || ( is_date() && $current_view !== $todays_date ) ) { ?>
+		<p><?php echo esc_html( $subtitle ); ?></p>
+		<?php } ?>
 	</header>
 
-	<section class="row single">
+	<section class="row single divider-bottom">
 
 		<div class="column one deck deck-river">
 
@@ -34,7 +49,17 @@ $is_today = false;
 
 	</section>
 
-	<footer class="main-footer">
+	<?php $pagination = WSU\Events\Archives\get_pagination_urls(); ?>
+
+	<footer class="main-footer archive-footer">
+
+		<div class="pagination previous">
+			<?php if ( $pagination['previous'] ) { ?><a href="<?php echo esc_url( $pagination['previous'] ); ?>">Previous events</a><?php } ?>
+		</div>
+
+		<div class="pagination next">
+			<?php if ( $pagination['next'] ) { ?><a href="<?php echo esc_url( $pagination['next'] ); ?>"><?php echo esc_html( $pagination['next_label'] ); ?></a><?php } ?>
+		</div>
 
 	</footer>
 
