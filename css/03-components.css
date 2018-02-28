@@ -50,24 +50,24 @@
 	z-index: 1;
 }
 
-.deck-today button[aria-label="previous"] {
+.deck-today button.previous {
 	background-image: url(images/icons/arrow-left-crimson.svg);
 	right: 0;
 	top: 50%;
 }
 
-.deck-today button[aria-label="next"] {
+.deck-today button.next {
 	bottom: 50%;
 	right: 0;
 	background-image: url(images/icons/arrow-right-crimson.svg);
 }
 
-.deck-today button[aria-label="previous"]:disabled {
+.deck-today button.previous:disabled {
 	background-image: url(images/icons/arrow-left-gray.svg);
 	cursor: default;
 }
 
-.deck-today button[aria-label="next"]:disabled {
+.deck-today button.next:disabled {
 	background-image: url(images/icons/arrow-right-gray.svg);
 	cursor: default;
 }
@@ -167,13 +167,13 @@
 
 @media screen and (max-width: 693px) {
 
-	.deck-today button[aria-label="previous"] {
+	.deck-today button.previous {
 		left: 0;
 		margin: -16px 0 0;
 		right: auto;
 	}
 
-	.deck-today button[aria-label="next"] {
+	.deck-today button.next {
 		bottom: auto;
 		margin: -16px 0 0;
 		top: 50%;

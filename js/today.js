@@ -9,13 +9,13 @@ jQuery( document ).ready( function( $ ) {
 
 	// Adds buttons for navigating the deck of today's event cards.
 	deck.prepend(
-		"<button aria-label='previous' disabled>Previous events</button>" +
-		"<button aria-label='next'>Next events</button>"
+		"<button class='previous' disabled>Previous events</button>" +
+		"<button class='next'>Next events</button>"
 	);
 
 	// Disables the next button if it isn't needed.
 	if ( card_count <= max_up_cards ) {
-		$( "button[aria-label='next']" ).prop( "disabled", true );
+		$( ".deck-today button.next" ).prop( "disabled", true );
 	}
 
 	// Adds the `up` class to initially visible cards.
@@ -45,7 +45,7 @@ jQuery( document ).ready( function( $ ) {
 
 	// Handles card navigation via buttons.
 	deck.on( "click", "button", function() {
-		navigate_cards( $( this ).attr( "aria-label" ) );
+		navigate_cards( $( this ).attr( "class" ) );
 	} );
 
 	// Toggles the `up` class of the cards.
@@ -62,8 +62,8 @@ jQuery( document ).ready( function( $ ) {
 
 	// Toggles the `disabled` state of the control buttons.
 	let update_buttons = function() {
-		let prev_button = $( "button[aria-label='previous']" );
-		let next_button = $( "button[aria-label='next']" );
+		let prev_button = $( "button.previous" );
+		let next_button = $( "button.next" );
 
 		if ( cards.first().hasClass( "up" ) ) {
 			prev_button.prop( "disabled", true );
