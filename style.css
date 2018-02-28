@@ -1322,4 +1322,77 @@ main > footer {
 		padding-right: 36px;
 	}
 }
+
+/* --- calendar --- */
+.calendar {
+	background: #fff;
+	font-size: .7em;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+.calendar header {
+	background: #333;
+	color: #fff;
+	font-size: 1.125em;
+	padding: 7px 0;
+}
+
+.month {
+	border: 1px solid #d0d0d0;
+	border-bottom-width: 0;
+	border-right-width: 0;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-ms-flex-wrap: wrap;
+	    flex-wrap: wrap;
+}
+
+.month .day-heading {
+	background: #e5e5e5;
+	color: #717171;
+	padding: 7px 0;
+}
+
+.month > * {
+	border: 1px solid #d0d0d0;
+	border-left-width: 0;
+	border-top-width: 0;
+	-webkit-box-flex: 1;
+	    -ms-flex: 1 1 calc(100% / 7);
+	        flex: 1 1 calc(100% / 7);
+}
+
+.month > *,
+.month a {
+	-webkit-box-align: center;
+	    -ms-flex-align: center;
+	        align-items: center;
+	box-sizing: border-box;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	height: 30px;
+	-webkit-box-pack: center;
+	    -ms-flex-pack: center;
+	        justify-content: center;
+}
+
+.month .pad-day {
+	background: #f2f2f2;
+	font-size: .8em;
+}
+
+.month a {
+	border-bottom: none;
+	color: #da1e00;
+	height: 29px;
+	margin-top: -1px;
+	z-index: 1;
+}
+
+.month a:hover {
+	box-shadow: inset 0 0 0 1px #fff, inset 0 0 0 3px #da1e00;
+}
 /*# sourceMappingURL=style.css.map */
