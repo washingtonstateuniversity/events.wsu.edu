@@ -94,15 +94,18 @@ function get_pad_days( $iterator = 1, $start_day, $month, $year ) {
 	$link = get_day_link( $year, $month, $day );
 
 	if ( $link ) {
-	?>
+		$timestamp = mktime( 0, 0, 0, $month, $day, $year );
+		$label = 'View events for ' . date( 'l, F j, Y', $timestamp );
+		?>
 		<div class="pad-day">
-			<a href="<?php echo esc_url( $link ); ?>"><?php echo esc_html( $day ); ?></a>
+			<a href="<?php echo esc_url( $link ); ?>"
+			   aria-label="<?php echo esc_attr( $label ); ?>"><?php echo esc_html( $day ); ?></a>
 		</div>
-	<?php
+		<?php
 	} else {
-	?>
+		?>
 		<div class="pad-day"><?php echo esc_html( $day ); ?></div>
-	<?php
+		<?php
 	}
 }
 
@@ -121,15 +124,18 @@ function get_month_days( $iterator = 1, $start_day = 1, $month, $year ) {
 	$link = get_day_link( $year, $month, $day );
 
 	if ( $link ) {
-	?>
+		$timestamp = mktime( 0, 0, 0, $month, $day, $year );
+		$label = 'View events for ' . date( 'l, F j, Y', $timestamp );
+		?>
 		<div>
-			<a href="<?php echo esc_url( $link ); ?>"><?php echo esc_html( $day ); ?></a>
+			<a href="<?php echo esc_url( $link ); ?>"
+			   aria-label="<?php echo esc_attr( $label ); ?>"><?php echo esc_html( $day ); ?></a>
 		</div>
-	<?php
+		<?php
 	} else {
-	?>
+		?>
 		<div><?php echo esc_html( $day ); ?></div>
-	<?php
+		<?php
 	}
 }
 
