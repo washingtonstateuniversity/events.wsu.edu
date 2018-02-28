@@ -12,7 +12,9 @@
 
 <footer class="row quarters gutter site-footer">
 
-	<div class="column one">&nbsp;</div>
+	<div class="column one">
+		<?php get_template_part( 'parts/calendar' ); ?>
+	</div>
 
 	<div class="column two">
 		<a href="#" class="button gray">Submit an event</a>

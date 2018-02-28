@@ -4,6 +4,7 @@ require_once __DIR__ . '/includes/featured-events.php';
 require_once __DIR__ . '/includes/page-curation.php';
 require_once __DIR__ . '/includes/page-curation-customizer.php';
 require_once __DIR__ . '/includes/archives.php';
+require_once __DIR__ . '/includes/calendar.php';
 
 add_filter( 'spine_child_theme_version', 'events_theme_version' );
 add_action( 'wp_enqueue_scripts', 'events_enqueue_scripts' );
@@ -29,6 +30,11 @@ function events_theme_version() {
 function events_enqueue_scripts() {
 	wp_enqueue_style( 'source-sans-pro', '//fonts.googleapis.com/css?family=Source+Sans+Pro:300,300i,400,400i,900,900i' );
 	wp_enqueue_script( 'today', esc_url( get_stylesheet_directory_uri() . '/js/today.js' ), array( 'jquery' ), spine_get_child_version(), true );
+	wp_enqueue_script( 'calendar', esc_url( get_stylesheet_directory_uri() . '/js/calendar.js' ), array( 'jquery' ), spine_get_child_version(), true );
+	wp_localize_script( 'calendar', 'calendar_navigation', array(
+		'ajax_url' => admin_url( 'admin-ajax.php' ),
+		'nonce' => wp_create_nonce( 'calendar-navigation' ),
+	) );
 
 	if ( is_front_page() ) {
 		wp_enqueue_script( 'browse-by', esc_url( get_stylesheet_directory_uri() . '/js/browse-by.js' ), array( 'jquery' ), spine_get_child_version(), true );
