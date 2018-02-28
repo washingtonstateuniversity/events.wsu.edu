@@ -12,7 +12,9 @@
 
 <footer class="row quarters gutter site-footer">
 
-	<div class="column one">&nbsp;</div>
+	<div class="column one">
+		<?php WSU\Events\Calendar\get_calendar( date( 'm' ), date( 'Y' ) ); ?>
+	</div>
 
 	<div class="column two">
 		<a href="#" class="button gray">Submit an event</a>
