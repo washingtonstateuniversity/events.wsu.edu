@@ -2,6 +2,9 @@
 
 namespace WSU\Events\Calendar;
 
+add_filter( 'wp_ajax_nopriv_load_month', 'WSU\Events\Calendar\ajax_callback' );
+add_action( 'wp_ajax_load_month', 'WSU\Events\Calendar\ajax_callback' );
+
 $dates_with_events = array();
 
 /**
@@ -154,8 +157,6 @@ function get_calendar( $month, $year ) {
 	$total_days = date_i18n( 't', $timestamp );
 	$this_month = getdate( $timestamp );
 	$start_day = $this_month['wday'];
-	$month_heading = date( 'F Y', $timestamp );
-	$week_headings = array( 'Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat' );
 
 	// Set up variables for padding the beginning of the calendar.
 	$prev_timestamp = strtotime( '-' . $start_day . ' days', $timestamp );
@@ -165,7 +166,7 @@ function get_calendar( $month, $year ) {
 	$start = date( 'Y-m-d 00:00:00', $prev_timestamp );
 
 	// Set up variables for padding the end of the calendar.
-	$next_timestamp = strtotime( $total_days . ' ' . $month_heading . ' +6 days' );
+	$next_timestamp = strtotime( $total_days . ' ' . date( 'F Y', $timestamp ) . ' +6 days' );
 	$next_year = date( 'Y', $next_timestamp );
 	$next_month = date( 'm', $next_timestamp );
 	$end = date( 'Y-m-d 00:00:00', $next_timestamp );
@@ -173,40 +174,56 @@ function get_calendar( $month, $year ) {
 	$days_in_this_week = 0;
 
 	days_with_events( $start, $end );
-	?>
-	<div class="calendar">
 
-		<header><?php echo esc_html( $month_heading ); ?></header>
+	for ( $i = 0; $i < ( $total_days + $start_day ); $i++ ) {
 
-		<div class="month">
+		if ( $i < $start_day ) {
+			get_pad_days( $i, $prev_day, $prev_month, $prev_year );
+		} else {
+			get_month_days( $i, $start_day, $month, $year );
+		}
 
-			<?php foreach ( $week_headings as $week_heading ) { ?>
-			<div class="day-heading"><?php echo esc_html( $week_heading ); ?></div>
-			<?php } ?>
+		$days_in_this_week++;
 
-			<?php
-			for ( $i = 0; $i < ( $total_days + $start_day ); $i++ ) {
+		if ( ( $i % 7 ) === 6 ) {
+			$days_in_this_week = 0;
+		}
+	}
 
-				if ( $i < $start_day ) {
-					get_pad_days( $i, $prev_day, $prev_month, $prev_year );
-				} else {
-					get_month_days( $i, $start_day, $month, $year );
-				}
+	if ( 0 < $days_in_this_week ) {
+		for ( $i = 0; $i < ( 7 - $days_in_this_week ); $i++ ) {
+			get_pad_days( $i, 1, $next_month, $next_year );
+		}
+	}
+}
 
-				$days_in_this_week++;
+/**
+ * Handles AJAX calendar navigation.
+ *
+ * @since 0.1.1
+ */
+function ajax_callback() {
+	check_ajax_referer( 'calendar-navigation', 'nonce' );
 
-				if ( ( $i % 7 ) === 6 ) {
-					$days_in_this_week = 0;
-				}
-			}
+	date_default_timezone_set( 'America/Los_Angeles' );
 
-			for ( $i = 0; $i < ( 7 - $days_in_this_week ); $i++ ) {
-				get_pad_days( $i, 1, $next_month, $next_year );
-			}
-			?>
+	$current_month = $_POST['current_month'];
+	$direction = $_POST['direction'];
+	$math = ( 'next' === $direction ) ? ' +1 month' : ' -1 month';
+	$timestamp = strtotime( $current_month . $math );
+	$load_month = date( 'm', $timestamp );
+	$load_year = date( 'Y', $timestamp );
 
-		</div>
+	ob_start();
+	get_calendar( $load_month, $load_year );
+	$html = ob_get_clean();
 
-	</div>
-	<?php
+	$calendar = array(
+		'heading' => date( 'F Y', $timestamp ),
+		'body' => $html,
+	);
+
+	echo wp_json_encode( $calendar );
+
+	exit;
 }

@@ -13,7 +13,7 @@
 <footer class="row quarters gutter site-footer">
 
 	<div class="column one">
-		<?php WSU\Events\Calendar\get_calendar( date( 'm' ), date( 'Y' ) ); ?>
+		<?php get_template_part( 'parts/calendar' ); ?>
 	</div>
 
 	<div class="column two">
