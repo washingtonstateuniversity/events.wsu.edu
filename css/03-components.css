@@ -286,7 +286,6 @@
 
 .day-heading {
 	background: var(--color-gray-10);
-	color: var(--color-gray);
 	overflow: hidden;
 	padding: 7px 0;
 }
@@ -318,7 +317,6 @@
 	border-bottom: none;
 	color: var(--color-link);
 	height: 29px;
-	margin-top: -1px;
 	z-index: 1;
 }
 

@@ -1415,7 +1415,6 @@ main > footer {
 
 .day-heading {
 	background: #e5e5e5;
-	color: #717171;
 	overflow: hidden;
 	padding: 7px 0;
 }
@@ -1455,7 +1454,6 @@ main > footer {
 	border-bottom: none;
 	color: #da1e00;
 	height: 29px;
-	margin-top: -1px;
 	z-index: 1;
 }
 
