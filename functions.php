@@ -19,7 +19,7 @@ add_filter( 'pre_get_posts', 'events_filter_today_query', 11 );
  * @return string
  */
 function events_theme_version() {
-	return '0.1.0';
+	return '0.2.0';
 }
 
 /**

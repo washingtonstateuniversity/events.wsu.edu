@@ -10,7 +10,7 @@ $dates_with_events = array();
 /**
  * Build an array of dates which have events.
  *
- * @since 0.1.1
+ * @since 0.2.0
  *
  * @param string $start
  * @param string $end
@@ -58,7 +58,7 @@ function days_with_events( $start, $end ) {
 /**
  * Return the URL of an archive page for a given day.
  *
- * @since 0.1.1
+ * @since 0.2.0
  *
  * @param string $year
  * @param string $month
@@ -85,7 +85,7 @@ function get_day_link( $year, $month, $day ) {
  * Pad the beginning and end of the calendar
  * with days from the previous and next month.
  *
- * @since 0.1.1
+ * @since 0.2.0
  *
  * @param int    $iterator
  * @param mixed  $start_day
@@ -115,7 +115,7 @@ function get_pad_days( $iterator = 1, $start_day, $month, $year ) {
 /**
  * Build the days for the current month.
  *
- * @since 0.1.1
+ * @since 0.2.0
  *
  * @param int    $iterator
  * @param int    $start_day
@@ -145,7 +145,7 @@ function get_month_days( $iterator = 1, $start_day = 1, $month, $year ) {
 /**
  * Display a calendar for the given month and year.
  *
- * @since 0.1.1
+ * @since 0.2.0
  *
  * @param string $month
  * @param string $year
@@ -200,7 +200,7 @@ function get_calendar( $month, $year ) {
 /**
  * Handles AJAX calendar navigation.
  *
- * @since 0.1.1
+ * @since 0.2.0
  */
 function ajax_callback() {
 	check_ajax_referer( 'calendar-navigation', 'nonce' );

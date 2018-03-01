@@ -134,7 +134,7 @@ function taxonomy_rewrites( $args, $taxonomy ) {
 /**
  * Generate day based archive rewrite rules.
  *
- * @since 0.1.1
+ * @since 0.2.0
  *
  * @param \WP_Rewrite $wp_rewrite
  *
@@ -177,7 +177,7 @@ function generate_date_archive_rewrite_rules( $wp_rewrite ) {
 /**
  * Filter the document title used for daily archives.
  *
- * @since 0.1.1
+ * @since 0.2.0
  *
  * @param string $title
  * @param string $site_part
@@ -216,7 +216,7 @@ function filter_page_title( $title, $site_part, $global_part ) {
 /**
  * Generate the URLs used to view previous and next date archives.
  *
- * @since 0.1.1
+ * @since 0.2.0
  *
  * @return array
  */
