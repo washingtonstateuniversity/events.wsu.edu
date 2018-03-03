@@ -296,6 +296,7 @@
 	border-left-width: 0;
 	border-top-width: 0;
 	flex: 1 1 calc(100% / 7);
+	width: calc(100% / 7);
 }
 
 .day-heading,
