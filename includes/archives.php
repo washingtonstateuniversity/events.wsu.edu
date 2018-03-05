@@ -40,6 +40,8 @@ function filter_query( $wp_query ) {
 			$wp_query->set( 'day', 0 );
 		} else {
 			$current_day = $today;
+
+			set_query_var( 'wsuwp_event_date', date( 'Y-m-d' ) );
 		}
 
 		$next_day = date( 'Y-m-d 00:00:00', strtotime( $current_day . ' +1 day' ) );

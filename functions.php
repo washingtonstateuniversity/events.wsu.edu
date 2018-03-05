@@ -10,6 +10,8 @@ add_filter( 'spine_child_theme_version', 'events_theme_version' );
 add_action( 'wp_enqueue_scripts', 'events_enqueue_scripts' );
 add_action( 'wp_footer', 'events_social_media_icons' );
 add_filter( 'pre_get_posts', 'events_filter_today_query', 11 );
+add_filter( 'excerpt_length', 'events_excerpt_length' );
+add_filter( 'excerpt_more', 'events_excerpt_more' );
 
 /**
  * Provides a theme version for use in cache busting.
@@ -199,4 +201,30 @@ function events_filter_today_query( $wp_query ) {
 
 	$wp_query->set( 'orderby', 'wsuwp_event_start_date' );
 	$wp_query->set( 'order', 'ASC' );
+}
+
+/**
+ * Filters the number of words in an excerpt.
+ *
+ * @since 0.2.1
+ *
+ * @param int $number
+ *
+ * @return int
+ */
+function events_excerpt_length( $number ) {
+	return 50;
+}
+
+/**
+ * Filters the string in the “more” link displayed after a trimmed excerpt.
+ *
+ * @since 0.2.1
+ *
+ * @param string $more_string
+ *
+ * @return string
+ */
+function events_excerpt_more( $more_string ) {
+	return '&hellip;';
 }
