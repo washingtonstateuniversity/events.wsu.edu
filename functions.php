@@ -11,6 +11,51 @@ add_action( 'wp_enqueue_scripts', 'events_enqueue_scripts' );
 add_action( 'wp_footer', 'events_social_media_icons' );
 add_filter( 'pre_get_posts', 'events_filter_today_query', 11 );
 
+function convert_events() {
+	$events = get_posts( array(
+		'post_type' => 'tribe_events',
+		'posts_per_page' => 500,
+	) );
+
+	foreach( $events as $event ) {
+		$event->post_type = 'event';
+		wp_update_post( $event );
+
+		$start = get_post_meta( $event->ID, '_EventStartDate', true );
+		$end = get_post_meta( $event->ID, '_EventEndDate', true );
+		$cost = get_post_meta( $event->ID, '_EventCost', true );
+		$url = get_post_meta( $event->ID, '_EventURL', true );
+		update_post_meta( $event->ID, 'wp_event_calendar_date_time', $start );
+		update_post_meta( $event->ID, 'wp_event_calendar_end_date_time', $end );
+		update_post_meta( $event->ID, '_wsuwp_event_cost', $cost );
+		update_post_meta( $event->ID, '_wsuwp_event_related_site', $url );
+	}
+}
+
+function convert_event_organizers() {
+	$events = get_posts( array(
+		'post_type' => 'event',
+		'posts_per_page' => 3000,
+	) );
+
+	foreach( $events as $event ) {
+		$organizer_id = get_post_meta( $event->ID, '_EventOrganizerID', true );
+
+		if ( ! empty( $organizer_id ) ) {
+			$organizer = get_post( $organizer_id );
+			if ( is_object( $organizer ) ) {
+				$org_name = get_post_meta( $organizer_id, '_OrganizerOrganizer', true );
+				$org_phone = get_post_meta( $organizer_id, '_OrganizerPhone', true );
+				$org_email = get_post_meta( $organizer_id, '_OrganizerEmail', true );
+
+				update_post_meta( $event->ID, '_wsuwp_event_contact_name', $org_name );
+				update_post_meta( $event->ID, '_wsuwp_event_contact_phone', $org_phone );
+				update_post_meta( $event->ID, '_wsuwp_event_contact_email', $org_email );
+			}
+		}
+	}
+}
+
 /**
  * Provides a theme version for use in cache busting.
  *
