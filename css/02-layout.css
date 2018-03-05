@@ -408,7 +408,6 @@ main > footer {
 	display: none;
 	padding-top: .5em;
 	position: absolute;
-	width: 100%;
 	z-index: 2;
 }
 
@@ -425,6 +424,7 @@ main > footer {
 	border-bottom: none;
 	display: block;
 	padding: .5em 1.5em;
+	white-space: nowrap;
 }
 
 .site-search {
