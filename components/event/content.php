@@ -134,22 +134,22 @@ $types = wp_get_post_terms( get_the_ID(), 'event-type' );
 
 		<div class="column one card-taxonomy">
 
-			<?php if ( has_term( '', 'event-category' ) ) { ?>
-			<div class="card-categories">
+			<?php if ( has_term( '', 'wsuwp_university_category' ) ) { ?>
+			<div class="card-university-categories">
 				<h2>Categorized</h2>
-				<?php the_terms( get_the_ID(), 'event-category' ); ?>
+				<?php the_terms( get_the_ID(), 'wsuwp_university_category' ); ?>
 			</div>
 			<?php } ?>
 
-			<?php if ( has_term( '', 'event-tag' ) ) { ?>
-			<div class="card-tags">
-				<h2>Tagged</h2>
-				<?php the_terms( get_the_ID(), 'event-tag' ); ?>
+			<?php if ( has_term( '', 'wsuwp_university_org' ) ) { ?>
+			<div class="card-university-organizations">
+				<h2>Organization</h2>
+				<?php the_terms( get_the_ID(), 'wsuwp_university_org' ); ?>
 			</div>
 			<?php } ?>
 
 			<?php if ( taxonomy_exists( 'wsuwp_university_location' ) && has_term( '', 'wsuwp_university_location' ) ) { ?>
-			<div class="card-organization-location">
+			<div class="card-university-locations">
 				<h2>Location</h2>
 				<?php the_terms( get_the_ID(), 'wsuwp_university_location' ); ?>
 			</div>
