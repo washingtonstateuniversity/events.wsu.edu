@@ -21,7 +21,7 @@ add_filter( 'excerpt_more', 'events_excerpt_more' );
  * @return string
  */
 function events_theme_version() {
-	return '0.2.0';
+	return '0.2.1';
 }
 
 /**
