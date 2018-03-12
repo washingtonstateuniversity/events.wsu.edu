@@ -447,7 +447,8 @@ figcaption {
 	color: var(--color-primary-on-black);
 }
 
-.filter {
+.filter,
+.page-template-search .site-search {
 	font-size: 1.3em;
 }
 

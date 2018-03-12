@@ -59,7 +59,8 @@ main > footer {
 	margin-top: 0;
 }
 
-.archive .deck-river {
+.archive .deck-river,
+.page-template-search .deck-river {
 	min-height: calc(100vh - 692px);
 }
 
@@ -430,7 +431,14 @@ main > footer {
 .site-search {
 	line-height: 1.35;
 	margin: 0 0 0 auto;
+	padding: 0;
 	position: relative;
+}
+
+.page-template-search .site-search {
+	margin-left: 0;
+	text-align: right;
+	width: 11.4em;
 }
 
 .site-search label {
@@ -509,7 +517,11 @@ main > footer {
 	.filter .site-search {
 		order: -1;
 		padding-bottom: 15px;
-		position: relative;
+	}
+
+	.page-template-search .site-search {
+		padding-bottom: 15px;
+		width: calc(100vw - 96px);
 	}
 
 	.site-search:after {
@@ -517,9 +529,9 @@ main > footer {
 		bottom: 0;
 		content: "";
 		height: 15px;
+		left: 0;
 		position: absolute;
-		right: -48px;
-		width: calc(100% + 48px);
+		width: calc(100vw + 48px);
 	}
 
 	.site-search .search-field {
