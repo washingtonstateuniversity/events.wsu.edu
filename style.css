@@ -1474,4 +1474,69 @@ main > footer {
 .month a:hover {
 	box-shadow: inset 0 0 0 1px #fff, inset 0 0 0 3px #da1e00;
 }
+
+/* --- organization index --- */
+.organization-index {
+	width: calc(100% + 48px);
+}
+
+.organization-index,
+.organization-index ul {
+	list-style: none;
+	padding: 0;
+}
+
+.organization-index .level-two > li {
+	margin-top: 8px;
+}
+
+.organization-index .level-two > li > a {
+	border-bottom-color: #f2f2f2;
+}
+
+.organization-index .level-two > li > a:hover {
+	border-bottom-color: inherit;
+}
+
+.organization-index .level-three {
+	border-top: 6px solid #f2f2f2;
+	-webkit-column-count: 3;
+	        column-count: 3;
+	-webkit-column-gap: 24px;
+	        column-gap: 24px;
+	margin: 12px 0 0;
+	padding: 18px 24px;
+}
+
+.organization-index .level-three li {
+	display: inline-block;
+	padding: 0 0 8px;
+	width: 100%;
+}
+
+.organization-index .level-three a {
+	border-bottom-color: inherit;
+	color: #717171;
+	font-size: .875em;
+}
+
+.organization-index .level-three a:hover {
+	color: #be000f;
+}
+
+@media screen and (max-width: 791px) {
+
+	.organization-index .level-three {
+		-webkit-column-count: 2;
+		        column-count: 2;
+	}
+}
+
+@media screen and (max-width: 500px) {
+
+	.organization-index .level-three {
+		-webkit-column-count: 1;
+		        column-count: 1;
+	}
+}
 /*# sourceMappingURL=style.css.map */
