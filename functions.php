@@ -24,7 +24,7 @@ add_filter( 'wp_trim_excerpt', 'events_trim_excerpt' );
  * @return string
  */
 function events_theme_version() {
-	return '0.2.1';
+	return '0.2.2';
 }
 
 /**
