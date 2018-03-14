@@ -14,6 +14,7 @@ add_action( 'wp_footer', 'events_social_media_icons' );
 add_filter( 'pre_get_posts', 'events_filter_today_query', 11 );
 add_filter( 'excerpt_length', 'events_excerpt_length' );
 add_filter( 'excerpt_more', 'events_excerpt_more' );
+add_filter( 'wp_trim_excerpt', 'events_trim_excerpt' );
 
 /**
  * Provides a theme version for use in cache busting.
@@ -229,4 +230,27 @@ function events_excerpt_length( $number ) {
  */
 function events_excerpt_more( $more_string ) {
 	return '&hellip;';
+}
+
+/**
+ * Filters the excerpt content.
+ *
+ * @since 0.2.2
+ *
+ * @param string $text
+ *
+ * @return string
+ */
+function events_trim_excerpt( $text ) {
+	// Allow the tags the Spine parent theme allows, minus `img`.
+	$allowed_tags = '<p>,<a>,<em>,<strong>,<h2>,<h3>,<h4>,<h5>,<blockquote>';
+	$text = strip_tags( $text, $allowed_tags );
+
+	// Remove any empty `a` tags that the image removal might have left.
+	$text = preg_replace( '/<a[^>]*><\/a>/', '', $text );
+
+	// Remove any 'p' tags that are empty or contain only `&nbsp;`.
+	$text = preg_replace( '/<p[^>]*>([\s]|&nbsp;)*<\/p>/', '', $text );
+
+	return $text;
 }
