@@ -134,7 +134,8 @@ function display_event_filter( $button_text, $taxonomy ) {
 		$args['exclude'] = $academic_calendar->term_id;
 	}
 
-	if ( 'Campus' === $button_text ) {
+	// Output only the Campuses for the location filter.
+	if ( 'wsuwp_university_location' === $taxonomy ) {
 		$args['name'] = array(
 			'WSU Global Campus',
 			'WSU North Puget Sound at Everett',
