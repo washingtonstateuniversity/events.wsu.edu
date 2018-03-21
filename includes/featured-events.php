@@ -15,6 +15,10 @@ add_action( 'manage_event_posts_custom_column', 'WSU\Events\Featured\manage_cust
  * @param string $post_type
  */
 function add_meta_boxes() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+
 	add_meta_box(
 		'events_featured_meta',
 		'Featured Status',
