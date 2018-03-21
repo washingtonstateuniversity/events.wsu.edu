@@ -25,7 +25,7 @@ add_action( 'init', 'events_add_excerpt_support' );
  * @return string
  */
 function events_theme_version() {
-	return '0.2.2';
+	return '0.2.3';
 }
 
 /**
