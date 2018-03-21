@@ -171,9 +171,14 @@ $types = wp_get_post_terms( get_the_ID(), 'event-type' );
 
 	<?php } else { ?>
 
-		<?php if ( ! is_day() && ! is_post_type_archive( 'event' ) ) { ?>
-		<div class="card-date"><?php echo esc_html( $event_data['start']['river_date'] ); ?></div>
-		<?php } ?>
+		<div class="card-date">
+		<?php
+		if ( ! is_archive() || ( is_tax() && ! is_day() ) ) {
+			echo esc_html( $event_data['start']['river_date'] ) . ' @';
+		}
+		echo esc_html( $event_data['start']['time'] );
+		?>
+		</div>
 
 	<?php } ?>
 
