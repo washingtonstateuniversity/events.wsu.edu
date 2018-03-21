@@ -127,6 +127,13 @@ function display_event_filter( $button_text, $taxonomy ) {
 		'taxonomy' => esc_html( $taxonomy ),
 	);
 
+	// Exclude the "Academic Calendar" term from the Event Type output.
+	// (It will be represented in the site menu.)
+	if ( 'event-type' === $taxonomy ) {
+		$academic_calendar = get_term_by( 'name', 'Academic Calendar', 'event-type' );
+		$args['exclude'] = $academic_calendar->term_id;
+	}
+
 	if ( 'Campus' === $button_text ) {
 		$args['name'] = array(
 			'WSU Global Campus',
