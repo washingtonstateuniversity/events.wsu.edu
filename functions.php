@@ -15,6 +15,7 @@ add_filter( 'pre_get_posts', 'events_filter_today_query', 11 );
 add_filter( 'excerpt_length', 'events_excerpt_length' );
 add_filter( 'excerpt_more', 'events_excerpt_more' );
 add_filter( 'wp_trim_excerpt', 'events_trim_excerpt' );
+add_action( 'init', 'events_add_excerpt_support' );
 
 /**
  * Provides a theme version for use in cache busting.
@@ -261,4 +262,17 @@ function events_trim_excerpt( $text ) {
 	$text = preg_replace( '/<p[^>]*>([\s]|&nbsp;)*<\/p>/', '', $text );
 
 	return $text;
+}
+
+/**
+ * Adds Excerpt support to the Event post type for users who can manage options.
+ *
+ * @since 0.2.3
+ */
+function events_add_excerpt_support() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
+
+	add_post_type_support( 'event', 'excerpt' );
 }
