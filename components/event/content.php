@@ -95,9 +95,10 @@ $types = wp_get_post_terms( get_the_ID(), 'event-type' );
 
 		<div class="column one">
 
+			<?php if ( ! empty( get_the_content() ) ) { ?>
 			<h2>About the event</h2>
-
 			<?php the_content(); ?>
+			<?php } ?>
 
 			<?php if ( ! empty( $event_data['related'] ) ) { ?>
 			<ul class="card-related-links">
