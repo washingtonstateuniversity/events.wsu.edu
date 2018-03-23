@@ -33,10 +33,13 @@ $types = wp_get_post_terms( get_the_ID(), 'event-type' );
 				<span class="card-time"><?php echo esc_html( $event_data['start']['time'] ); ?></span>
 			</time>
 
+			<?php $event_venue = WSU\Events\Venues\get_venue(); ?>
+
+			<?php if ( ! empty( $event_venue ) && ! empty( $event_data['location']['notes'] ) ) { ?>
 			<div class="card-location">
 
-				<?php if ( ! empty( $event_data['location']['name'] ) ) { ?>
-				<span class="card-address"><?php echo esc_html( $event_data['location']['name'] ); ?> - <?php echo esc_html( $event_data['location']['address'] ); ?></span>
+				<?php if ( ! empty( $event_venue['address'] ) ) { ?>
+				<span class="card-address"><?php echo esc_html( $event_venue['address'] ); ?></span>
 				<?php } ?>
 
 				<?php if ( ! empty( $event_data['location']['notes'] ) ) { ?>
@@ -45,10 +48,14 @@ $types = wp_get_post_terms( get_the_ID(), 'event-type' );
 				</div>
 				<?php } ?>
 
+				<?php if ( ! empty( $event_venue['link'] ) ) { ?>
 				<span class="card-directions">
-					<a href="#">View directions</a>
+					<a href="<?php echo esc_url( $event_venue['link'] ); ?>">View directions</a>
 				</span>
+				<?php } ?>
+
 			</div>
+			<?php } ?>
 
 			<?php if ( ! empty( $event_data['cost'] ) ) { ?>
 			<span class="card-cost"><?php echo esc_html( $event_data['cost'] ); ?></span>
