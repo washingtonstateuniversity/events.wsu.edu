@@ -57,7 +57,7 @@ $types = wp_get_post_terms( get_the_ID(), 'event-type' );
 			</div>
 			<?php } ?>
 
-			<?php if ( ! empty( $event_data['cost'] ) ) { ?>
+			<?php if ( ! empty( $event_data['cost'] ) && strcasecmp( 'free', $event_data['cost'] ) !== 0 ) { ?>
 			<span class="card-cost"><?php echo esc_html( $event_data['cost'] ); ?></span>
 			<?php } ?>
 
