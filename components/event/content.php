@@ -50,7 +50,7 @@ $types = wp_get_post_terms( get_the_ID(), 'event-type' );
 
 				<?php if ( ! empty( $event_venue['link'] ) ) { ?>
 				<span class="card-directions">
-					<a href="<?php echo esc_url( $event_venue['link'] ); ?>">View directions</a>
+					<a href="<?php echo esc_url( $event_venue['link'] ); ?>">View location in Google Maps</a>
 				</span>
 				<?php } ?>
 
