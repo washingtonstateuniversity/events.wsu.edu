@@ -9,6 +9,11 @@ add_action( 'admin_init', 'WSU\Events\Event_Contributor\add_role' );
 add_action( 'switch_theme', 'WSU\Events\Event_Contributor\remove_role' );
 add_action( 'init', 'WSU\Events\Event_Contributor\map_capabilities', 12 );
 
+// If a user authenticates with WSU AD, and they don't exist as a user, add them as a user.
+add_filter( 'wsuwp_sso_create_new_user', '__return_true' );
+add_action( 'wsuwp_sso_user_created', 'WSU\Events\Event_Contributor\new_user', 10, 1 );
+add_action( 'admin_menu', 'WSU\Events\Event_Contributor\user_auto_role' );
+
 /**
  * Unsets the capability related arguments from the event post type.
  *
@@ -82,5 +87,30 @@ function map_capabilities() {
 		foreach ( $taxonomies as $taxonomy ) {
 			$taxonomy->cap->assign_terms = 'edit_events';
 		}
+	}
+}
+
+/**
+ * Add new users created through the SSO plugin to the site as Event Contributors.
+ *
+ * @since 0.2.4
+ *
+ * @param int $user_id
+ */
+function events_new_user( $user_id ) {
+	add_user_to_blog( get_current_blog_id(), $user_id, 'wsuwp_event_contributor' );
+}
+
+/**
+ * Add all logged in users in the admin screen to the Events site.
+ *
+ * @since 0.2.4
+ */
+function user_auto_role() {
+	if ( is_user_logged_in() && ! is_user_member_of_blog() ) {
+		add_user_to_blog( get_current_blog_id(), get_current_user_id(), 'wsuwp_event_contributor' );
+		wp_safe_redirect( admin_url( '/post-new.php?post_type=event' ) );
+		exit;
+
 	}
 }
