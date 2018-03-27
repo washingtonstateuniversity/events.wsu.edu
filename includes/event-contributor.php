@@ -7,6 +7,7 @@ remove_filter( 'map_meta_cap', 'wp_event_calendar_meta_caps', 10, 4 );
 add_filter( 'register_post_type_args', 'WSU\Events\Event_Contributor\filter_event_post_type_args', 10, 2 );
 add_action( 'admin_init', 'WSU\Events\Event_Contributor\add_role' );
 add_action( 'switch_theme', 'WSU\Events\Event_Contributor\remove_role' );
+add_action( 'init', 'WSU\Events\Event_Contributor\map_capabilities', 12 );
 
 /**
  * Unsets the capability related arguments from the event post type.
@@ -53,4 +54,33 @@ function add_role() {
  */
 function remove_role() {
 	\remove_role( 'wsuwp_event_contributor' );
+}
+
+/**
+ * Maps the Event Contributor capabilities to the event post type.
+ *
+ * @since 0.2.4
+ */
+function map_capabilities() {
+	$user = wp_get_current_user();
+
+	if ( ! in_array( 'wsuwp_event_contributor', (array) $user->roles, true ) ) {
+		return;
+	}
+
+	$event = get_post_type_object( 'event' );
+
+	if ( $event ) {
+		$event->cap->create_posts = 'create_events';
+		$event->cap->delete_posts = 'delete_events';
+		$event->cap->edit_posts = 'edit_events';
+	}
+
+	$taxonomies = get_taxonomies( array(), 'objects' );
+
+	if ( $taxonomies ) {
+		foreach ( $taxonomies as $taxonomy ) {
+			$taxonomy->cap->assign_terms = 'edit_events';
+		}
+	}
 }
