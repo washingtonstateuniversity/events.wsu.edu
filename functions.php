@@ -91,11 +91,7 @@ function get_event_data( $post_id ) {
 			'time' => date( 'g:i a', $start_date ),
 			'river_date' => date( 'l, M. j', $start_date ),
 		),
-		'location' => array(
-			'name' => get_post_meta( $post_id, '_wsuwp_event_location_name', true ),
-			'address' => get_post_meta( $post_id, '_wsuwp_event_location_address', true ),
-			'notes' => get_post_meta( $post_id, '_wsuwp_event_location_notes', true ),
-		),
+		'location_notes' => get_post_meta( $post_id, '_wsuwp_event_location_notes', true ),
 		'contact' => array(
 			'name' => get_post_meta( $post_id, '_wsuwp_event_contact_name', true ),
 			'email' => get_post_meta( $post_id, '_wsuwp_event_contact_email', true ),
