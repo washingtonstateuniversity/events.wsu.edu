@@ -38,7 +38,7 @@ class Featured_Events_Control extends \WP_Customize_Control {
 
 		<div class="selected-featured-events">
 			<?php
-			for ( $i = 0; $i <= 3; $i++ ) {
+			for ( $i = 0; $i <= 7; $i++ ) {
 				if ( isset( $post_ids[ $i ] ) ) {
 					?>
 					<div class="featured-event-single" data-featured-event-id="<?php echo esc_attr( $post_ids[ $i ] ); ?>">
