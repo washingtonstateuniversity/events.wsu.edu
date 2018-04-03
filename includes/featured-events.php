@@ -6,6 +6,7 @@ add_action( 'add_meta_boxes_event', 'WSU\Events\Featured\add_meta_boxes', 10 );
 add_action( 'save_post_event', 'WSU\Events\Featured\save_post', 10, 2 );
 add_filter( 'manage_event_posts_columns', 'WSU\Events\Featured\manage_columns', 10, 1 );
 add_action( 'manage_event_posts_custom_column', 'WSU\Events\Featured\manage_custom_column', 10, 2 );
+add_action( 'rest_event_query', 'WSU\Events\Featured\filter_rest_query' );
 
 /**
  * Adds meta boxes used to manage featured events.
@@ -119,4 +120,32 @@ function manage_custom_column( $column_name, $post_id ) {
 
 		echo esc_html( ucwords( $featured ) );
 	}
+}
+
+/**
+ * Filter the events REST API query before it fires.
+ *
+ * @since 0.1.1
+ *
+ * @param array $args
+ *
+ * @return array
+ */
+function filter_rest_query( $args ) {
+	if ( isset( $_REQUEST['featured'] ) && 'true' === $_REQUEST['featured'] ) { // WPCS: CSRF Ok.
+		$featured_event_ids = get_option( 'featured_events', false );
+
+		if ( $featured_event_ids ) {
+			$featured_event_ids = explode( ',', $featured_event_ids );
+			$args['posts_per_page'] = count( $featured_event_ids );
+			$args['post__in'] = $featured_event_ids;
+		} else {
+			$args['meta_query']['wsuwp_event_featured'] = array(
+				'key' => '_wsuwp_event_featured',
+				'value' => 'yes',
+			);
+		}
+	}
+
+	return $args;
 }
