@@ -35,16 +35,16 @@ $types = wp_get_post_terms( get_the_ID(), 'event-type' );
 
 			<?php $event_venue = WSU\Events\Venues\get_venue(); ?>
 
-			<?php if ( ! empty( $event_venue ) && ! empty( $event_data['location']['notes'] ) ) { ?>
+			<?php if ( ! empty( $event_venue ) || ! empty( $event_data['location_notes'] ) ) { ?>
 			<div class="card-location">
 
 				<?php if ( ! empty( $event_venue['address'] ) ) { ?>
 				<span class="card-address"><?php echo esc_html( $event_venue['address'] ); ?></span>
 				<?php } ?>
 
-				<?php if ( ! empty( $event_data['location']['notes'] ) ) { ?>
+				<?php if ( ! empty( $event_data['location_notes'] ) ) { ?>
 				<div class="card-location-notes">
-					<?php echo wp_kses_post( $event_data['location']['notes'] ); ?>
+					<?php echo wp_kses_post( $event_data['location_notes'] ); ?>
 				</div>
 				<?php } ?>
 
