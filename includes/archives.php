@@ -95,20 +95,6 @@ function taxonomy_rewrites( $args, $taxonomy ) {
 		);
 	}
 
-	if ( 'event-category' === $taxonomy ) {
-		$args['rewrite'] = array(
-			'slug' => 'category',
-			'with_front' => false,
-		);
-	}
-
-	if ( 'event-tag' === $taxonomy ) {
-		$args['rewrite'] = array(
-			'slug' => 'tag',
-			'with_front' => false,
-		);
-	}
-
 	if ( 'wsuwp_university_category' === $taxonomy ) {
 		$args['rewrite'] = array(
 			'slug' => 'university-category',
