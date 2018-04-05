@@ -22,9 +22,15 @@ function filter_front_page_featured_events_query( $wp_query ) {
 
 	// Set `orderby` and `meta_query` arguments for events curated through Customizer.
 	if ( ! empty( $wp_query->query['post__in'] ) ) {
-		$wp_query->set( 'orderby', 'post__in' );
+		$wp_query->set( 'orderby', 'wsuwp_event_start_date' );
+		$wp_query->set( 'order', 'ASC' );
 		$wp_query->set( 'meta_query', array(
-			array(
+			'wsuwp_event_start_date' => array(
+				'key' => 'wp_event_calendar_date_time',
+				'compare' => 'EXISTS',
+				'type' => 'DATETIME',
+			),
+			'wsuwp_event_end_date' => array(
 				'key' => 'wp_event_calendar_end_date_time',
 				'value' => date( 'Y-m-d H:i:s' ),
 				'compare' => '>',

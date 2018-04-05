@@ -3,6 +3,7 @@
 namespace WSU\Events\Page_Curation\Customizer;
 
 add_action( 'rest_api_init', 'WSU\Events\Page_Curation\Customizer\register_rest_route' );
+add_filter( 'pre_get_posts', 'WSU\Events\Page_Curation\Customizer\filter_query' );
 add_filter( 'customize_register', 'WSU\Events\Page_Curation\Customizer\register_featured_events' );
 add_action( 'customize_controls_print_footer_scripts', 'WSU\Events\Page_Curation\Customizer\enqueue_scripts' );
 add_action( 'customize_controls_enqueue_scripts', 'WSU\Events\Page_Curation\Customizer\enqueue_styles' );
@@ -34,9 +35,10 @@ function rest_search_featured( $request ) {
 	}
 
 	$results = new \WP_Query( array(
-		'post_type' => array( 'event' ),
+		'post_type' => 'event',
 		'posts_per_page' => 20,
 		's' => sanitize_text_field( $request['term'] ),
+		'wsuwp_events_curator_search' => true,
 	) );
 
 	$posts = array();
@@ -46,13 +48,51 @@ function rest_search_featured( $request ) {
 			continue;
 		}
 
+		$event_data = get_event_data( $post->ID );
+		$event_title = trim( esc_html( strip_tags( get_the_title( $post ) ) ) );
+		$event_title .= ' - ' . esc_html( $event_data['start']['date'] );
+
 		$posts[] = array(
 			'value' => $post->ID,
-			'label' => trim( esc_html( strip_tags( get_the_title( $post ) ) ) ),
+			'label' => $event_title,
 		);
 	}
 
 	return $posts;
+}
+
+/**
+ * Filter the query for the featured events search query to
+ * return only those events which have not already passed.
+ *
+ * @since 0.2.4
+ *
+ * @param \WP_Query $wp_query
+ */
+function filter_query( $wp_query ) {
+	if ( empty( $wp_query->query['wsuwp_events_curator_search'] ) ) {
+		return;
+	}
+
+	date_default_timezone_set( 'America/Los_Angeles' );
+
+	$wp_query->set( 'meta_query', array(
+		'wsuwp_event_start_date' => array(
+			'key' => 'wp_event_calendar_date_time',
+			'value' => date( 'Y-m-d 00:00:00' ),
+			'compare' => '>=',
+			'type' => 'DATETIME',
+		),
+		'wsuwp_event_end_date' => array(
+			'key' => 'wp_event_calendar_end_date_time',
+			'value' => date( 'Y-m-d H:i:s' ),
+			'compare' => '>',
+			'type' => 'DATETIME',
+		),
+	) );
+
+	$wp_query->set( 'orderby', 'wsuwp_event_start_date' );
+	$wp_query->set( 'order', 'ASC' );
 }
 
 /**
