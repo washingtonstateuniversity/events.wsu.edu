@@ -4,6 +4,7 @@ global $is_today;
 
 $event_data = get_event_data( get_the_ID() );
 $types = wp_get_post_terms( get_the_ID(), 'event-type' );
+$ics_link = add_query_arg( 'wsuwp_events_ics', '1', get_the_permalink() );
 
 ?>
 <article id="event-<?php the_ID(); ?>" class="card card--event">
@@ -28,7 +29,7 @@ $types = wp_get_post_terms( get_the_ID(), 'event-type' );
 
 			<time class="card-event-datetime" datetime="<?php echo esc_attr( $event_data['start']['date_time'] ); ?>">
 				<span class="card-date"><?php echo esc_html( $event_data['start']['date'] ); ?> -
-					<a href="#">add to calendar</a>
+					<a href="<?php echo esc_url( $ics_link ); ?>">add to calendar</a>
 				</span>
 				<span class="card-time"><?php echo esc_html( $event_data['start']['time'] ); ?></span>
 			</time>

@@ -8,6 +8,7 @@ require_once __DIR__ . '/includes/calendar.php';
 require_once __DIR__ . '/includes/search.php';
 require_once __DIR__ . '/includes/organizations-shortcode.php';
 require_once __DIR__ . '/includes/event-contributor.php';
+require_once __DIR__ . '/includes/ics.php';
 
 add_filter( 'spine_child_theme_version', 'events_theme_version' );
 add_action( 'wp_enqueue_scripts', 'events_enqueue_scripts' );
