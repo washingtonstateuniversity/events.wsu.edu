@@ -20,8 +20,8 @@ VERSION:2.0
 PRODID:-//<?php echo esc_html( get_bloginfo( 'name' ) ); ?>//NONSGML v1.0//EN
 METHOD:PUBLISH
 BEGIN:VEVENT
-DTSTART;TZID=America/Los_Angeles:<?php echo esc_html( $start_date ) . "\r\n"; ?>
-DTEND;TZID=America/Los_Angeles:<?php echo esc_html( $end_date ) . "\r\n"; ?>
+DTSTART;TZID="Pacific Time (US & Canada)":<?php echo esc_html( $start_date ) . "\r\n"; ?>
+DTEND;TZID="Pacific Time (US & Canada)":<?php echo esc_html( $end_date ) . "\r\n"; ?>
 SUMMARY:<?php echo esc_html( get_the_title() ) . "\r\n"; ?>
 LOCATION:<?php echo esc_html( $event_venue['address'] ) . "\r\n"; ?>
 DESCRIPTION:<?php echo esc_html( $content ) . "\r\n"; ?>
