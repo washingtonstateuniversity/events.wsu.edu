@@ -18,7 +18,6 @@ header( 'Content-Disposition: attachment; filename=invite.ics' );
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//<?php echo esc_html( get_bloginfo( 'name' ) ); ?>//NONSGML v1.0//EN
-CALSCALE:GREGORIAN
 METHOD:PUBLISH
 BEGIN:VEVENT
 DTSTART;TZID=America/Los_Angeles:<?php echo esc_html( $start_date ) . "\r\n"; ?>
