@@ -25,5 +25,10 @@ DTEND;TZID="Pacific Time (US & Canada)":<?php echo esc_html( $end_date ) . "\r\n
 SUMMARY:<?php echo esc_html( get_the_title() ) . "\r\n"; ?>
 LOCATION:<?php echo esc_html( $event_venue['address'] ) . "\r\n"; ?>
 DESCRIPTION:<?php echo esc_html( $content ) . "\r\n"; ?>
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:REMINDER
+TRIGGER;RELATED=START:-PT00H15M00S
+END:VALARM
 END:VEVENT
 END:VCALENDAR
