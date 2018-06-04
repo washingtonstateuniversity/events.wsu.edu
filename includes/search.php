@@ -5,6 +5,7 @@ namespace WSU\Events\Search;
 add_filter( 'query_vars', 'WSU\Events\Search\filter_query_variable' );
 add_action( 'template_redirect', 'WSU\Events\Search\redirect_wp_default_search' );
 add_filter( 'wsuwp_search_post_types', 'WSU\Events\Search\filter_post_types' );
+add_filter( 'wsuwp_search_post_data', 'WSU\Events\Search\search_data', 10, 2 );
 
 /**
  * Redirect requests to the default WordPress search to our new URL.
@@ -119,4 +120,36 @@ function filter_post_types( $post_types ) {
 	}
 
 	return $post_types;
+}
+
+/**
+ * Filter the data sent to Elasticsearch for an event record.
+ *
+ * @since 0.2.6
+ *
+ * @param array    $data The data being sent to Elasticsearch.
+ * @param \WP_Post $post The full post object.
+ *
+ * @return array Modified list of data to send to Elasticsearch.
+ */
+function search_data( $data, $post ) {
+	if ( 'event' !== $post->post_type ) {
+		return $data;
+	}
+
+	$start_date = strtotime( get_post_meta( $post->ID, 'wp_event_calendar_date_time', true ) );
+	$start_date = date( 'l, M. j Y @g:i a', $start_date );
+
+	$types = wp_get_post_terms( $post->ID, 'event-type' );
+	$type = ( ! empty( $types[0] ) ) ? esc_html( $types[0]->name ) : '';
+
+	$locations = wp_get_post_terms( $post->ID, 'wsuwp_university_location' );
+	$location = ( ! empty( $locations[0] ) ) ? esc_html( $locations[0]->name ) : '';
+
+	$data['event_start_date'] = $start_date;
+	$data['event_type'] = $type;
+	$data['event_location'] = $location;
+	$data['event_excerpt'] = wpautop( get_the_excerpt( $post->ID ) );
+
+	return $data;
 }
