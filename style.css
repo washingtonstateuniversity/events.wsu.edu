@@ -989,6 +989,10 @@ main > footer {
 	opacity: 1;
 }
 
+.site-search .search-field::-webkit-search-cancel-button {
+	-webkit-appearance: none;
+}
+
 .site-search .search-field:hover,
 .site-search .search-field:focus {
 	border-bottom-color: #da1e00;
