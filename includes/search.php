@@ -64,6 +64,10 @@ function filter_elastic_content( $visible_content ) {
  * @return array
  */
 function get_elastic_response( $var ) {
+	if ( '' === trim( $var ) ) {
+		return array();
+	}
+
 	$search_key = md5( 'search' . $var );
 	$results = wp_cache_get( $search_key, 'search' );
 
