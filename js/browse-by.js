@@ -3,18 +3,11 @@ jQuery( document ).ready( function( $ ) {
 	let button = $( ".filter li > button" );
 	let menu = button.next( "ul" );
 
-	button.attr( "aria-haspopup", "true" );
-
-	menu.attr( "role", "menu" )
-		.find( "li" ).attr( "role", "none" )
-		.find( "a" ).attr( {
-			"role": "menuitem",
-			"tabindex": "-1"
-		} );
+	button.attr( "aria-expanded", "false" );
 
 	// Closes any currently open menus when a button is focused.
 	button.focus( function() {
-		button.removeAttr( "aria-expanded" );
+		button.attr( "aria-expanded", "false" );
 	} );
 
 	// Opens a button's menu with the Space, Enter, or Up or Down Arrow keys.
@@ -72,7 +65,6 @@ jQuery( document ).ready( function( $ ) {
 
 			case " ":
 			case "Escape":
-			case "Tab":
 				$( this ).closest( "ul" ).prev( "button" ).focus();
 				e.stopPropagation();
 				e.preventDefault();
@@ -85,10 +77,12 @@ jQuery( document ).ready( function( $ ) {
 
 	// Toggles the `aria-expanded` state of menu buttons.
 	$( document ).click( function( e ) {
-		if ( $( e.target ).is( button ) ) {
-			$( e.target ).attr( "aria-expanded", "true" );
-		} else {
-			button.removeAttr( "aria-expanded" );
+		if ( $( window ).width() > 791 ) {
+			if ( $( e.target ).is( button ) ) {
+				$( e.target ).attr( "aria-expanded", "true" );
+			} else {
+				button.attr( "aria-expanded", "false" );
+			}
 		}
 	} );
 
@@ -96,7 +90,7 @@ jQuery( document ).ready( function( $ ) {
 
 	menu_container.blur( function() {
 		if ( $( window ).width() > 791 ) {
-			$( this ).find( button ).removeAttr( "aria-expanded" );
+			$( this ).find( button ).attr( "aria-expanded", "false" );
 		}
 	} );
 
@@ -108,7 +102,7 @@ jQuery( document ).ready( function( $ ) {
 
 	menu_container.mouseout( function() {
 		if ( $( window ).width() > 791 ) {
-			$( this ).find( button ).removeAttr( "aria-expanded" );
+			$( this ).find( button ).attr( "aria-expanded", "false" );
 		}
 	} );
 
