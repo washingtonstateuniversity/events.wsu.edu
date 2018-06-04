@@ -1,6 +1,6 @@
 jQuery( document ).ready( function( $ ) {
 
-	let button = $( ".filter button" );
+	let button = $( ".filter li > button" );
 	let menu = button.next( "ul" );
 
 	button.attr( "aria-haspopup", "true" );
@@ -95,23 +95,29 @@ jQuery( document ).ready( function( $ ) {
 	let menu_container = $( ".filter .column > ul > li" );
 
 	menu_container.blur( function() {
-		$( this ).find( button ).removeAttr( "aria-expanded" );
+		if ( $( window ).width() > 791 ) {
+			$( this ).find( button ).removeAttr( "aria-expanded" );
+		}
 	} );
 
 	menu_container.mouseover( function() {
-		$( this ).find( button ).attr( "aria-expanded", "true" );
+		if ( $( window ).width() > 791 ) {
+			$( this ).find( button ).attr( "aria-expanded", "true" );
+		}
 	} );
 
 	menu_container.mouseout( function() {
-		$( this ).find( button ).removeAttr( "aria-expanded" );
+		if ( $( window ).width() > 791 ) {
+			$( this ).find( button ).removeAttr( "aria-expanded" );
+		}
 	} );
 
-	// Handles menu selections for mobile devices and narrower browser widths.
-	let select_menu = $( ".filter select" );
+	// Handles the "Browse by" feature for mobile devices and narrower browser widths.
+	let browse_form = $( ".filter li form" );
 
-	select_menu.change( function() {
-		if ( "" !== $( this ).val() ) {
-			window.location = $( this ).val();
-		}
+	browse_form.submit( function( e ) {
+		e.preventDefault();
+
+		window.location.href = $( this ).find( "select" ).val();
 	} );
 } );
