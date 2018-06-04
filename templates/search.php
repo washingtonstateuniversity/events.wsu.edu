@@ -24,7 +24,7 @@ get_header();
 			} else {
 				$count = count( $search_results );
 				$plurality = ( 1 === $count ) ? '' : 's';
-				echo '<p>' . esc_html( $count . 'result' . $plurality . ' found' ) . '</p>';
+				echo '<p>' . esc_html( $count . ' result' . $plurality . ' found' ) . '</p>';
 			}
 		} else {
 			echo '<p>Use the form below to search</p>';
