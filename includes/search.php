@@ -84,7 +84,7 @@ function get_elastic_response( $var ) {
 }
 
 /**
- * Add the WSU event post type to those supported by the WSUWP search plugin.
+ * Limit the post types supported by the WSUWP search plugin to events.
  *
  * @since 0.2.2
  *
@@ -93,9 +93,7 @@ function get_elastic_response( $var ) {
  * @return array
  */
 function filter_post_types( $post_types ) {
-	if ( ! in_array( 'event', $post_types, true ) ) {
-		$post_types[] = 'event';
-	}
+	$post_types = array( 'event' );
 
 	return $post_types;
 }
