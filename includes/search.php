@@ -34,28 +34,6 @@ function filter_query_variable( $vars ) {
 }
 
 /**
- * Filters the content returned by Elastic Search for display in a search
- * results page.
- *
- * @since 0.2.2
- *
- * @param string $visible_content
- *
- * @return mixed|string
- */
-function filter_elastic_content( $visible_content ) {
-	$visible_content = preg_replace( '/[\r\n]+/', "\n", $visible_content );
-	$visible_content = preg_replace( '/[ \t]+/', ' ', $visible_content );
-	$visible_content = strip_tags( $visible_content, '<p><strong><em>' );
-	$visible_content = trim( $visible_content );
-	$visible_content = substr( $visible_content, 0, 260 );
-	$visible_content = force_balance_tags( $visible_content . '....' );
-	$visible_content = wpautop( $visible_content, false );
-
-	return $visible_content;
-}
-
-/**
  * Processes a search request by passing to the WSU ES server.
  *
  * @since 0.2.2
