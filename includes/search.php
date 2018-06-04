@@ -9,7 +9,7 @@ add_filter( 'wsuwp_search_post_types', 'WSU\Events\Search\filter_post_types' );
 /**
  * Redirect requests to the default WordPress search to our new URL.
  *
- * @since 0.3.0
+ * @since 0.2.2
  */
 function redirect_wp_default_search() {
 	if ( is_search() ) {
@@ -21,7 +21,7 @@ function redirect_wp_default_search() {
 /**
  * Adds `q` as our search query variable.
  *
- * @since 0.3.0
+ * @since 0.2.2
  *
  * @param $vars
  *
@@ -36,7 +36,7 @@ function filter_query_variable( $vars ) {
  * Filters the content returned by Elastic Search for display in a search
  * results page.
  *
- * @since 0.3.0
+ * @since 0.2.2
  *
  * @param string $visible_content
  *
@@ -57,7 +57,7 @@ function filter_elastic_content( $visible_content ) {
 /**
  * Processes a search request by passing to the WSU ES server.
  *
- * @since 0.3.0
+ * @since 0.2.2
  *
  * @param string $var
  *
@@ -103,7 +103,7 @@ function get_elastic_response( $var ) {
 /**
  * Add the WSU event post type to those supported by the WSUWP search plugin.
  *
- * @since 0.3.0
+ * @since 0.2.2
  *
  * @param array $post_types
  *
