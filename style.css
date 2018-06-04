@@ -463,9 +463,9 @@ figcaption {
 	font-size: .85em;
 }
 
-.filter .column li button,
-.filter .column li button:hover
-.filter .column li button:focus {
+.filter .column li > button,
+.filter .column li > button:hover
+.filter .column li > button:focus {
 	border: none;
 	font-size: inherit;
 	letter-spacing: normal;
@@ -473,7 +473,7 @@ figcaption {
 	text-transform: unset;
 }
 
-.filter li button:after {
+.filter li > button:after {
 	background: url(images/icons/arrow-down-gray-25.svg) center .1em no-repeat;
 	content: "";
 	display: inline-block;
@@ -483,11 +483,11 @@ figcaption {
 	width: 1.2em;
 }
 
-.filter li button:hover {
+.filter li > button:hover {
 	color: #db3246;
 }
 
-.filter li button:hover:after {
+.filter li > button:hover:after {
 	background-image: url(images/icons/arrow-down-crimson.svg);
 }
 
@@ -905,7 +905,7 @@ main > footer {
 	position: relative;
 }
 
-.filter li select {
+.filter li form {
 	display: none;
 }
 
@@ -919,7 +919,7 @@ main > footer {
 }
 
 .filter li:hover ul,
-.filter button[aria-expanded="true"] + ul {
+.filter li > button[aria-expanded="true"] + ul {
 	display: block;
 }
 
@@ -1092,28 +1092,64 @@ main > footer {
 	}
 
 	.filter .column > ul > li {
-		background: url(images/icons/arrow-down-gray-25.svg) center right 16px / 20px no-repeat;
 		display: block;
 		border-top: solid 1px #e5e5e5;
 		padding: 8px 16px;
 	}
 
-	.filter li button,
+	.filter li > button,
 	.filter li:hover ul {
 		display: none;
 	}
 
-	.filter li select {
+	.filter li form {
+		-webkit-box-align: end;
+		    -ms-flex-align: end;
+		        align-items: flex-end;
+		display: -webkit-box;
+		display: -ms-flexbox;
+		display: flex;
+	}
+
+	.filter li form label {
+		-webkit-box-flex: 1;
+		    -ms-flex: 1 0 auto;
+		        flex: 1 0 auto;
+		width: calc(100% - 32px);
+	}
+
+	.filter li form label span {
+		color: #717171;
+		font-style: italic;
+	}
+
+	.filter .column li form select {
 		-webkit-appearance: none;
 		   -moz-appearance: none;
 		        appearance: none;
-		background: transparent;
-		border: 0;
+		background: transparent url(images/icons/arrow-down-gray-25.svg) center right 12px / 20px no-repeat;
+		border: 1px solid #d0d0d0;
+		border-radius: 0;
 		color: inherit;
 		display: block;
 		font-family: inherit;
 		font-size: inherit;
+		height: 32px;
+		padding: 0 12px;
 		width: 100%;
+	}
+
+	.filter li form button {
+		background: url(images/icons/arrow-right-crimson.svg) center / 60% no-repeat;
+		border: 1px solid #d0d0d0;
+		border-left: none;
+		border-radius: 0;
+		height: 32px;
+		overflow: hidden;
+		padding: 0;
+		text-indent: 100%;
+		white-space: nowrap;
+		width: 32px;
 	}
 }
 

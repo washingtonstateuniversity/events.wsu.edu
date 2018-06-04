@@ -464,9 +464,9 @@ figcaption {
 	font-size: .85em;
 }
 
-.filter .column li button,
-.filter .column li button:hover
-.filter .column li button:focus {
+.filter .column li > button,
+.filter .column li > button:hover
+.filter .column li > button:focus {
 	border: none;
 	font-size: inherit;
 	letter-spacing: normal;
@@ -474,7 +474,7 @@ figcaption {
 	text-transform: unset;
 }
 
-.filter li button:after {
+.filter li > button:after {
 	background: url(images/icons/arrow-down-gray-25.svg) center .1em no-repeat;
 	content: "";
 	display: inline-block;
@@ -484,11 +484,11 @@ figcaption {
 	width: 1.2em;
 }
 
-.filter li button:hover {
+.filter li > button:hover {
 	color: var(--color-primary-on-black);
 }
 
-.filter li button:hover:after {
+.filter li > button:hover:after {
 	background-image: url(images/icons/arrow-down-crimson.svg);
 }
 

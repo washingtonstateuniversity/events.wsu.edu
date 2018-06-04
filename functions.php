@@ -158,13 +158,17 @@ function display_event_filter( $button_text, $taxonomy ) {
 		<?php } ?>
 	</ul>
 
-	<select>
-		<option value=""><?php echo esc_html( $button_text ); ?></option>
-		<?php foreach ( $terms as $term ) { ?>
-		<?php $term_link = get_term_link( $term->term_id ); ?>
-		<option value="<?php echo esc_url( $term_link ); ?>"><?php echo esc_html( $term->name ); ?></option>
-		<?php } ?>
-	</select>
+	<form title="Select <?php echo esc_attr( $button_text ); ?>">
+		<label><span><?php echo esc_html( $button_text ); ?></span>
+		<select>
+			<?php foreach ( $terms as $term ) { ?>
+			<?php $term_link = get_term_link( $term->term_id ); ?>
+			<option value="<?php echo esc_url( $term_link ); ?>"><?php echo esc_html( $term->name ); ?></option>
+			<?php } ?>
+		</select>
+		</label>
+		<button>Browse events by <?php echo esc_attr( strtolower( $button_text ) ); ?></button>
+	</form>
 	<?php
 }
 
