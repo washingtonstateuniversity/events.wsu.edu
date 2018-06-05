@@ -24,7 +24,7 @@ get_header();
 			} else {
 				$count = count( $search_results );
 				$plurality = ( 1 === $count ) ? '' : 's';
-				echo '<p>' . esc_html( $count . 'result' . $plurality . ' found' ) . '</p>';
+				echo '<p>' . esc_html( $count . ' result' . $plurality . ' found' ) . '</p>';
 			}
 		} else {
 			echo '<p>Use the form below to search</p>';
@@ -40,16 +40,14 @@ get_header();
 
 			<?php foreach ( $search_results as $search_result ) { ?>
 			<article class="card card--event">
+				<div class="card-date"><?php echo esc_html( $search_result->_source->event_start_date ); ?></div>
 				<header class="card-title">
 					<a href="<?php echo esc_url( $search_result->_source->url ); ?>"><?php echo esc_html( $search_result->_source->title ); ?></a>
 				</header>
-				<span class="visible-url"><?php echo esc_url( $search_result->_source->url ); ?></span>
+				<div class="card-taxonomy card-type"><?php echo esc_html( $search_result->_source->event_type ); ?></div>
+				<div class="card-taxonomy card-location"><?php echo esc_html( $search_result->_source->event_location ); ?></div>
 				<div class="card-excerpt visible-content">
-					<?php
-					$visible_content = WSU\Events\Search\filter_elastic_content( $search_result->_source->content );
-
-					echo wp_kses_post( $visible_content );
-					?>
+					<?php echo wp_kses_post( $search_result->_source->event_excerpt ); ?>
 				</div>
 			</article>
 			<?php } ?>
