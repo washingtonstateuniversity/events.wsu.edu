@@ -77,12 +77,6 @@ function filter_query( $wp_query ) {
 	date_default_timezone_set( 'America/Los_Angeles' );
 
 	$wp_query->set( 'meta_query', array(
-		'wsuwp_event_start_date' => array(
-			'key' => 'wp_event_calendar_date_time',
-			'value' => date( 'Y-m-d 00:00:00' ),
-			'compare' => '>=',
-			'type' => 'DATETIME',
-		),
 		'wsuwp_event_end_date' => array(
 			'key' => 'wp_event_calendar_end_date_time',
 			'value' => date( 'Y-m-d H:i:s' ),
@@ -91,7 +85,9 @@ function filter_query( $wp_query ) {
 		),
 	) );
 
-	$wp_query->set( 'orderby', 'wsuwp_event_start_date' );
+	$wp_query->set( 'meta_key', 'wp_event_calendar_date_time' );
+	$wp_query->set( 'meta_type', 'DATETIME' );
+	$wp_query->set( 'orderby', 'meta_value' );
 	$wp_query->set( 'order', 'ASC' );
 }
 
