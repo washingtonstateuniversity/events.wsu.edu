@@ -39,11 +39,20 @@ if ( is_post_type_archive( 'event' ) || is_date() ) {
 
 		<div class="column one deck deck-river">
 
-			<?php while ( have_posts() ) : the_post(); ?>
-
-				<?php get_template_part( 'components/event/content' ) ?>
-
-			<?php endwhile; ?>
+			<?php
+			if ( have_posts() ) :
+				while ( have_posts() ) : the_post();
+					get_template_part( 'components/event/content' );
+				endwhile;
+			else :
+				?>
+				<article class="card card--event no-events">
+					<p>No events listed today.</p>
+					<p>Know of any events happening on this day? <a href="<?php echo esc_url( admin_url( 'post-new.php?post_type=event' ) ); ?>">Submit an event.</a></p>
+				</article>
+				<?php
+			endif;
+			?>
 
 		</div>
 
