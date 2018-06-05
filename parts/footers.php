@@ -17,11 +17,11 @@
 	</div>
 
 	<div class="column two">
-		<a href="#" class="button gray">Submit an event</a>
+		<a href="<?php echo esc_url( admin_url( 'post-new.php?post_type=event' ) ); ?>" class="button gray">Submit an event</a>
 	</div>
 
 	<div class="column three">
-		<a href="#" class="button gray">Contact us</a>
+		<a href="<?php echo esc_url( home_url( '/contact/' ) ); ?>" class="button gray">Contact us</a>
 	</div>
 
 	<div class="column four">
