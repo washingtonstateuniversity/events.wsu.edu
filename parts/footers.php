@@ -1,11 +1,7 @@
 <?php if ( ! is_front_page() ) { ?>
 <section class="row single today-footer">
 
-	<div class="column one today">
-
-		<?php get_template_part( 'parts/today' ); ?>
-
-	</div>
+	<?php get_template_part( 'parts/today' ); ?>
 
 </section>
 <?php } ?>
