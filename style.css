@@ -1157,18 +1157,17 @@ main > footer {
 	}
 }
 
-.today-footer {
-	background: #000;
-	border-top: solid 15px #f2f2f2;
-	padding-top: 25px;
-}
-
 .row .today {
 	background: #000;
 	display: -webkit-box;
 	display: -ms-flexbox;
 	display: flex;
 	padding-bottom: 25px;
+}
+
+.row.today-footer .today {
+	border-top: solid 15px #f2f2f2;
+	padding-top: 25px;
 }
 
 .home .today:before {
