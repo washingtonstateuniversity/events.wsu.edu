@@ -11,11 +11,7 @@
 			happening<span>.</span>
 		</header>
 
-		<div class="column one today">
-
-			<?php get_template_part( 'parts/today' ); ?>
-
-		</div>
+		<?php get_template_part( 'parts/today' ); ?>
 
 	</section>
 
