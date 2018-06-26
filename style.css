@@ -1186,6 +1186,10 @@ main > footer {
 	padding: 12px 20px 0 0;
 }
 
+.today-footer .tagline {
+	background: #000;
+}
+
 .deck-today {
 	color: #fff;
 	display: -webkit-box;
@@ -1288,6 +1292,10 @@ main > footer {
 		display: block;
 		background: none;
 		padding: 0;
+	}
+
+	.row.today-footer .today {
+		padding-top: 0;
 	}
 
 	.home .today:before {
