@@ -20,55 +20,8 @@ function filter_front_page_featured_events_query( $wp_query ) {
 
 	date_default_timezone_set( 'America/Los_Angeles' );
 
-	// Set `orderby` and `meta_query` arguments for events curated through Customizer.
-	if ( ! empty( $wp_query->query['post__in'] ) ) {
-		$wp_query->set( 'orderby', 'wsuwp_event_start_date' );
-		$wp_query->set( 'order', 'ASC' );
-		$wp_query->set( 'meta_query', array(
-			'wsuwp_event_start_date' => array(
-				'key' => 'wp_event_calendar_date_time',
-				'compare' => 'EXISTS',
-				'type' => 'DATETIME',
-			),
-			'wsuwp_event_end_date' => array(
-				'key' => 'wp_event_calendar_end_date_time',
-				'value' => date( 'Y-m-d H:i:s' ),
-				'compare' => '>',
-				'type' => 'DATETIME',
-			),
-		) );
-
-		return;
-	}
-
-	// Set `meta_query` and `orderby` arguments for featured status events fallback.
-	if ( true === $wp_query->query['wsuwp_events_featured_status_fallback'] ) {
-		$wp_query->set( 'meta_query', array(
-			'relation' => 'AND',
-			'wsuwp_event_start_date' => array(
-				'key' => 'wp_event_calendar_date_time',
-				'compare' => 'EXISTS',
-				'type' => 'DATETIME',
-			),
-			'wsuwp_event_end_date' => array(
-				'key' => 'wp_event_calendar_end_date_time',
-				'value' => date( 'Y-m-d H:i:s' ),
-				'compare' => '>',
-				'type' => 'DATETIME',
-			),
-			'wsuwp_event_featured' => array(
-				'key' => '_wsuwp_event_featured',
-				'value' => 'yes',
-			),
-		) );
-
-		$wp_query->set( 'orderby', 'wsuwp_event_start_date' );
-		$wp_query->set( 'order', 'ASC' );
-
-		return;
-	}
-
-	// Set `meta_query` and `orderby` arguments for upcoming events fallback.
+	$wp_query->set( 'orderby', 'wsuwp_event_start_date' );
+	$wp_query->set( 'order', 'ASC' );
 	$wp_query->set( 'meta_query', array(
 		'relation' => 'AND',
 		'wsuwp_event_start_date' => array(
@@ -83,13 +36,10 @@ function filter_front_page_featured_events_query( $wp_query ) {
 			'type' => 'DATETIME',
 		),
 	) );
-
-	$wp_query->set( 'orderby', 'wsuwp_event_start_date' );
-	$wp_query->set( 'order', 'ASC' );
 }
 
 /**
- * Retrieve the current featured events displayed on the front page.
+ * Retrieve the current featured events.
  *
  * @since 0.1.0
  *
@@ -103,13 +53,13 @@ function get_featured_events( $output = 'ids' ) {
 
 	$featured_event_ids = get_option( 'featured_events', false );
 
-	if ( false === $featured_event_ids || empty( $featured_event_ids ) || is_object( $featured_event_ids ) ) {
-		$args['posts_per_page'] = 8;
-		$args['wsuwp_events_featured_status_fallback'] = true;
-	} else {
+	if ( false !== $featured_event_ids && ! empty( $featured_event_ids ) && ! is_object( $featured_event_ids ) ) {
 		$featured_event_ids = explode( ',', $featured_event_ids );
 		$args['posts_per_page'] = count( $featured_event_ids );
 		$args['post__in'] = $featured_event_ids;
+	} else {
+		// Force a return of zero results if no featured events are set.
+		$args['post__in'] = array( 0 );
 	}
 
 	if ( 'ids' === $output ) {
@@ -118,27 +68,22 @@ function get_featured_events( $output = 'ids' ) {
 
 	$featured_query = new \WP_Query( $args );
 
+	// Stop here if this function is being called from the Customizer.
 	if ( 'ids' === $output ) {
 		wp_reset_postdata();
+
 		return $featured_query;
-
 	}
 
-	// If the events curated through Customizer have all passed,
-	// query for events with featured status.
-	if ( false !== $featured_event_ids && ! empty( $featured_event_ids ) && 0 === $featured_query->found_posts ) {
-		$args['post__in'] = false;
-		$args['posts_per_page'] = 8;
-		$args['wsuwp_events_featured_status_fallback'] = true;
-		$featured_query = new \WP_Query( $args );
-	}
-
-	// If all events with featured status have also passed,
-	// query for upcoming events.
+	// Fall back to the next eight upcoming events for display on the home page.
 	if ( 0 === $featured_query->found_posts ) {
-		$args['wsuwp_events_featured_status_fallback'] = false;
-		$featured_query = new \WP_Query( $args );
+		$args['post__in'] = array();
+		$args['posts_per_page'] = 8;
 	}
+
+	$featured_query = new \WP_Query( $args );
+
+	wp_reset_postdata();
 
 	return $featured_query;
 }
