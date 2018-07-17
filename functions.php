@@ -267,14 +267,11 @@ function events_trim_excerpt( $text ) {
 }
 
 /**
- * Adds Excerpt support to the Event post type for users who can manage options.
+ * Adds Excerpt support to the Event post type.
  *
  * @since 0.2.3
+ * @since 0.3.0 Adds Excerpt support for all users.
  */
 function events_add_excerpt_support() {
-	if ( ! current_user_can( 'manage_options' ) ) {
-		return;
-	}
-
 	add_post_type_support( 'event', 'excerpt' );
 }
