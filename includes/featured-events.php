@@ -25,19 +25,25 @@ function manage_columns( $post_columns ) {
  * Output an event's featured status in a custom list table column.
  *
  * @since 0.1.0
+ * @since 0.3.0 Use the `featured_events` option to determine featured status.
  *
  * @param string $column_name
  * @param int    $post_id
  */
 function manage_custom_column( $column_name, $post_id ) {
 	if ( 'item_featured' === $column_name ) {
-		$featured = get_post_meta( $post_id, '_wsuwp_event_featured', true );
+		$featured_event_ids = get_option( 'featured_events', false );
+		$featured = 'No';
 
-		if ( 'yes' !== $featured ) {
-			$featured = 'no';
+		if ( $featured_event_ids && ! empty( $featured_event_ids ) && ! is_object( $featured_event_ids ) ) {
+			$featured_event_ids = array_map( 'intval', explode( ',', $featured_event_ids ) );
+
+			if ( in_array( $post_id, $featured_event_ids, true ) ) {
+				$featured = 'Yes';
+			}
 		}
 
-		echo esc_html( ucwords( $featured ) );
+		echo esc_html( $featured );
 	}
 }
 
