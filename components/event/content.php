@@ -211,7 +211,15 @@ $ics_link = add_query_arg( 'wsuwp_events_ics', '1', get_the_permalink() );
 		<?php } ?>
 
 		<div class="card-excerpt">
-			<?php the_excerpt(); ?>
+			<?php
+			$featured_excerpt = get_post_meta( $post->ID, '_wsuwp_event_featured_excerpt', true );
+
+			if ( is_front_page() && $featured_excerpt ) {
+				echo wp_kses_post( apply_filters( 'the_content', $featured_excerpt ) );
+			} else {
+				the_excerpt();
+			}
+			?>
 		</div>
 
 	<?php } ?>
