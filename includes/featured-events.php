@@ -50,6 +50,8 @@ function manage_custom_column( $column_name, $post_id ) {
 /**
  * Filter the events REST API query before it fires.
  *
+ * Forces a return of zero results if no featured events are set.
+ *
  * @since 0.1.1
  *
  * @param array $args
@@ -65,10 +67,7 @@ function filter_rest_query( $args ) {
 			$args['posts_per_page'] = count( $featured_event_ids );
 			$args['post__in'] = $featured_event_ids;
 		} else {
-			$args['meta_query']['wsuwp_event_featured'] = array(
-				'key' => '_wsuwp_event_featured',
-				'value' => 'yes',
-			);
+			$args['post__in'] = array( 0 );
 		}
 	}
 
