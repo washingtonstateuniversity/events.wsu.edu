@@ -699,7 +699,7 @@ main > footer {
 	box-sizing: border-box;
 	max-width: 800px;
 	padding: 0 48px;
-	width: calc(100% - 120px);
+	width: 100%;
 }
 
 .single-event .card {
@@ -802,6 +802,10 @@ main > footer {
 
 @media screen and (min-width: 791px) {
 
+	.single-event .card-header {
+		width: calc(100% - 120px);
+	}
+
 	.deck-features .card {
 		width: 25%;
 	}
@@ -809,10 +813,6 @@ main > footer {
 	.deck-features .card:nth-last-child(-n+4) {
 		border-bottom: none;
 		margin-bottom: 0;
-	}
-
-	.single-event .card-header {
-		width: 100%;
 	}
 }
 
@@ -1186,6 +1186,10 @@ main > footer {
 	padding: 12px 20px 0 0;
 }
 
+.today-footer .tagline {
+	background: #000;
+}
+
 .deck-today {
 	color: #fff;
 	display: -webkit-box;
@@ -1288,6 +1292,10 @@ main > footer {
 		display: block;
 		background: none;
 		padding: 0;
+	}
+
+	.row.today-footer .today {
+		padding-top: 0;
 	}
 
 	.home .today:before {
