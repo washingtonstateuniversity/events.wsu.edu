@@ -65,14 +65,8 @@
 	background-image: url(images/icons/arrow-right-crimson.svg);
 }
 
-.deck-today button.previous:disabled {
-	background-image: url(images/icons/arrow-left-gray.svg);
-	cursor: default;
-}
-
-.deck-today button.next:disabled {
-	background-image: url(images/icons/arrow-right-gray.svg);
-	cursor: default;
+.deck-today button:disabled {
+	display: none;
 }
 
 .deck-today .card--event {
