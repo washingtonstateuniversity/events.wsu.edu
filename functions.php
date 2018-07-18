@@ -115,6 +115,31 @@ function get_event_data( $post_id ) {
 		'related' => get_post_meta( $post_id, '_wsuwp_event_related_site', true ),
 	);
 
+	// Build a more verbose start-end range for display on individual events.
+	if ( is_single() ) {
+		$same_year = ( $start_parts[3] === $end_parts[3] );
+		$same_month = ( $end_parts[1] === $start_parts[1] );
+		$same_day = ( $end_parts[2] === $start_parts[2] );
+
+		if ( $same_year && $same_month && $same_day ) {
+			$date = date( 'l, F j, Y', $start_date );
+		} else {
+			$date = $start_parts[1] . ' ';
+
+			if ( $same_year ) {
+				$date .= str_replace( ',', '', $start_parts[2] );
+				$date .= ( $same_month ) ? '-' : ' - ' . $end_parts[1] . ' ';
+			} else {
+				$date .= $start_parts[2] . ' ' . $start_parts[3] . ' - ';
+				$date .= $end_parts[1] . ' ';
+			}
+
+			$date .= $end_parts[2] . ' ' . $end_parts[3];
+		}
+
+		$data['full_date'] = $date;
+	}
+
 	return $data;
 }
 
