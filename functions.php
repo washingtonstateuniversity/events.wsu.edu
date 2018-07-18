@@ -84,12 +84,21 @@ function events_social_media_icons() {
  */
 function get_event_data( $post_id ) {
 	$start_date = strtotime( get_post_meta( $post_id, 'wp_event_calendar_date_time', true ) );
+	$end_date = strtotime( get_post_meta( $post_id, 'wp_event_calendar_end_date_time', true ) );
+	$start_parts = explode( ' ', date( 'l, F j, Y g:i a', $start_date ) );
+	$end_parts = explode( ' ', date( 'l, F j, Y g:i a', $end_date ) );
+
+	// Build a formatted string for the event time range.
+	$time = $start_parts[4];
+	$time .= ( $end_parts[5] !== $start_parts[5] ) ? ' ' . $start_parts[5] . ' to ' : '-';
+	$time .= $end_parts[4] . ' ' . $end_parts[5];
+	$time = str_replace( array( ':00', 'am', 'pm' ), array( '', 'a.m.', 'p.m.' ), $time );
 
 	$data = array(
 		'start' => array(
 			'date_time' => date( 'Y-m-d H:i', $start_date ),
 			'date' => date( 'l, F j, Y', $start_date ),
-			'time' => date( 'g:i a', $start_date ),
+			'time' => $time,
 			'river_date' => date( 'l, M. j', $start_date ),
 		),
 		'location_notes' => get_post_meta( $post_id, '_wsuwp_event_location_notes', true ),
