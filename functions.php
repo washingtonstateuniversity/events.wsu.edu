@@ -99,7 +99,7 @@ function get_event_data( $post_id ) {
 			'date_time' => date( 'Y-m-d H:i', $start_date ),
 			'date' => date( 'l, F j, Y', $start_date ),
 			'time' => $time,
-			'river_date' => date( 'l, M. j', $start_date ),
+			'river_date' => date( 'l, F j', $start_date ),
 		),
 		'location_notes' => get_post_meta( $post_id, '_wsuwp_event_location_notes', true ),
 		'contact' => array(
