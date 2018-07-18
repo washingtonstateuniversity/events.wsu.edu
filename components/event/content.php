@@ -31,7 +31,7 @@ $ics_link = add_query_arg( 'wsuwp_events_ics', '1', get_the_permalink() );
 				<span class="card-date"><?php echo esc_html( $event_data['full_date'] ); ?> -
 					<a href="<?php echo esc_url( $ics_link ); ?>">add to calendar</a>
 				</span>
-				<span class="card-time"><?php echo esc_html( $event_data['start']['time'] ); ?></span>
+				<span class="card-time"><?php echo esc_html( $event_data['full_time'] ); ?></span>
 			</time>
 
 			<?php $event_venue = WSU\Events\Venues\get_venue(); ?>

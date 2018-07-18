@@ -85,20 +85,12 @@ function events_social_media_icons() {
 function get_event_data( $post_id ) {
 	$start_date = strtotime( get_post_meta( $post_id, 'wp_event_calendar_date_time', true ) );
 	$end_date = strtotime( get_post_meta( $post_id, 'wp_event_calendar_end_date_time', true ) );
-	$start_parts = explode( ' ', date( 'l, F j, Y g:i a', $start_date ) );
-	$end_parts = explode( ' ', date( 'l, F j, Y g:i a', $end_date ) );
-
-	// Build a formatted string for the event time range.
-	$time = $start_parts[4];
-	$time .= ( $end_parts[5] !== $start_parts[5] ) ? ' ' . $start_parts[5] . ' to ' : '-';
-	$time .= $end_parts[4] . ' ' . $end_parts[5];
-	$time = str_replace( array( ':00', 'am', 'pm' ), array( '', 'a.m.', 'p.m.' ), $time );
 
 	$data = array(
 		'start' => array(
 			'date_time' => date( 'Y-m-d H:i', $start_date ),
 			'date' => date( 'l, F j, Y', $start_date ),
-			'time' => $time,
+			'time' => date( 'g:i a', $start_date ),
 			'river_date' => date( 'l, F j', $start_date ),
 		),
 		'location_notes' => get_post_meta( $post_id, '_wsuwp_event_location_notes', true ),
@@ -115,8 +107,13 @@ function get_event_data( $post_id ) {
 		'related' => get_post_meta( $post_id, '_wsuwp_event_related_site', true ),
 	);
 
-	// Build a more verbose start-end range for display on individual events.
+	// Build more verbose date and time output for display on individual events.
 	if ( is_single() ) {
+		$start_parts = explode( ' ', date( 'l, F j, Y g:i a', $start_date ) );
+		$end_parts = explode( ' ', date( 'l, F j, Y g:i a', $end_date ) );
+
+		// Build the date output.
+		// Pobably overbuilt, as most events don't span multiple days.
 		$same_year = ( $start_parts[3] === $end_parts[3] );
 		$same_month = ( $end_parts[1] === $start_parts[1] );
 		$same_day = ( $end_parts[2] === $start_parts[2] );
@@ -138,6 +135,14 @@ function get_event_data( $post_id ) {
 		}
 
 		$data['full_date'] = $date;
+
+		// Build the time output.
+		$time = $start_parts[4];
+		$time .= ( $end_parts[5] !== $start_parts[5] ) ? ' ' . $start_parts[5] . ' to ' : '-';
+		$time .= $end_parts[4] . ' ' . $end_parts[5];
+		$time = str_replace( array( ':00', 'am', 'pm' ), array( '', 'a.m.', 'p.m.' ), $time );
+
+		$data['full_time'] = $time;
 	}
 
 	return $data;
