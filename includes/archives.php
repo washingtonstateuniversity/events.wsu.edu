@@ -298,6 +298,8 @@ function get_pagination_urls() {
 					}
 
 					$path = date( 'Y/m/d/', strtotime( $start ) );
+
+					break;
 				}
 
 				$next_url = $base_url . $path;
