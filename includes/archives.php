@@ -205,6 +205,7 @@ function filter_page_title( $title, $site_part, $global_part ) {
  * Generate the URLs used to view previous and next date archives.
  *
  * @since 0.2.0
+ * @since 0.3.0 Refactored to skip over empty views.
  *
  * @return array
  */
