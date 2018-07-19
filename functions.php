@@ -84,7 +84,6 @@ function events_social_media_icons() {
  */
 function get_event_data( $post_id ) {
 	$start_date = strtotime( get_post_meta( $post_id, 'wp_event_calendar_date_time', true ) );
-	$end_date = strtotime( get_post_meta( $post_id, 'wp_event_calendar_end_date_time', true ) );
 
 	$data = array(
 		'start' => array(
@@ -109,6 +108,7 @@ function get_event_data( $post_id ) {
 
 	// Build more verbose date and time output for display on individual events.
 	if ( is_single() ) {
+		$end_date = strtotime( get_post_meta( $post_id, 'wp_event_calendar_end_date_time', true ) );
 		$start_parts = explode( ' ', date( 'l, F j, Y g:i a', $start_date ) );
 		$end_parts = explode( ' ', date( 'l, F j, Y g:i a', $end_date ) );
 
