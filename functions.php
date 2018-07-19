@@ -89,8 +89,8 @@ function get_event_data( $post_id ) {
 		'start' => array(
 			'date_time' => date( 'Y-m-d H:i', $start_date ),
 			'date' => date( 'l, F j, Y', $start_date ),
-			'time' => date( 'g:i a', $start_date ),
-			'river_date' => date( 'l, M. j', $start_date ),
+			'time' => str_replace( ':00', '', date( 'g:i a', $start_date ) ),
+			'river_date' => date( 'l, F j', $start_date ),
 		),
 		'location_notes' => get_post_meta( $post_id, '_wsuwp_event_location_notes', true ),
 		'contact' => array(
@@ -105,6 +105,45 @@ function get_event_data( $post_id ) {
 		'cost' => get_post_meta( $post_id, '_wsuwp_event_cost', true ),
 		'related' => get_post_meta( $post_id, '_wsuwp_event_related_site', true ),
 	);
+
+	// Build more verbose date and time output for display on individual events.
+	if ( is_single() ) {
+		$end_date = strtotime( get_post_meta( $post_id, 'wp_event_calendar_end_date_time', true ) );
+		$start_parts = explode( ' ', date( 'l, F j, Y g:i a', $start_date ) );
+		$end_parts = explode( ' ', date( 'l, F j, Y g:i a', $end_date ) );
+
+		// Build the date output.
+		// Pobably overbuilt, as most events don't span multiple days.
+		$same_year = ( $start_parts[3] === $end_parts[3] );
+		$same_month = ( $end_parts[1] === $start_parts[1] );
+		$same_day = ( $end_parts[2] === $start_parts[2] );
+
+		if ( $same_year && $same_month && $same_day ) {
+			$date = date( 'l, F j, Y', $start_date );
+		} else {
+			$date = $start_parts[1] . ' ';
+
+			if ( $same_year ) {
+				$date .= str_replace( ',', '', $start_parts[2] );
+				$date .= ( $same_month ) ? '-' : ' - ' . $end_parts[1] . ' ';
+			} else {
+				$date .= $start_parts[2] . ' ' . $start_parts[3] . ' - ';
+				$date .= $end_parts[1] . ' ';
+			}
+
+			$date .= $end_parts[2] . ' ' . $end_parts[3];
+		}
+
+		$data['full_date'] = $date;
+
+		// Build the time output.
+		$time = $start_parts[4];
+		$time .= ( $end_parts[5] !== $start_parts[5] ) ? ' ' . $start_parts[5] . ' to ' : '-';
+		$time .= $end_parts[4] . ' ' . $end_parts[5];
+		$time = str_replace( ':00', '', $time );
+
+		$data['full_time'] = $time;
+	}
 
 	return $data;
 }
