@@ -263,8 +263,17 @@ function get_pagination_urls() {
 		$previous_url = $base_url . $path;
 	}
 
-	// Build out the next link URL and label.
-	if ( is_day() || is_post_type_archive( 'event' ) ) {
+	/**
+	 * Build out the next link URL and label.
+	 *
+	 * Paging forward is available for, in order of appearance in the condition:
+	 *   1) the `event` post type archive view;
+	 *   2) day archive views;
+	 *   3) taxonomy views that are also day archive views.
+	 *
+	 * ("Normal" taxonomy archive views display all upcoming events already).
+	 */
+	if ( is_post_type_archive( 'event' ) || is_day() || ( ! is_tax() || ( is_tax() && is_day() ) ) ) {
 
 		// Adjust query arguments to find the next adjacent event.
 		$next_day = date( 'Y-m-d 00:00:00', strtotime( $current_view_date . ' + 1 days' ) );
@@ -294,6 +303,9 @@ function get_pagination_urls() {
 				$next_url = $base_url . $path;
 				$next_label = ( $next_day > date( 'Y-m-d 00:00:00' ) ) ? 'Upcoming events' : 'Next events';
 			}
+		} elseif ( is_tax() && is_day() ) {
+			$next_url = $base_url;
+			$next_label = 'Upcoming events';
 		}
 	}
 
