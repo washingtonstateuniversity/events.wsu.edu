@@ -209,6 +209,8 @@ function filter_page_title( $title, $site_part, $global_part ) {
  * @return array
  */
 function get_pagination_urls() {
+	date_default_timezone_set( 'America/Los_Angeles' );
+
 	$current_view_date = date( 'Y-m-d 00:00:00' );
 	$base_url = get_post_type_archive_link( 'event' );
 	$previous_url = false;
@@ -263,6 +265,7 @@ function get_pagination_urls() {
 
 	// Build out the next link URL and label.
 	if ( is_day() || is_post_type_archive( 'event' ) ) {
+
 		// Adjust query arguments to find the next adjacent event.
 		$next_day = date( 'Y-m-d 00:00:00', strtotime( $current_view_date . ' + 1 days' ) );
 		$adjacent_event_query_args['order'] = 'ASC';
@@ -278,8 +281,16 @@ function get_pagination_urls() {
 				$next_url = $base_url;
 				$next_label = ( is_tax() ) ? 'Upcoming events' : 'Today’s events';
 			} else {
-				$start_date = get_post_meta( $next_event[0], 'wp_event_calendar_date_time', true );
-				$path = date( 'Y/m/d/', strtotime( $start_date ) );
+				$start_date = get_post_meta( $next_event[0], 'wp_event_calendar_date_time' );
+
+				foreach ( $start_date as $start ) {
+					if ( $start === $current_view_date ) {
+						continue;
+					}
+
+					$path = date( 'Y/m/d/', strtotime( $start ) );
+				}
+
 				$next_url = $base_url . $path;
 				$next_label = ( $next_day > date( 'Y-m-d 00:00:00' ) ) ? 'Upcoming events' : 'Next events';
 			}
