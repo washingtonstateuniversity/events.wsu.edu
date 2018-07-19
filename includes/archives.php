@@ -209,103 +209,81 @@ function filter_page_title( $title, $site_part, $global_part ) {
  * @return array
  */
 function get_pagination_urls() {
+	$current_view_date = date( 'Y-m-d 00:00:00' );
+	$base_url = get_post_type_archive_link( 'event' );
+	$previous_url = false;
+	$next_url = false;
+	$next_label = false;
+
 	if ( is_date() ) {
-		$date = get_query_var( 'wsuwp_event_date' ) . ' 00:00:00';
-	} else {
-		$date = date( 'Y-m-d 00:00:00' );
+		$view_date = get_query_var( 'wsuwp_event_date' );
+		$current_view_date = date( 'Y-m-d 00:00:00', strtotime( $view_date ) );
 	}
 
-	$days = 1;
-
-	while ( $days <= 9 ) {
-		$previous_day = date( 'd', strtotime( $date ) - ( DAY_IN_SECONDS * $days ) );
-		$previous_month = date( 'm', strtotime( $date ) - ( DAY_IN_SECONDS * $days ) );
-		$previous_year = date( 'Y', strtotime( $date ) - ( DAY_IN_SECONDS * $days ) );
-
-		$previous_date = $previous_year . '-' . $previous_month . '-' . $previous_day . ' 00:00:00';
-
-		$previous_check = get_posts( array(
-			'post_type' => 'event',
-			'posts_per_page' => 1,
-			'fields' => 'ids',
-			'meta_query' => array(
-				array(
-					'key' => 'wp_event_calendar_date_time',
-					'value' => $previous_date,
-					'compare' => '>=',
-					'type' => 'DATETIME',
-				),
+	// Set up base query arguments.
+	$adjacent_event_query_args = array(
+		'post_type' => 'event',
+		'posts_per_page' => 1,
+		'fields' => 'ids',
+		'orderby' => 'wsuwp_event_start_date',
+		'order' => 'DESC',
+		'meta_query' => array(
+			'wsuwp_event_start_date' => array(
+				'key' => 'wp_event_calendar_date_time',
+				'compare' => '<',
+				'value' => $current_view_date,
+				'type' => 'DATETIME',
 			),
-		) );
+		),
+	);
 
-		if ( 0 < count( $previous_check ) ) {
-			break;
-		}
-
-		$days++;
-	}
-
-	$days = 1;
-
-	while ( $days <= 9 ) {
-		// Taxonomy archives for the current day already show all upcoming events.
-		if ( is_tax() && ! is_day() ) {
-			$next_check = array();
-			break;
-		}
-
-		$next_day = date( 'd', strtotime( $date ) + ( DAY_IN_SECONDS * $days ) );
-		$next_month = date( 'm', strtotime( $date ) + ( DAY_IN_SECONDS * $days ) );
-		$next_year = date( 'Y', strtotime( $date ) + ( DAY_IN_SECONDS * $days ) );
-
-		$next_date = $next_year . '-' . $next_month . '-' . $next_day . ' 00:00:00';
-
-		$next_check = get_posts( array(
-			'post_type' => 'event',
-			'posts_per_page' => 1,
-			'fields' => 'ids',
-			'meta_query' => array(
-				array(
-					'key' => 'wp_event_calendar_date_time',
-					'value' => $next_date,
-					'compare' => '>=',
-					'type' => 'DATETIME',
-				),
-			),
-		) );
-
-		if ( 0 < count( $next_check ) ) {
-			break;
-		}
-
-		$days++;
-	}
-
+	// Override `$base_url` and add query arguments for taxonomy views.
 	if ( is_tax() ) {
 		$term = get_query_var( 'term' );
 		$taxonomy = get_query_var( 'taxonomy' );
 		$base_url = get_term_link( $term, $taxonomy );
-	} else {
-		$base_url = get_post_type_archive_link( 'event' );
+		$adjacent_event_query_args['tax_query'] = array(
+			array(
+				'taxonomy' => $taxonomy,
+				'field' => 'slug',
+				'terms' => $term,
+			),
+		);
 	}
 
-	if ( 0 !== count( $previous_check ) ) {
-		$previous_url = $base_url . $previous_year . '/' . $previous_month . '/' . $previous_day . '/';
-	} else {
-		$previous_url = false;
+	// Query for the previous adjacent event.
+	$previous_event = get_posts( $adjacent_event_query_args );
+
+	// Set up the previous link URL if a previous adjacent event was found.
+	if ( 0 !== count( $previous_event ) ) {
+		$start_date = get_post_meta( $previous_event[0], 'wp_event_calendar_date_time', true );
+		$path = date( 'Y/m/d/', strtotime( $start_date ) );
+		$previous_url = $base_url . $path;
 	}
 
-	if ( 0 !== count( $next_check ) ) {
-		if ( date( 'Y-m-d 00:00:00' ) === $next_date ) {
-			$next_url = $base_url;
-			$next_label = ( is_tax() ) ? 'Upcoming events' : 'Today’s events';
-		} else {
-			$next_url = $base_url . $next_year . '/' . $next_month . '/' . $next_day . '/';
-			$next_label = ( $next_date > date( 'Y-m-d 00:00:00' ) ) ? 'Upcoming events' : 'Next events';
+	// Build out the next link URL and label.
+	if ( is_day() || is_post_type_archive( 'event' ) ) {
+		// Adjust query arguments to find the next adjacent event.
+		$next_day = date( 'Y-m-d 00:00:00', strtotime( $current_view_date . ' + 1 days' ) );
+		$adjacent_event_query_args['order'] = 'ASC';
+		$adjacent_event_query_args['meta_query']['wsuwp_event_start_date']['compare'] = '>=';
+		$adjacent_event_query_args['meta_query']['wsuwp_event_start_date']['value'] = $next_day;
+
+		// Query for the next adjacent event.
+		$next_event = get_posts( $adjacent_event_query_args );
+
+		// Set up the next link URL if an upcoming adjacent event was found.
+		if ( 0 !== count( $next_event ) ) {
+			if ( date( 'Y-m-d 00:00:00' ) === $next_day ) {
+				$next_url = $base_url;
+				$next_label = ( is_tax() ) ? 'Upcoming events' : 'Today’s events';
+			} else {
+				$start_date = get_post_meta( $next_event[0], 'wp_event_calendar_date_time', true );
+				$path = date( 'Y/m/d/', strtotime( $start_date ) );
+				$next_url = $base_url . $path;
+				$next_label = ( $next_day > date( 'Y-m-d 00:00:00' ) ) ? 'Upcoming events' : 'Next events';
+			}
 		}
-	} else {
-		$next_url = false;
-		$next_label = false;
 	}
 
 	return array(
