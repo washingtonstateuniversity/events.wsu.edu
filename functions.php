@@ -90,7 +90,7 @@ function get_event_data( $post_id ) {
 		'start' => array(
 			'date_time' => date( 'Y-m-d H:i', $start_date ),
 			'date' => date( 'l, F j, Y', $start_date ),
-			'time' => date( 'g:i a', $start_date ),
+			'time' => str_replace( ':00', '', date( 'g:i a', $start_date ) ),
 			'river_date' => date( 'l, F j', $start_date ),
 		),
 		'location_notes' => get_post_meta( $post_id, '_wsuwp_event_location_notes', true ),
@@ -140,7 +140,7 @@ function get_event_data( $post_id ) {
 		$time = $start_parts[4];
 		$time .= ( $end_parts[5] !== $start_parts[5] ) ? ' ' . $start_parts[5] . ' to ' : '-';
 		$time .= $end_parts[4] . ' ' . $end_parts[5];
-		$time = str_replace( array( ':00', 'am', 'pm' ), array( '', 'a.m.', 'p.m.' ), $time );
+		$time = str_replace( ':00', '', $time );
 
 		$data['full_time'] = $time;
 	}
