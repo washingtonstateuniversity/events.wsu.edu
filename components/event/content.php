@@ -101,14 +101,6 @@ $ics_link = add_query_arg( 'wsuwp_events_ics', '1', get_the_permalink() );
 			<?php the_content(); ?>
 			<?php } ?>
 
-			<?php if ( ! empty( $event_data['related'] ) ) { ?>
-			<ul class="card-related-links">
-				<li>
-					<a class="related-link" href="<?php echo esc_url( $event_data['related'] ); ?>"><?php echo esc_url( $event_data['related'] ); ?></a>
-				</li>
-			</ul>
-			<?php } ?>
-
 		</div>
 
 		<div class="column two">
