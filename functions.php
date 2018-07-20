@@ -103,7 +103,6 @@ function get_event_data( $post_id ) {
 			'url' => get_post_meta( $post_id, '_wsuwp_event_action_url', true ),
 		),
 		'cost' => get_post_meta( $post_id, '_wsuwp_event_cost', true ),
-		'related' => get_post_meta( $post_id, '_wsuwp_event_related_site', true ),
 	);
 
 	// Build more verbose date and time output for display on individual events.
