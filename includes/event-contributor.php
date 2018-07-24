@@ -97,7 +97,7 @@ function map_capabilities() {
  *
  * @param int $user_id
  */
-function events_new_user( $user_id ) {
+function new_user( $user_id ) {
 	add_user_to_blog( get_current_blog_id(), $user_id, 'wsuwp_event_contributor' );
 }
 
