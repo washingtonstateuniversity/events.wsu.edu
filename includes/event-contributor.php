@@ -68,6 +68,7 @@ function remove_role() {
  * Maps the Event Contributor capabilities to the event post type.
  *
  * @since 0.2.4
+ * @since 0.4.0 Mapped the `edit_events` capability to `edit_published_posts`.
  */
 function map_capabilities() {
 	$user = wp_get_current_user();
@@ -122,7 +123,7 @@ function update_notice( $post ) {
 /**
  * Dequeues the autosaving script when Event Contributors edit published events.
  *
- * @since 0.1.0
+ * @since 0.4.0
  *
  * @param string $hook_suffix The current admin page.
  */
@@ -147,7 +148,7 @@ function admin_enqueue_scripts( $hook_suffix ) {
 /**
  * Changes the status to `pending` when Event Contributors save a published event.
  *
- * @since 0.3.2
+ * @since 0.4.0
  *
  * @param int $post_id The post ID.
  */
