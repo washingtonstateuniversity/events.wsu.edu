@@ -4,15 +4,18 @@ namespace WSU\Events\Event_Contributor;
 
 remove_filter( 'map_meta_cap', 'wp_event_calendar_meta_caps', 10, 4 );
 
-add_filter( 'register_post_type_args', 'WSU\Events\Event_Contributor\filter_event_post_type_args', 10, 2 );
-add_action( 'admin_init', 'WSU\Events\Event_Contributor\add_role' );
-add_action( 'switch_theme', 'WSU\Events\Event_Contributor\remove_role' );
-add_action( 'init', 'WSU\Events\Event_Contributor\map_capabilities', 12 );
+add_filter( 'register_post_type_args', __NAMESPACE__ . '\\filter_event_post_type_args', 10, 2 );
+add_action( 'admin_init', __NAMESPACE__ . '\\add_role' );
+add_action( 'switch_theme', __NAMESPACE__ . '\\remove_role' );
+add_action( 'init', __NAMESPACE__ . '\\map_capabilities', 12 );
+add_action( 'post_submitbox_start', __NAMESPACE__ . '\\update_notice' );
+add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\\admin_enqueue_scripts' );
+add_action( 'save_post_event', __NAMESPACE__ . '\\save_event' );
 
 // If a user authenticates with WSU AD, and they don't exist as a user, add them as a user.
 add_filter( 'wsuwp_sso_create_new_user', '__return_true' );
-add_action( 'wsuwp_sso_user_created', 'WSU\Events\Event_Contributor\new_user', 10, 1 );
-add_action( 'admin_menu', 'WSU\Events\Event_Contributor\user_auto_role' );
+add_action( 'wsuwp_sso_user_created', __NAMESPACE__ . '\\new_user', 10, 1 );
+add_action( 'admin_menu', __NAMESPACE__ . '\\user_auto_role' );
 
 /**
  * Unsets the capability related arguments from the event post type.
@@ -65,6 +68,7 @@ function remove_role() {
  * Maps the Event Contributor capabilities to the event post type.
  *
  * @since 0.2.4
+ * @since 0.4.0 Mapped the `edit_events` capability to `edit_published_posts`.
  */
 function map_capabilities() {
 	$user = wp_get_current_user();
@@ -79,6 +83,7 @@ function map_capabilities() {
 		$event->cap->create_posts = 'create_events';
 		$event->cap->delete_posts = 'delete_events';
 		$event->cap->edit_posts = 'edit_events';
+		$event->cap->edit_published_posts = 'edit_events';
 	}
 
 	$taxonomies = get_taxonomies( array(), 'objects' );
@@ -88,6 +93,80 @@ function map_capabilities() {
 			$taxonomy->cap->assign_terms = 'edit_events';
 		}
 	}
+}
+
+/**
+ * Adds a note for Event Contributors about editing published events.
+ *
+ * @since 0.4.0
+ *
+ * @param WP_Post $post The current post object.
+ */
+function update_notice( $post ) {
+	if ( 'event' !== $post->post_type ) {
+		return;
+	}
+
+	if ( 'publish' !== $post->post_status ) {
+		return;
+	}
+
+	if ( ! in_array( 'wsuwp_event_contributor', wp_get_current_user()->roles, true ) ) {
+		return;
+	}
+
+	?>
+	<p class="description">Updating this event will change its status to "Pending Review". It will go through the approval process again before being republished.</p>
+	<?php
+}
+
+/**
+ * Dequeues the autosaving script when Event Contributors edit published events.
+ *
+ * @since 0.4.0
+ *
+ * @param string $hook_suffix The current admin page.
+ */
+function admin_enqueue_scripts( $hook_suffix ) {
+	if ( 'post.php' !== $hook_suffix ) {
+		return;
+	}
+
+	if ( 'event' !== get_current_screen()->post_type ) {
+		return;
+	}
+
+	if ( ! in_array( 'wsuwp_event_contributor', wp_get_current_user()->roles, true ) ) {
+		return;
+	}
+
+	wp_dequeue_script( 'autosave' );
+}
+
+/**
+ * Changes the status to `pending` when Event Contributors save a published event.
+ *
+ * @since 0.4.0
+ *
+ * @param int $post_id The post ID.
+ */
+function save_event( $post_id ) {
+	if ( 'publish' !== get_post_status( $post_id ) ) {
+		return;
+	}
+
+	if ( ! in_array( 'wsuwp_event_contributor', wp_get_current_user()->roles, true ) ) {
+		return;
+	}
+
+	remove_action( 'save_post_event', __NAMESPACE__ . '\\save_event' );
+
+	wp_update_post( array(
+		'ID' => $post_id,
+		'post_status' => 'pending',
+	) );
+
+	add_action( 'save_post_event', __NAMESPACE__ . '\\save_event' );
 }
 
 /**
