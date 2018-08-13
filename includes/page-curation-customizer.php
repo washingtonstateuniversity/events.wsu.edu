@@ -145,7 +145,7 @@ function sanitize_sections( $input ) {
  * @since 0.1.0
  */
 function enqueue_scripts() {
-	wp_enqueue_script( 'page-curation-customizer', esc_url( get_stylesheet_directory_uri() . '/includes/js/page-curation-customizer.js' ), array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-core', 'jquery-ui-autocomplete' ), spine_get_child_version() );
+	wp_enqueue_script( 'page-curation-customizer', esc_url( get_stylesheet_directory_uri() . '/includes/js/page-curation-customizer.js' ), array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-core', 'jquery-ui-autocomplete' ), spine_get_child_version(), true );
 	wp_localize_script( 'page-curation-customizer', 'wsu_page_curation', array(
 		'featured_events_endpoint' => esc_js( get_rest_url( get_current_blog_id(), '/events/v1/featured' ) ),
 	) );
