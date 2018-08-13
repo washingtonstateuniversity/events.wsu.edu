@@ -49,7 +49,7 @@ function rest_search_featured( $request ) {
 		}
 
 		$event_data = get_event_data( $post->ID );
-		$event_title = trim( esc_html( strip_tags( get_the_title( $post ) ) ) );
+		$event_title = trim( esc_html( wp_strip_all_tags( get_the_title( $post ) ) ) );
 		$event_title .= ' - ' . esc_html( $event_data['start']['date'] );
 
 		$posts[] = array(
