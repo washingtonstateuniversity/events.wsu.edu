@@ -4,18 +4,18 @@ namespace WSU\Events\Event_Contributor;
 
 remove_filter( 'map_meta_cap', 'wp_event_calendar_meta_caps', 10, 4 );
 
-add_filter( 'register_post_type_args', 'WSU\Events\Event_Contributor\filter_event_post_type_args', 10, 2 );
-add_action( 'admin_init', 'WSU\Events\Event_Contributor\add_role' );
-add_action( 'switch_theme', 'WSU\Events\Event_Contributor\remove_role' );
-add_action( 'init', 'WSU\Events\Event_Contributor\map_capabilities', 12 );
+add_filter( 'register_post_type_args', __NAMESPACE__ . '\\filter_event_post_type_args', 10, 2 );
+add_action( 'admin_init', __NAMESPACE__ . '\\add_role' );
+add_action( 'switch_theme', __NAMESPACE__ . '\\remove_role' );
+add_action( 'init', __NAMESPACE__ . '\\map_capabilities', 12 );
 add_action( 'post_submitbox_start', __NAMESPACE__ . '\\update_notice' );
 add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\\admin_enqueue_scripts' );
 add_action( 'save_post_event', __NAMESPACE__ . '\\save_event' );
 
 // If a user authenticates with WSU AD, and they don't exist as a user, add them as a user.
 add_filter( 'wsuwp_sso_create_new_user', '__return_true' );
-add_action( 'wsuwp_sso_user_created', 'WSU\Events\Event_Contributor\new_user', 10, 1 );
-add_action( 'admin_menu', 'WSU\Events\Event_Contributor\user_auto_role' );
+add_action( 'wsuwp_sso_user_created', __NAMESPACE__ . '\\new_user', 10, 1 );
+add_action( 'admin_menu', __NAMESPACE__ . '\\user_auto_role' );
 
 /**
  * Unsets the capability related arguments from the event post type.
