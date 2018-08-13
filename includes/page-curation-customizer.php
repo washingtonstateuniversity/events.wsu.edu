@@ -49,7 +49,7 @@ function rest_search_featured( $request ) {
 		}
 
 		$event_data = get_event_data( $post->ID );
-		$event_title = trim( esc_html( strip_tags( get_the_title( $post ) ) ) );
+		$event_title = trim( esc_html( wp_strip_all_tags( get_the_title( $post ) ) ) );
 		$event_title .= ' - ' . esc_html( $event_data['start']['date'] );
 
 		$posts[] = array(
@@ -74,12 +74,10 @@ function filter_query( $wp_query ) {
 		return;
 	}
 
-	date_default_timezone_set( 'America/Los_Angeles' );
-
 	$wp_query->set( 'meta_query', array(
 		'wsuwp_event_end_date' => array(
 			'key' => 'wp_event_calendar_end_date_time',
-			'value' => date( 'Y-m-d H:i:s' ),
+			'value' => current_time( 'mysql' ),
 			'compare' => '>',
 			'type' => 'DATETIME',
 		),
@@ -147,7 +145,7 @@ function sanitize_sections( $input ) {
  * @since 0.1.0
  */
 function enqueue_scripts() {
-	wp_enqueue_script( 'page-curation-customizer', esc_url( get_stylesheet_directory_uri() . '/includes/js/page-curation-customizer.js' ), array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-core', 'jquery-ui-autocomplete' ), spine_get_child_version() );
+	wp_enqueue_script( 'page-curation-customizer', esc_url( get_stylesheet_directory_uri() . '/includes/js/page-curation-customizer.js' ), array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-core', 'jquery-ui-autocomplete' ), spine_get_child_version(), true );
 	wp_localize_script( 'page-curation-customizer', 'wsu_page_curation', array(
 		'featured_events_endpoint' => esc_js( get_rest_url( get_current_blog_id(), '/events/v1/featured' ) ),
 	) );

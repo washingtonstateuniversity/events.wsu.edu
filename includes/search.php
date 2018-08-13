@@ -14,7 +14,7 @@ add_filter( 'wsuwp_search_post_data', 'WSU\Events\Search\search_data', 10, 2 );
  */
 function redirect_wp_default_search() {
 	if ( is_search() ) {
-		wp_redirect( home_url( '/search/?q=' . get_Query_var( 's' ) ) );
+		wp_safe_redirect( home_url( '/search/?q=' . get_Query_var( 's' ) ) );
 		exit;
 	}
 }

@@ -20,6 +20,7 @@ function days_with_events( $start, $end ) {
 
 	$query_args = array(
 		'post_type' => 'event',
+		'post_status' => 'publish',
 		'posts_per_page' => -1,
 		'meta_query' => array(
 			'relation' => 'AND',
@@ -151,8 +152,6 @@ function get_month_days( $iterator = 1, $start_day = 1, $month, $year ) {
  * @param string $year
  */
 function get_calendar( $month, $year ) {
-	date_default_timezone_set( 'America/Los_Angeles' );
-
 	$timestamp = mktime( 0, 0, 0, $month, 1, $year );
 	$total_days = date_i18n( 't', $timestamp );
 	$this_month = getdate( $timestamp );
@@ -204,8 +203,6 @@ function get_calendar( $month, $year ) {
  */
 function ajax_callback() {
 	check_ajax_referer( 'calendar-navigation', 'nonce' );
-
-	date_default_timezone_set( 'America/Los_Angeles' );
 
 	$current_month = $_POST['current_month'];
 	$direction = $_POST['direction'];
