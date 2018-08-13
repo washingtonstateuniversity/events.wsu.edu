@@ -225,9 +225,7 @@ function events_filter_today_query( $wp_query ) {
 		return;
 	}
 
-	date_default_timezone_set( 'America/Los_Angeles' );
-
-	$today = date( 'Y-m-d 00:00:00' );
+	$today = current_time( 'Y-m-d' ) . ' 00:00:00';
 	$tomorrow = date( 'Y-m-d 00:00:00', strtotime( $today . ' +1 day' ) );
 
 	$wp_query->set( 'meta_query', array(

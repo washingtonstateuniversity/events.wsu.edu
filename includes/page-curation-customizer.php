@@ -74,12 +74,10 @@ function filter_query( $wp_query ) {
 		return;
 	}
 
-	date_default_timezone_set( 'America/Los_Angeles' );
-
 	$wp_query->set( 'meta_query', array(
 		'wsuwp_event_end_date' => array(
 			'key' => 'wp_event_calendar_end_date_time',
-			'value' => date( 'Y-m-d H:i:s' ),
+			'value' => current_time( 'mysql' ),
 			'compare' => '>',
 			'type' => 'DATETIME',
 		),

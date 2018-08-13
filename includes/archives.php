@@ -20,9 +20,7 @@ function filter_query( $wp_query ) {
 		return;
 	}
 
-	date_default_timezone_set( 'America/Los_Angeles' );
-
-	$today = date( 'Y-m-d 00:00:00' );
+	$today = current_time( 'Y-m-d' ) . ' 00:00:00';
 
 	if ( $wp_query->is_post_type_archive( 'event' ) || $wp_query->is_date() ) {
 		if ( $wp_query->is_date() ) {
@@ -210,9 +208,7 @@ function filter_page_title( $title, $site_part, $global_part ) {
  * @return array
  */
 function get_pagination_urls() {
-	date_default_timezone_set( 'America/Los_Angeles' );
-
-	$current_view_date = date( 'Y-m-d 00:00:00' );
+	$current_view_date = current_time( 'Y-m-d' ) . ' 00:00:00';
 	$base_url = get_post_type_archive_link( 'event' );
 	$previous_url = false;
 	$next_url = false;
