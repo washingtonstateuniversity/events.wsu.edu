@@ -20,6 +20,7 @@ function days_with_events( $start, $end ) {
 
 	$query_args = array(
 		'post_type' => 'event',
+		'post_status' => 'publish',
 		'posts_per_page' => -1,
 		'meta_query' => array(
 			'relation' => 'AND',
