@@ -8,6 +8,7 @@ add_filter( 'register_post_type_args', 'WSU\Events\Event_Contributor\filter_even
 add_action( 'admin_init', 'WSU\Events\Event_Contributor\add_role' );
 add_action( 'switch_theme', 'WSU\Events\Event_Contributor\remove_role' );
 add_action( 'init', 'WSU\Events\Event_Contributor\map_capabilities', 12 );
+add_action( 'post_submitbox_start', __NAMESPACE__ . '\\update_notice' );
 add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\\admin_enqueue_scripts' );
 add_action( 'save_post_event', __NAMESPACE__ . '\\save_event' );
 
@@ -91,6 +92,31 @@ function map_capabilities() {
 			$taxonomy->cap->assign_terms = 'edit_events';
 		}
 	}
+}
+
+/**
+ * Adds a note for Event Contributors about editing published events.
+ *
+ * @since 0.4.0
+ *
+ * @param WP_Post $post The current post object.
+ */
+function update_notice( $post ) {
+	if ( 'event' !== $post->post_type ) {
+		return;
+	}
+
+	if ( 'publish' !== $post->post_status ) {
+		return;
+	}
+
+	if ( ! in_array( 'wsuwp_event_contributor', wp_get_current_user()->roles, true ) ) {
+		return;
+	}
+
+	?>
+	<p class="description">Updating this event will change its status to "Pending Review". It will go through the approval process again before being republished.</p>
+	<?php
 }
 
 /**
