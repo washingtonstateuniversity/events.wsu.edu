@@ -8,6 +8,7 @@ add_filter( 'register_post_type_args', 'WSU\Events\Event_Contributor\filter_even
 add_action( 'admin_init', 'WSU\Events\Event_Contributor\add_role' );
 add_action( 'switch_theme', 'WSU\Events\Event_Contributor\remove_role' );
 add_action( 'init', 'WSU\Events\Event_Contributor\map_capabilities', 12 );
+add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\\admin_enqueue_scripts' );
 add_action( 'save_post_event', __NAMESPACE__ . '\\save_event' );
 
 // If a user authenticates with WSU AD, and they don't exist as a user, add them as a user.
@@ -90,6 +91,31 @@ function map_capabilities() {
 			$taxonomy->cap->assign_terms = 'edit_events';
 		}
 	}
+}
+
+/**
+ * Dequeues the autosaving script when Event Contributors edit published events.
+ *
+ * @since 0.1.0
+ *
+ * @param string $hook_suffix The current admin page.
+ */
+function admin_enqueue_scripts( $hook_suffix ) {
+	$screen = get_current_screen();
+
+	if ( 'event' !== $screen->post_type ) {
+		return;
+	}
+
+	if ( 'post.php' !== $hook_suffix ) {
+		return;
+	}
+
+	if ( ! in_array( 'wsuwp_event_contributor', wp_get_current_user()->roles, true ) ) {
+		return;
+	}
+
+	wp_dequeue_script( 'autosave' );
 }
 
 /**
