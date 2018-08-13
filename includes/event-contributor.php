@@ -79,6 +79,7 @@ function map_capabilities() {
 		$event->cap->create_posts = 'create_events';
 		$event->cap->delete_posts = 'delete_events';
 		$event->cap->edit_posts = 'edit_events';
+		$event->cap->edit_published_posts = 'edit_events';
 	}
 
 	$taxonomies = get_taxonomies( array(), 'objects' );
