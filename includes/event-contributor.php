@@ -8,6 +8,7 @@ add_filter( 'register_post_type_args', 'WSU\Events\Event_Contributor\filter_even
 add_action( 'admin_init', 'WSU\Events\Event_Contributor\add_role' );
 add_action( 'switch_theme', 'WSU\Events\Event_Contributor\remove_role' );
 add_action( 'init', 'WSU\Events\Event_Contributor\map_capabilities', 12 );
+add_action( 'save_post_event', __NAMESPACE__ . '\\save_event' );
 
 // If a user authenticates with WSU AD, and they don't exist as a user, add them as a user.
 add_filter( 'wsuwp_sso_create_new_user', '__return_true' );
@@ -89,6 +90,32 @@ function map_capabilities() {
 			$taxonomy->cap->assign_terms = 'edit_events';
 		}
 	}
+}
+
+/**
+ * Changes the status to `pending` when Event Contributors save a published event.
+ *
+ * @since 0.3.2
+ *
+ * @param int $post_id The post ID.
+ */
+function save_event( $post_id ) {
+	if ( ! in_array( 'wsuwp_event_contributor', wp_get_current_user()->roles, true ) ) {
+		return;
+	}
+
+	if ( 'publish' !== get_post_status( $post_id ) ) {
+		return;
+	}
+
+	remove_action( 'save_post_event', __NAMESPACE__ . '\\save_event' );
+
+	wp_update_post( array(
+		'ID' => $post_id,
+		'post_status' => 'pending',
+	) );
+
+	add_action( 'save_post_event', __NAMESPACE__ . '\\save_event' );
 }
 
 /**
