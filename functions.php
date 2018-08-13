@@ -18,6 +18,7 @@ add_filter( 'excerpt_length', 'events_excerpt_length' );
 add_filter( 'excerpt_more', 'events_excerpt_more' );
 add_filter( 'wp_trim_excerpt', 'events_trim_excerpt' );
 add_action( 'init', 'events_add_excerpt_support' );
+add_action( 'admin_init', 'events_remove_featured_image_position' );
 
 /**
  * Provides a theme version for use in cache busting.
@@ -312,4 +313,17 @@ function events_trim_excerpt( $text ) {
  */
 function events_add_excerpt_support() {
 	add_post_type_support( 'event', 'excerpt' );
+}
+
+/**
+ * Removes the background position input added by the Spine parent theme.
+ *
+ * @since 0.4.0
+ */
+function events_remove_featured_image_position() {
+	if ( ! class_exists( 'Spine_Theme_Images' ) ) {
+		return;
+	}
+
+	remove_filter( 'admin_post_thumbnail_html', array( Spine_Theme_Images::get_instance(), 'meta_featured_image_position' ), 10 );
 }
