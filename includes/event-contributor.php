@@ -128,13 +128,11 @@ function update_notice( $post ) {
  * @param string $hook_suffix The current admin page.
  */
 function admin_enqueue_scripts( $hook_suffix ) {
-	$screen = get_current_screen();
-
-	if ( 'event' !== $screen->post_type ) {
+	if ( 'post.php' !== $hook_suffix ) {
 		return;
 	}
 
-	if ( 'post.php' !== $hook_suffix ) {
+	if ( 'event' !== get_current_screen()->post_type ) {
 		return;
 	}
 
@@ -153,11 +151,11 @@ function admin_enqueue_scripts( $hook_suffix ) {
  * @param int $post_id The post ID.
  */
 function save_event( $post_id ) {
-	if ( ! in_array( 'wsuwp_event_contributor', wp_get_current_user()->roles, true ) ) {
+	if ( 'publish' !== get_post_status( $post_id ) ) {
 		return;
 	}
 
-	if ( 'publish' !== get_post_status( $post_id ) ) {
+	if ( ! in_array( 'wsuwp_event_contributor', wp_get_current_user()->roles, true ) ) {
 		return;
 	}
 
