@@ -6,7 +6,7 @@ add_action( 'admin_init', __NAMESPACE__ . '\\settings_init' );
 add_action( 'wp_dashboard_setup', __NAMESPACE__ . '\\add_dashboard_widget' );
 
 /**
- * Register settings for the Dashboard Q&A Dashboard Widget on the Reading page.
+ * Register settings for the Q&A Dashboard widget on the Reading page.
  *
  * @since 0.4.1
  */
@@ -40,7 +40,6 @@ function settings_init() {
 function page_input_display() {
 	$pages = get_pages();
 	$setting = get_option( 'events_q_a_dashboard_widget' );
-	// output the field
 	?>
 	<select name="events_q_a_dashboard_widget">
 		<option value="">Select a page</option>
