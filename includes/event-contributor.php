@@ -71,9 +71,7 @@ function remove_role() {
  * @since 0.4.0 Mapped the `edit_events` capability to `edit_published_posts`.
  */
 function map_capabilities() {
-	$user = wp_get_current_user();
-
-	if ( ! in_array( 'wsuwp_event_contributor', (array) $user->roles, true ) ) {
+	if ( ! in_array( 'wsuwp_event_contributor', (array) wp_get_current_user()->roles, true ) ) {
 		return;
 	}
 
@@ -111,7 +109,7 @@ function update_notice( $post ) {
 		return;
 	}
 
-	if ( ! in_array( 'wsuwp_event_contributor', wp_get_current_user()->roles, true ) ) {
+	if ( ! in_array( 'wsuwp_event_contributor', (array) wp_get_current_user()->roles, true ) ) {
 		return;
 	}
 
@@ -136,7 +134,7 @@ function admin_enqueue_scripts( $hook_suffix ) {
 		return;
 	}
 
-	if ( ! in_array( 'wsuwp_event_contributor', wp_get_current_user()->roles, true ) ) {
+	if ( ! in_array( 'wsuwp_event_contributor', (array) wp_get_current_user()->roles, true ) ) {
 		return;
 	}
 
@@ -155,7 +153,7 @@ function save_event( $post_id ) {
 		return;
 	}
 
-	if ( ! in_array( 'wsuwp_event_contributor', wp_get_current_user()->roles, true ) ) {
+	if ( ! in_array( 'wsuwp_event_contributor', (array) wp_get_current_user()->roles, true ) ) {
 		return;
 	}
 
