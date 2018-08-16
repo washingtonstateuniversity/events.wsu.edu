@@ -9,6 +9,7 @@ require_once __DIR__ . '/includes/search.php';
 require_once __DIR__ . '/includes/organizations-shortcode.php';
 require_once __DIR__ . '/includes/event-contributor.php';
 require_once __DIR__ . '/includes/ics.php';
+require_once __DIR__ . '/includes/dashboard-widget.php';
 
 add_filter( 'spine_child_theme_version', 'events_theme_version' );
 add_action( 'wp_enqueue_scripts', 'events_enqueue_scripts' );
@@ -28,7 +29,7 @@ add_action( 'admin_init', 'events_remove_featured_image_position' );
  * @return string
  */
 function events_theme_version() {
-	return '0.4.0';
+	return '0.4.1';
 }
 
 /**
