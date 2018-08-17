@@ -20,7 +20,7 @@ function filter_query( $wp_query ) {
 		return;
 	}
 
-	$today = current_time( 'Y-m-d' ) . ' 00:00:00';
+	$today = date_i18n( 'Y-m-d 00:00:00' );
 
 	if ( $wp_query->is_post_type_archive( 'event' ) || $wp_query->is_date() ) {
 		if ( $wp_query->is_date() ) {
@@ -39,10 +39,10 @@ function filter_query( $wp_query ) {
 		} else {
 			$current_day = $today;
 
-			set_query_var( 'wsuwp_event_date', date( 'Y-m-d' ) );
+			set_query_var( 'wsuwp_event_date', date_i18n( 'Y-m-d' ) );
 		}
 
-		$next_day = date( 'Y-m-d 00:00:00', strtotime( $current_day . ' +1 day' ) );
+		$next_day = date_i18n( 'Y-m-d 00:00:00', strtotime( $current_day . ' +1 day' ) );
 
 		$wp_query->set( 'meta_query', array(
 			'relation' => 'AND',
@@ -183,14 +183,14 @@ function filter_page_title( $title, $site_part, $global_part ) {
 	}
 
 	if ( is_day() ) {
-		$date = date( 'F j, Y', strtotime( get_query_var( 'wsuwp_event_date' ) ) );
+		$date = date_i18n( 'F j, Y', strtotime( get_query_var( 'wsuwp_event_date' ) ) );
 
-		if ( date( 'F j, Y' ) !== $date ) {
+		if ( date_i18n( 'F j, Y' ) !== $date ) {
 			$title .= ' ' . $date;
 		}
 	}
 
-	if ( is_post_type_archive( 'event' ) && ( ! is_day() || date( 'F j, Y' ) === $date ) ) {
+	if ( is_post_type_archive( 'event' ) && ( ! is_day() || date_i18n( 'F j, Y' ) === $date ) ) {
 		$title = 'What’s happening today';
 	}
 
@@ -208,7 +208,7 @@ function filter_page_title( $title, $site_part, $global_part ) {
  * @return array
  */
 function get_pagination_urls() {
-	$current_view_date = current_time( 'Y-m-d' ) . ' 00:00:00';
+	$current_view_date = date_i18n( 'Y-m-d 00:00:00' );
 	$base_url = get_post_type_archive_link( 'event' );
 	$previous_url = false;
 	$next_url = false;
@@ -216,12 +216,13 @@ function get_pagination_urls() {
 
 	if ( is_date() ) {
 		$view_date = get_query_var( 'wsuwp_event_date' );
-		$current_view_date = date( 'Y-m-d 00:00:00', strtotime( $view_date ) );
+		$current_view_date = date_i18n( 'Y-m-d 00:00:00', strtotime( $view_date ) );
 	}
 
 	// Set up base query arguments.
 	$adjacent_event_query_args = array(
 		'post_type' => 'event',
+		'post_status' => array( 'publish', 'passed' ),
 		'posts_per_page' => 1,
 		'fields' => 'ids',
 		'orderby' => 'wsuwp_event_start_date',
@@ -256,7 +257,7 @@ function get_pagination_urls() {
 	// Set up the previous link URL if a previous adjacent event was found.
 	if ( 0 !== count( $previous_event ) ) {
 		$start_date = get_post_meta( $previous_event[0], 'wp_event_calendar_date_time', true );
-		$path = date( 'Y/m/d/', strtotime( $start_date ) );
+		$path = date_i18n( 'Y/m/d/', strtotime( $start_date ) );
 		$previous_url = $base_url . $path;
 	}
 
@@ -273,7 +274,7 @@ function get_pagination_urls() {
 	if ( is_post_type_archive( 'event' ) || is_day() || ( ! is_tax() || ( is_tax() && is_day() ) ) ) {
 
 		// Adjust query arguments to find the next adjacent event.
-		$next_day = date( 'Y-m-d 00:00:00', strtotime( $current_view_date . ' + 1 days' ) );
+		$next_day = date_i18n( 'Y-m-d 00:00:00', strtotime( $current_view_date . ' + 1 days' ) );
 		$adjacent_event_query_args['order'] = 'ASC';
 		$adjacent_event_query_args['meta_query']['wsuwp_event_start_date']['compare'] = '>=';
 		$adjacent_event_query_args['meta_query']['wsuwp_event_start_date']['value'] = $next_day;
@@ -283,7 +284,7 @@ function get_pagination_urls() {
 
 		// Set up the next link URL if an upcoming adjacent event was found.
 		if ( 0 !== count( $next_event ) ) {
-			if ( date( 'Y-m-d 00:00:00' ) === $next_day ) {
+			if ( date_i18n( 'Y-m-d 00:00:00' ) === $next_day ) {
 				$next_url = $base_url;
 				$next_label = ( is_tax() ) ? 'Upcoming events' : 'Today’s events';
 			} else {
@@ -294,13 +295,13 @@ function get_pagination_urls() {
 						continue;
 					}
 
-					$path = date( 'Y/m/d/', strtotime( $start ) );
+					$path = date_i18n( 'Y/m/d/', strtotime( $start ) );
 
 					break;
 				}
 
 				$next_url = $base_url . $path;
-				$next_label = ( $next_day > date( 'Y-m-d 00:00:00' ) ) ? 'Upcoming events' : 'Next events';
+				$next_label = ( $next_day > date_i18n( 'Y-m-d 00:00:00' ) ) ? 'Upcoming events' : 'Next events';
 			}
 		} elseif ( is_tax() && is_day() ) {
 			$next_url = $base_url;

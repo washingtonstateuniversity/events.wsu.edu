@@ -29,7 +29,7 @@ add_action( 'admin_init', 'events_remove_featured_image_position' );
  * @return string
  */
 function events_theme_version() {
-	return '0.4.1';
+	return '0.4.2';
 }
 
 /**
@@ -89,10 +89,10 @@ function get_event_data( $post_id ) {
 
 	$data = array(
 		'start' => array(
-			'date_time' => date( 'Y-m-d H:i', $start_date ),
-			'date' => date( 'l, F j, Y', $start_date ),
-			'time' => str_replace( ':00', '', date( 'g:i a', $start_date ) ),
-			'river_date' => date( 'l, F j', $start_date ),
+			'date_time' => date_i18n( 'Y-m-d H:i', $start_date ),
+			'date' => date_i18n( 'l, F j, Y', $start_date ),
+			'time' => str_replace( ':00', '', date_i18n( 'g:i a', $start_date ) ),
+			'river_date' => date_i18n( 'l, F j', $start_date ),
 		),
 		'location_notes' => get_post_meta( $post_id, '_wsuwp_event_location_notes', true ),
 		'contact' => array(
@@ -110,8 +110,8 @@ function get_event_data( $post_id ) {
 	// Build more verbose date and time output for display on individual events.
 	if ( is_single() ) {
 		$end_date = strtotime( get_post_meta( $post_id, 'wp_event_calendar_end_date_time', true ) );
-		$start_parts = explode( ' ', date( 'l, F j, Y g:i a', $start_date ) );
-		$end_parts = explode( ' ', date( 'l, F j, Y g:i a', $end_date ) );
+		$start_parts = explode( ' ', date_i18n( 'l, F j, Y g:i a', $start_date ) );
+		$end_parts = explode( ' ', date_i18n( 'l, F j, Y g:i a', $end_date ) );
 
 		// Build the date output.
 		// Pobably overbuilt, as most events don't span multiple days.
@@ -120,7 +120,7 @@ function get_event_data( $post_id ) {
 		$same_day = ( $end_parts[2] === $start_parts[2] );
 
 		if ( $same_year && $same_month && $same_day ) {
-			$date = date( 'l, F j, Y', $start_date );
+			$date = date_i18n( 'l, F j, Y', $start_date );
 		} else {
 			$date = $start_parts[1] . ' ';
 
@@ -226,8 +226,8 @@ function events_filter_today_query( $wp_query ) {
 		return;
 	}
 
-	$today = current_time( 'Y-m-d' ) . ' 00:00:00';
-	$tomorrow = date( 'Y-m-d 00:00:00', strtotime( $today . ' +1 day' ) );
+	$today = date_i18n( 'Y-m-d 00:00:00' );
+	$tomorrow = date_i18n( 'Y-m-d 00:00:00', strtotime( $today . ' +1 day' ) );
 
 	$wp_query->set( 'meta_query', array(
 		'relation' => 'AND',
@@ -245,7 +245,7 @@ function events_filter_today_query( $wp_query ) {
 		),
 		'wsuwp_event_end_date' => array(
 			'key' => 'wp_event_calendar_end_date_time',
-			'value' => date( 'Y-m-d H:i:s' ),
+			'value' => current_time( 'mysql' ),
 			'compare' => '>',
 			'type' => 'DATETIME',
 		),
