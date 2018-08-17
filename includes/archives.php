@@ -222,6 +222,7 @@ function get_pagination_urls() {
 	// Set up base query arguments.
 	$adjacent_event_query_args = array(
 		'post_type' => 'event',
+		'post_status' => array( 'publish', 'passed' ),
 		'posts_per_page' => 1,
 		'fields' => 'ids',
 		'orderby' => 'wsuwp_event_start_date',
