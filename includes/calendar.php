@@ -99,7 +99,7 @@ function get_pad_days( $iterator = 1, $start_day, $month, $year ) {
 
 	if ( $link ) {
 		$timestamp = mktime( 0, 0, 0, $month, $day, $year );
-		$label = 'View events for ' . date( 'l, F j, Y', $timestamp );
+		$label = 'View events for ' . date_i18n( 'l, F j, Y', $timestamp );
 		?>
 		<div class="pad-day">
 			<a href="<?php echo esc_url( $link ); ?>"
@@ -129,7 +129,7 @@ function get_month_days( $iterator = 1, $start_day = 1, $month, $year ) {
 
 	if ( $link ) {
 		$timestamp = mktime( 0, 0, 0, $month, $day, $year );
-		$label = 'View events for ' . date( 'l, F j, Y', $timestamp );
+		$label = 'View events for ' . date_i18n( 'l, F j, Y', $timestamp );
 		?>
 		<div>
 			<a href="<?php echo esc_url( $link ); ?>"
@@ -159,16 +159,16 @@ function get_calendar( $month, $year ) {
 
 	// Set up variables for padding the beginning of the calendar.
 	$prev_timestamp = strtotime( '-' . $start_day . ' days', $timestamp );
-	$prev_year = date( 'Y', $prev_timestamp );
-	$prev_month = date( 'm', $prev_timestamp );
-	$prev_day = date( 'd', $prev_timestamp );
-	$start = date( 'Y-m-d 00:00:00', $prev_timestamp );
+	$prev_year = date_i18n( 'Y', $prev_timestamp );
+	$prev_month = date_i18n( 'm', $prev_timestamp );
+	$prev_day = date_i18n( 'd', $prev_timestamp );
+	$start = date_i18n( 'Y-m-d 00:00:00', $prev_timestamp );
 
 	// Set up variables for padding the end of the calendar.
-	$next_timestamp = strtotime( $total_days . ' ' . date( 'F Y', $timestamp ) . ' +6 days' );
-	$next_year = date( 'Y', $next_timestamp );
-	$next_month = date( 'm', $next_timestamp );
-	$end = date( 'Y-m-d 00:00:00', $next_timestamp );
+	$next_timestamp = strtotime( $total_days . ' ' . date_i18n( 'F Y', $timestamp ) . ' +6 days' );
+	$next_year = date_i18n( 'Y', $next_timestamp );
+	$next_month = date_i18n( 'm', $next_timestamp );
+	$end = date_i18n( 'Y-m-d 00:00:00', $next_timestamp );
 
 	$days_in_this_week = 0;
 
@@ -208,15 +208,15 @@ function ajax_callback() {
 	$direction = $_POST['direction'];
 	$math = ( 'next' === $direction ) ? ' +1 month' : ' -1 month';
 	$timestamp = strtotime( $current_month . $math );
-	$load_month = date( 'm', $timestamp );
-	$load_year = date( 'Y', $timestamp );
+	$load_month = date_i18n( 'm', $timestamp );
+	$load_year = date_i18n( 'Y', $timestamp );
 
 	ob_start();
 	get_calendar( $load_month, $load_year );
 	$html = ob_get_clean();
 
 	$calendar = array(
-		'heading' => date( 'F Y', $timestamp ),
+		'heading' => date_i18n( 'F Y', $timestamp ),
 		'body' => $html,
 	);
 
