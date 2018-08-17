@@ -70,12 +70,6 @@ function add_dashboard_widget() {
  * @since 0.4.1
  */
 function dashboard_widget_display() {
-	if ( in_array( 'administrator', (array) wp_get_current_user()->roles, true ) ) {
-		$date = new \DateTime( 'now', new \DateTimeZone( 'America/Los_Angeles' ) );
-		echo '<p>' . esc_html( $date->format( 'Y-m-d H:i:s' ) ) . '</p>';
-		echo '<p>' . esc_html( current_time( 'mysql' ) ) . '</p>';
-	}
-
 	$page_id = get_option( 'events_q_a_dashboard_widget' );
 
 	if ( ! $page_id ) {
