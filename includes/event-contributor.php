@@ -11,6 +11,7 @@ add_action( 'init', __NAMESPACE__ . '\\map_capabilities', 12 );
 add_action( 'post_submitbox_start', __NAMESPACE__ . '\\update_notice' );
 add_action( 'admin_enqueue_scripts', __NAMESPACE__ . '\\admin_enqueue_scripts' );
 add_action( 'save_post_event', __NAMESPACE__ . '\\save_event' );
+add_filter( 'map_meta_cap', __NAMESPACE__ . '\\passed_event_capabilities', 10, 4 );
 
 // If a user authenticates with WSU AD, and they don't exist as a user, add them as a user.
 add_filter( 'wsuwp_sso_create_new_user', '__return_true' );
@@ -165,6 +166,39 @@ function save_event( $post_id ) {
 	) );
 
 	add_action( 'save_post_event', __NAMESPACE__ . '\\save_event' );
+}
+
+/**
+ * Prevents Event Contributors from edit events with the `passed` status.
+ *
+ * @since 0.4.3
+ *
+ * @param array  $caps    The user's actual capabilities.
+ * @param string $cap     Capability name.
+ * @param int    $user_id The user ID.
+ * @param array  $args    Adds the context to the cap (typically the object ID).
+ *
+ * @return array $caps
+ */
+function passed_event_capabilities( $caps, $cap, $user_id, $args ) {
+	if ( 'edit_post' !== $cap && 'delete_post' !== $cap ) {
+		return $caps;
+	}
+
+	$user = get_userdata( $user_id );
+
+	if ( ! $user || ! in_array( 'wsuwp_event_contributor', (array) $user->roles, true ) || ! $args ) {
+		return $caps;
+	}
+
+	$post_id = $args[0];
+
+	if ( 'passed' === get_post_status( $post_id ) ) {
+		$caps['edit_events'] = false;
+		$caps['delete_events'] = false;
+	}
+
+	return $caps;
 }
 
 /**
