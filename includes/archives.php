@@ -26,7 +26,7 @@ function filter_query( $wp_query ) {
 		if ( $wp_query->is_date() ) {
 			$year = get_query_var( 'year' );
 			$month = $wp_query->query['monthnum'];
-			$day = get_query_var( 'day' );
+			$day = ( is_day() ) ? get_query_var( 'day' ) : 01;
 			$current_day = $year . '-' . $month . '-' . $day . ' 00:00:00';
 
 			// Set a custom query var with date information for later use.
@@ -42,10 +42,13 @@ function filter_query( $wp_query ) {
 			set_query_var( 'wsuwp_event_date', date_i18n( 'Y-m-d' ) );
 		}
 
-		$next_day = date_i18n( 'Y-m-d 00:00:00', strtotime( $current_day . ' +1 day' ) );
+		$next_date = date_i18n( 'Y-m-d 00:00:00', strtotime( $current_day . ' +1 day' ) );
+
+		if ( is_month() ) {
+			$next_date = date_i18n( 'Y-m-d 00:00:00', strtotime( $current_day . ' +1 month' ) );
+		}
 
 		$wp_query->set( 'meta_query', array(
-			'relation' => 'AND',
 			'wsuwp_event_start_date' => array(
 				'key' => 'wp_event_calendar_date_time',
 				'value' => $current_day,
@@ -54,7 +57,7 @@ function filter_query( $wp_query ) {
 			),
 			'wsuwp_next_day_date' => array(
 				'key' => 'wp_event_calendar_date_time',
-				'value' => $next_day,
+				'value' => $next_date,
 				'compare' => '<',
 				'type' => 'DATETIME',
 			),
