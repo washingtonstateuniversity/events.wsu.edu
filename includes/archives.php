@@ -135,24 +135,28 @@ function generate_date_archive_rewrite_rules( $wp_rewrite ) {
 		return $wp_rewrite;
 	}
 
-	$rule = 'event/([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})';
-	$query = 'index.php?post_type=event';
-	$query .= '&year=' . $wp_rewrite->preg_index( 1 );
-	$query .= '&monthnum=' . $wp_rewrite->preg_index( 2 );
-	$query .= '&day=' . $wp_rewrite->preg_index( 3 );
+	$day_rule = 'event/([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})';
+	$month_rule = 'event/([0-9]{4})/([0-9]{1,2})';
+	$query_event = 'index.php?post_type=event';
+	$query_year = '&year=' . $wp_rewrite->preg_index( 1 );
+	$query_month = '&monthnum=' . $wp_rewrite->preg_index( 2 );
+	$query_day = '&day=' . $wp_rewrite->preg_index( 3 );
 
-	$rules[ $rule . '/?$' ] = $query;
+	$rules[ $day_rule . '/?$' ] = $query_event . $query_year . $query_month . $query_day;
+	$rules[ $month_rule . '/?$' ] = $query_event . $query_year . $query_month;
 
 	$taxonomies = get_object_taxonomies( 'event', 'objects' );
 
 	foreach ( $taxonomies as $taxonomy ) {
-		$rule = $taxonomy->rewrite['slug'] . '/([^/]+)/([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})';
-		$query = 'index.php?' . $taxonomy->query_var . '=' . $wp_rewrite->preg_index( 1 );
-		$query .= '&year=' . $wp_rewrite->preg_index( 2 );
-		$query .= '&monthnum=' . $wp_rewrite->preg_index( 3 );
-		$query .= '&day=' . $wp_rewrite->preg_index( 4 );
+		$tax_day_rule = $taxonomy->rewrite['slug'] . '/([^/]+)/([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})';
+		$tax_month_rule = $taxonomy->rewrite['slug'] . '/([^/]+)/([0-9]{4})/([0-9]{1,2})';
+		$query_tax = 'index.php?' . $taxonomy->query_var . '=' . $wp_rewrite->preg_index( 1 );
+		$query_year = '&year=' . $wp_rewrite->preg_index( 2 );
+		$query_month = '&monthnum=' . $wp_rewrite->preg_index( 3 );
+		$query_day = '&day=' . $wp_rewrite->preg_index( 4 );
 
-		$rules[ $rule . '/?$' ] = $query;
+		$rules[ $tax_day_rule . '/?$' ] = $query_tax . $query_year . $query_month . $query_day;
+		$rules[ $tax_month_rule . '/?$' ] = $query_tax . $query_year . $query_month;
 	}
 
 	$wp_rewrite->rules = $rules + $wp_rewrite->rules;
