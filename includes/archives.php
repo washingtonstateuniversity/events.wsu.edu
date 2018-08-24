@@ -189,15 +189,19 @@ function filter_page_title( $title, $site_part, $global_part ) {
 		$title = single_term_title( '', false );
 	}
 
-	if ( is_day() ) {
+	if ( is_date() ) {
 		$date = date_i18n( 'F j, Y', strtotime( get_query_var( 'wsuwp_event_date' ) ) );
+
+		if ( is_month() ) {
+			$date = date_i18n( 'F Y', strtotime( get_query_var( 'wsuwp_event_date' ) ) );
+		}
 
 		if ( date_i18n( 'F j, Y' ) !== $date ) {
 			$title .= ' ' . $date;
 		}
 	}
 
-	if ( is_post_type_archive( 'event' ) && ( ! is_day() || date_i18n( 'F j, Y' ) === $date ) ) {
+	if ( is_post_type_archive( 'event' ) && ( ! is_day() || date_i18n( 'F j, Y' ) === $date ) && ! is_month() ) {
 		$title = 'What’s happening today';
 	}
 
