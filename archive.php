@@ -67,7 +67,7 @@ if ( is_post_type_archive( 'event' ) || is_date() ) {
 	<footer class="main-footer archive-footer">
 
 		<div class="pagination previous">
-			<?php if ( $pagination['previous'] ) { ?><a href="<?php echo esc_url( $pagination['previous'] ); ?>">Previous events</a><?php } ?>
+			<?php if ( $pagination['previous'] ) { ?><a href="<?php echo esc_url( $pagination['previous'] ); ?>"><?php echo esc_html( $pagination['previous_label'] ); ?></a><?php } ?>
 		</div>
 
 		<div class="pagination next">

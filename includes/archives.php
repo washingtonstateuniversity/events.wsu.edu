@@ -316,8 +316,23 @@ function get_pagination_urls() {
 		}
 	}
 
+	if ( is_month() ) {
+		$previous_month = date_i18n( 'Y/m/', strtotime( $current_view_date . ' - 1 month' ) );
+		$previous_label = ( date_i18n( 'Y/m/' ) === $previous_month ) ? 'This month' : 'Previous month';
+		$next_month = date_i18n( 'Y/m/', strtotime( $current_view_date . ' + 1 month' ) );
+		$next_label = ( date_i18n( 'Y/m/' ) === $next_month ) ? 'This month' : 'Next month';
+
+		return array(
+			'previous' => $base_url . $previous_month,
+			'previous_label' => $previous_label,
+			'next' => $base_url . $next_month,
+			'next_label' => $next_label,
+		);
+	}
+
 	return array(
 		'previous' => $previous_url,
+		'previous_label' => 'Previous events',
 		'next' => $next_url,
 		'next_label' => $next_label,
 	);
