@@ -8,9 +8,13 @@ $is_today = false;
 
 if ( is_post_type_archive( 'event' ) || is_date() ) {
 	$date = strtotime( get_query_var( 'wsuwp_event_date' ) );
-	$current_view = date( 'F j, Y', $date );
-	$todays_date = date( 'F j, Y' );
-	$subtitle = date( 'l, F j, Y', $date );
+	$current_view = date_i18n( 'F j, Y', $date );
+	$todays_date = date_i18n( 'F j, Y' );
+	$subtitle = date_i18n( 'l, F j, Y', $date );
+
+	if ( is_month() ) {
+		$subtitle = date_i18n( 'F Y', $date );
+	}
 }
 ?>
 <main id="wsuwp-main">
