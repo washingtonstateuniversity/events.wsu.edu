@@ -228,6 +228,7 @@ function get_pagination_urls() {
 	$previous_url = false;
 	$next_url = false;
 	$next_label = false;
+	$is_tax = is_tax() || is_tag();
 
 	if ( is_date() ) {
 		$view_date = get_query_var( 'wsuwp_event_date' );
@@ -253,9 +254,9 @@ function get_pagination_urls() {
 	);
 
 	// Override `$base_url` and add query arguments for taxonomy views.
-	if ( is_tax() ) {
-		$term = get_query_var( 'term' );
-		$taxonomy = get_query_var( 'taxonomy' );
+	if ( $is_tax ) {
+		$term = ( is_tag() ) ? get_query_var( 'tag' ) : get_query_var( 'term' );
+		$taxonomy = ( is_tag() ) ? 'post_tag' : get_query_var( 'taxonomy' );
 		$base_url = get_term_link( $term, $taxonomy );
 		$adjacent_event_query_args['tax_query'] = array(
 			array(
@@ -286,7 +287,7 @@ function get_pagination_urls() {
 	 *
 	 * ("Normal" taxonomy archive views display all upcoming events already).
 	 */
-	if ( is_post_type_archive( 'event' ) || is_day() || ( ! is_tax() || ( is_tax() && is_day() ) ) ) {
+	if ( is_post_type_archive( 'event' ) || is_day() || ( ! $is_tax || ( $is_tax && is_day() ) ) ) {
 
 		// Adjust query arguments to find the next adjacent event.
 		$next_day = date_i18n( 'Y-m-d 00:00:00', strtotime( $current_view_date . ' + 1 days' ) );
@@ -301,7 +302,7 @@ function get_pagination_urls() {
 		if ( 0 !== count( $next_event ) ) {
 			if ( date_i18n( 'Y-m-d 00:00:00' ) === $next_day ) {
 				$next_url = $base_url;
-				$next_label = ( is_tax() ) ? 'Upcoming events' : 'Today’s events';
+				$next_label = ( $is_tax ) ? 'Upcoming events' : 'Today’s events';
 			} else {
 				$start_date = get_post_meta( $next_event[0], 'wp_event_calendar_date_time' );
 
@@ -315,12 +316,14 @@ function get_pagination_urls() {
 					break;
 				}
 
-				$next_url = $base_url . $path;
-				$next_label = ( $next_day > date_i18n( 'Y-m-d 00:00:00' ) ) ? 'Upcoming events' : 'Next events';
+				if ( $next_day > date_i18n( 'Y-m-d 00:00:00' ) || $path > date_i18n( 'Y/m/d/' ) ) {
+					$next_label = 'Upcoming events';
+					$next_url = ( $is_tax ) ? $base_url : $base_url . $path;
+				} else {
+					$next_label = 'Next events';
+					$next_url = $base_url . $path;
+				}
 			}
-		} elseif ( is_tax() && is_day() ) {
-			$next_url = $base_url;
-			$next_label = 'Upcoming events';
 		}
 	}
 
