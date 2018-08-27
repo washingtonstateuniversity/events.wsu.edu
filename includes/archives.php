@@ -20,6 +20,10 @@ function filter_query( $wp_query ) {
 		return;
 	}
 
+	if ( is_tag() ) {
+		$wp_query->set( 'post_type', 'event' );
+	}
+
 	$today = date_i18n( 'Y-m-d 00:00:00' );
 
 	if ( $wp_query->is_post_type_archive( 'event' ) || $wp_query->is_date() ) {
