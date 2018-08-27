@@ -189,7 +189,7 @@ function filter_page_title( $title, $site_part, $global_part ) {
 
 	$title = '';
 
-	if ( is_tax() ) {
+	if ( is_tax() || is_tag() ) {
 		$title = single_term_title( '', false );
 	}
 

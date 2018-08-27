@@ -23,7 +23,7 @@ if ( is_post_type_archive( 'event' ) || is_date() ) {
 
 	<header class="page-header">
 		<h1><?php
-		if ( is_tax() ) {
+		if ( is_tax() || is_tag() ) {
 			single_term_title();
 		} elseif ( is_post_type_archive( 'event' ) ) {
 			echo 'What’s happening';
