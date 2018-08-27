@@ -26,7 +26,7 @@ function filter_query( $wp_query ) {
 		if ( $wp_query->is_date() ) {
 			$year = get_query_var( 'year' );
 			$month = $wp_query->query['monthnum'];
-			$day = get_query_var( 'day' );
+			$day = ( is_day() ) ? get_query_var( 'day' ) : 01;
 			$current_day = $year . '-' . $month . '-' . $day . ' 00:00:00';
 
 			// Set a custom query var with date information for later use.
@@ -42,10 +42,13 @@ function filter_query( $wp_query ) {
 			set_query_var( 'wsuwp_event_date', date_i18n( 'Y-m-d' ) );
 		}
 
-		$next_day = date_i18n( 'Y-m-d 00:00:00', strtotime( $current_day . ' +1 day' ) );
+		$next_date = date_i18n( 'Y-m-d 00:00:00', strtotime( $current_day . ' +1 day' ) );
+
+		if ( is_month() ) {
+			$next_date = date_i18n( 'Y-m-d 00:00:00', strtotime( $current_day . ' +1 month' ) );
+		}
 
 		$wp_query->set( 'meta_query', array(
-			'relation' => 'AND',
 			'wsuwp_event_start_date' => array(
 				'key' => 'wp_event_calendar_date_time',
 				'value' => $current_day,
@@ -54,7 +57,7 @@ function filter_query( $wp_query ) {
 			),
 			'wsuwp_next_day_date' => array(
 				'key' => 'wp_event_calendar_date_time',
-				'value' => $next_day,
+				'value' => $next_date,
 				'compare' => '<',
 				'type' => 'DATETIME',
 			),
@@ -135,24 +138,28 @@ function generate_date_archive_rewrite_rules( $wp_rewrite ) {
 		return $wp_rewrite;
 	}
 
-	$rule = 'event/([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})';
-	$query = 'index.php?post_type=event';
-	$query .= '&year=' . $wp_rewrite->preg_index( 1 );
-	$query .= '&monthnum=' . $wp_rewrite->preg_index( 2 );
-	$query .= '&day=' . $wp_rewrite->preg_index( 3 );
+	$day_rule = 'event/([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})';
+	$month_rule = 'event/([0-9]{4})/([0-9]{1,2})';
+	$query_event = 'index.php?post_type=event';
+	$query_year = '&year=' . $wp_rewrite->preg_index( 1 );
+	$query_month = '&monthnum=' . $wp_rewrite->preg_index( 2 );
+	$query_day = '&day=' . $wp_rewrite->preg_index( 3 );
 
-	$rules[ $rule . '/?$' ] = $query;
+	$rules[ $day_rule . '/?$' ] = $query_event . $query_year . $query_month . $query_day;
+	$rules[ $month_rule . '/?$' ] = $query_event . $query_year . $query_month;
 
 	$taxonomies = get_object_taxonomies( 'event', 'objects' );
 
 	foreach ( $taxonomies as $taxonomy ) {
-		$rule = $taxonomy->rewrite['slug'] . '/([^/]+)/([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})';
-		$query = 'index.php?' . $taxonomy->query_var . '=' . $wp_rewrite->preg_index( 1 );
-		$query .= '&year=' . $wp_rewrite->preg_index( 2 );
-		$query .= '&monthnum=' . $wp_rewrite->preg_index( 3 );
-		$query .= '&day=' . $wp_rewrite->preg_index( 4 );
+		$tax_day_rule = $taxonomy->rewrite['slug'] . '/([^/]+)/([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})';
+		$tax_month_rule = $taxonomy->rewrite['slug'] . '/([^/]+)/([0-9]{4})/([0-9]{1,2})';
+		$query_tax = 'index.php?' . $taxonomy->query_var . '=' . $wp_rewrite->preg_index( 1 );
+		$query_year = '&year=' . $wp_rewrite->preg_index( 2 );
+		$query_month = '&monthnum=' . $wp_rewrite->preg_index( 3 );
+		$query_day = '&day=' . $wp_rewrite->preg_index( 4 );
 
-		$rules[ $rule . '/?$' ] = $query;
+		$rules[ $tax_day_rule . '/?$' ] = $query_tax . $query_year . $query_month . $query_day;
+		$rules[ $tax_month_rule . '/?$' ] = $query_tax . $query_year . $query_month;
 	}
 
 	$wp_rewrite->rules = $rules + $wp_rewrite->rules;
@@ -182,15 +189,19 @@ function filter_page_title( $title, $site_part, $global_part ) {
 		$title = single_term_title( '', false );
 	}
 
-	if ( is_day() ) {
+	if ( is_date() ) {
 		$date = date_i18n( 'F j, Y', strtotime( get_query_var( 'wsuwp_event_date' ) ) );
+
+		if ( is_month() ) {
+			$date = date_i18n( 'F Y', strtotime( get_query_var( 'wsuwp_event_date' ) ) );
+		}
 
 		if ( date_i18n( 'F j, Y' ) !== $date ) {
 			$title .= ' ' . $date;
 		}
 	}
 
-	if ( is_post_type_archive( 'event' ) && ( ! is_day() || date_i18n( 'F j, Y' ) === $date ) ) {
+	if ( is_post_type_archive( 'event' ) && ( ! is_day() || date_i18n( 'F j, Y' ) === $date ) && ! is_month() ) {
 		$title = 'What’s happening today';
 	}
 
@@ -309,8 +320,23 @@ function get_pagination_urls() {
 		}
 	}
 
+	if ( is_month() ) {
+		$previous_month = date_i18n( 'Y/m/', strtotime( $current_view_date . ' - 1 month' ) );
+		$previous_label = ( date_i18n( 'Y/m/' ) === $previous_month ) ? 'This month' : 'Previous month';
+		$next_month = date_i18n( 'Y/m/', strtotime( $current_view_date . ' + 1 month' ) );
+		$next_label = ( date_i18n( 'Y/m/' ) === $next_month ) ? 'This month' : 'Next month';
+
+		return array(
+			'previous' => $base_url . $previous_month,
+			'previous_label' => $previous_label,
+			'next' => $base_url . $next_month,
+			'next_label' => $next_label,
+		);
+	}
+
 	return array(
 		'previous' => $previous_url,
+		'previous_label' => 'Previous events',
 		'next' => $next_url,
 		'next_label' => $next_label,
 	);

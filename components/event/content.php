@@ -174,7 +174,7 @@ $ics_link = add_query_arg( 'wsuwp_events_ics', '1', get_the_permalink() );
 
 		<div class="card-date">
 		<?php
-		if ( ! is_archive() || ( is_tax() && ! is_day() ) ) {
+		if ( ! is_archive() || ( is_tax() && ! is_day() ) || is_month() ) {
 			echo esc_html( $event_data['start']['river_date'] ) . ' @';
 		}
 		echo esc_html( $event_data['start']['time'] );

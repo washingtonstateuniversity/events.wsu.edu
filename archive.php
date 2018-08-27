@@ -8,9 +8,13 @@ $is_today = false;
 
 if ( is_post_type_archive( 'event' ) || is_date() ) {
 	$date = strtotime( get_query_var( 'wsuwp_event_date' ) );
-	$current_view = date( 'F j, Y', $date );
-	$todays_date = date( 'F j, Y' );
-	$subtitle = date( 'l, F j, Y', $date );
+	$current_view = date_i18n( 'F j, Y', $date );
+	$todays_date = date_i18n( 'F j, Y' );
+	$subtitle = date_i18n( 'l, F j, Y', $date );
+
+	if ( is_month() ) {
+		$subtitle = date_i18n( 'F Y', $date );
+	}
 }
 ?>
 <main id="wsuwp-main">
@@ -63,7 +67,7 @@ if ( is_post_type_archive( 'event' ) || is_date() ) {
 	<footer class="main-footer archive-footer">
 
 		<div class="pagination previous">
-			<?php if ( $pagination['previous'] ) { ?><a href="<?php echo esc_url( $pagination['previous'] ); ?>">Previous events</a><?php } ?>
+			<?php if ( $pagination['previous'] ) { ?><a href="<?php echo esc_url( $pagination['previous'] ); ?>"><?php echo esc_html( $pagination['previous_label'] ); ?></a><?php } ?>
 		</div>
 
 		<div class="pagination next">
