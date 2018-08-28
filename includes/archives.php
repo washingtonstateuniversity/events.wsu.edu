@@ -15,71 +15,60 @@ add_filter( 'spine_get_title', 'WSU\Events\Archives\filter_page_title', 11, 3 );
  * @param \WP_Query $wp_query
  */
 function filter_query( $wp_query ) {
-
+	// Bail if this isn't the query we're looking for.
 	if ( is_admin() || ! $wp_query->is_main_query() || ! is_archive() ) {
 		return;
 	}
 
+	// Ensure that tag archives display the event post type.
 	if ( is_tag() ) {
 		$wp_query->set( 'post_type', 'event' );
 	}
 
-	$today = date_i18n( 'Y-m-d 00:00:00' );
+	// Get the start date for the `BETWEEN` query.
+	$current_date = date_i18n( 'Y-m-d' );
 
-	if ( $wp_query->is_post_type_archive( 'event' ) || $wp_query->is_date() ) {
-		if ( $wp_query->is_date() ) {
-			$year = get_query_var( 'year' );
-			$month = $wp_query->query['monthnum'];
-			$day = ( is_day() ) ? get_query_var( 'day' ) : 01;
-			$current_day = $year . '-' . $month . '-' . $day . ' 00:00:00';
-
-			// Set a custom query var with date information for later use.
-			set_query_var( 'wsuwp_event_date', $year . '-' . $month . '-' . $day );
-
-			// Prevent the default publish date query.
-			$wp_query->set( 'year', 0 );
-			$wp_query->set( 'monthnum', 0 );
-			$wp_query->set( 'day', 0 );
-		} else {
-			$current_day = $today;
-
-			set_query_var( 'wsuwp_event_date', date_i18n( 'Y-m-d' ) );
-		}
-
-		$next_date = date_i18n( 'Y-m-d 00:00:00', strtotime( $current_day . ' +1 day' ) );
-
-		if ( is_month() ) {
-			$next_date = date_i18n( 'Y-m-d 00:00:00', strtotime( $current_day . ' +1 month' ) );
-		}
-
-		$wp_query->set( 'meta_query', array(
-			'wsuwp_event_start_date' => array(
-				'key' => 'wp_event_calendar_date_time',
-				'value' => $current_day,
-				'compare' => '>=',
-				'type' => 'DATETIME',
-			),
-			'wsuwp_next_day_date' => array(
-				'key' => 'wp_event_calendar_date_time',
-				'value' => $next_date,
-				'compare' => '<',
-				'type' => 'DATETIME',
-			),
-		) );
-	} else {
-		$wp_query->set( 'meta_query', array(
-			'wsuwp_event_start_date' => array(
-				'key' => 'wp_event_calendar_date_time',
-				'value' => $today,
-				'compare' => '>=',
-				'type' => 'DATETIME',
-			),
-		) );
+	// Override the start date to match the current view if applicable.
+	if ( $wp_query->is_date() ) {
+		$year = get_query_var( 'year' );
+		$month = $wp_query->query['monthnum'];
+		$day = ( $wp_query->is_day() ) ? get_query_var( 'day' ) : 01;
+		$current_date = $year . '-' . $month . '-' . $day;
+	} elseif ( $wp_query->is_tax() || $wp_query->is_tag() ) {
+		$current_date = date_i18n( 'Y-m' ) . '-01';
 	}
 
+	// Set a custom query var with date information for later use.
+	set_query_var( 'wsuwp_event_date', $current_date );
+
+	// Get the end date for the `BETWEEN` query.
+	if ( ( is_post_type_archive( 'event' ) && ! is_month() ) || is_day() ) {
+		$next_date = date_i18n( 'Y-m-d', strtotime( $current_date . ' +1 day' ) );
+	} else {
+		$next_date = date_i18n( 'Y-m', strtotime( $current_date . ' +1 month' ) ) . '-01';
+	}
+
+	// Append a time to the start and end date.
+	$current_date_time = $current_date . ' 00:00:00';
+	$next_date_time = $next_date . ' 00:00:00';
+
+	// Set the query args to find events between the start and end dates.
 	$wp_query->set( 'orderby', 'wsuwp_event_start_date' );
 	$wp_query->set( 'order', 'ASC' );
 	$wp_query->set( 'posts_per_page', '100' );
+	$wp_query->set( 'meta_query', array(
+		'wsuwp_event_start_date' => array(
+			'key' => 'wp_event_calendar_date_time',
+			'value' => array( $current_date_time, $next_date_time ),
+			'compare' => 'BETWEEN',
+			'type' => 'DATETIME',
+		),
+	) );
+
+	// Prevent the default publish date query.
+	$wp_query->set( 'year', 0 );
+	$wp_query->set( 'monthnum', 0 );
+	$wp_query->set( 'day', 0 );
 }
 
 /**
