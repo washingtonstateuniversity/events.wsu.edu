@@ -62,7 +62,7 @@ if ( is_post_type_archive( 'event' ) || is_date() ) {
 
 	</section>
 
-	<?php $pagination = WSU\Events\Archives\get_pagination_urls(); ?>
+	<?php $pagination = WSU\Events\Archives\get_pagination_links(); ?>
 
 	<footer class="main-footer archive-footer">
 

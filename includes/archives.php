@@ -204,28 +204,168 @@ function filter_page_title( $title, $site_part, $global_part ) {
 }
 
 /**
- * Generate the URLs used to view previous and next date archives.
+ * Gets paging URLs and labels for the previous and next month with events.
+ * This is meant to be used for all views except day archives and `/event/`.
  *
- * @since 0.2.0
- * @since 0.3.0 Refactored to skip over empty views.
+ * @since 0.4.3
+ *
+ * @param string $view_date  The date of the current archive view.
+ * @param string $base_url   The base URI to add paths to.
+ * @param array  $query_args Default query args for finding adjacent events.
+ * @param array  $link_data  Default link data to populate based on adjacent events.
  *
  * @return array
  */
-function get_pagination_urls() {
-	$current_view_date = date_i18n( 'Y-m-d 00:00:00' );
-	$base_url = get_post_type_archive_link( 'event' );
-	$previous_url = false;
-	$next_url = false;
-	$next_label = false;
-	$is_tax = is_tax() || is_tag();
-
-	if ( is_date() ) {
-		$view_date = get_query_var( 'wsuwp_event_date' );
-		$current_view_date = date_i18n( 'Y-m-d 00:00:00', strtotime( $view_date ) );
-	}
+function get_pagination_link_data( $view_date, $base_url, $query_args, $link_data ) {
+	$current_view_date = date_i18n( 'Y-m-01 00:00:00', strtotime( $view_date ) );
 
 	// Set up base query arguments.
-	$adjacent_event_query_args = array(
+	$query_args['meta_query']['wsuwp_event_start_date']['value'] = $current_view_date;
+
+	// Set up additional query arguments for tag and taxonomy archives.
+	// Override the base url, while we're at it.
+	if ( is_tag() ) {
+		$term = get_query_var( 'tag' );
+		$base_url = get_term_link( $term, 'post_tag' );
+		$query_args['tag'] = $term;
+	} elseif ( is_tax() ) {
+		$term = get_query_var( 'term' );
+		$taxonomy = get_query_var( 'taxonomy' );
+		$base_url = get_term_link( $term, $taxonomy );
+		$query_args['tax_query'] = array(
+			array(
+				'taxonomy' => $taxonomy,
+				'field' => 'slug',
+				'terms' => $term,
+			),
+		);
+	}
+
+	// Query for a previous adjacent event.
+	$previous_event = get_posts( $query_args );
+
+	// Set up the previous link label and URL if a previous adjacent event was found.
+	if ( 0 !== count( $previous_event ) ) {
+		$start_date = get_post_meta( $previous_event[0], 'wp_event_calendar_date_time', true );
+		$path = date_i18n( 'Y/m/', strtotime( $start_date ) );
+		$this_month = date_i18n( 'Y/m/' ) === $path;
+		$link_data['previous'] = ( $this_month && ( is_tag() || is_tax() ) ) ? $base_url : $base_url . $path;
+		$link_data['previous_label'] = date_i18n( 'F Y', strtotime( $start_date ) );
+	}
+
+	// Adjust query arguments to find the next adjacent event.
+	$next_date = date_i18n( 'Y-m-01 00:00:00', strtotime( $current_view_date . ' + 1 month' ) );
+	$query_args['order'] = 'ASC';
+	$query_args['meta_query']['wsuwp_event_start_date']['compare'] = '>=';
+	$query_args['meta_query']['wsuwp_event_start_date']['value'] = $next_date;
+
+	// Query for the next upcoming adjacent event.
+	$next_event = get_posts( $query_args );
+
+	// Set up the next link label and URL if an upcoming adjacent event was found.
+	if ( 0 !== count( $next_event ) ) {
+		$start_date = get_post_meta( $next_event[0], 'wp_event_calendar_date_time' );
+
+		foreach ( $start_date as $start ) {
+			if ( $start < $next_date ) {
+				continue;
+			}
+
+			$next_start_date = strtotime( $start );
+
+			break;
+		}
+
+		$path = date_i18n( 'Y/m/', $next_start_date );
+		$this_month = date_i18n( 'Y/m/' ) === $path;
+		$link_data['next'] = ( $this_month && ( is_tag() || is_tax() ) ) ? $base_url : $base_url . $path;
+		$link_data['next_label'] = date_i18n( 'F Y', $next_start_date );
+	}
+
+	return $link_data;
+}
+
+/**
+ * Gets paging URLs and labels for the previous and next day with events.
+ *
+ * @since 0.4.3
+ *
+ * @param string $view_date  The date of the current archive view.
+ * @param string $base_url   The base URI to add paths to.
+ * @param array  $query_args Default query args for finding adjacent events.
+ * @param array  $link_data  Default link data to populate based on adjacent events.
+ *
+ * @return array
+ */
+function get_day_pagination_link_data( $view_date, $base_url, $query_args, $link_data ) {
+	$current_view_date = date_i18n( 'Y-m-d 00:00:00', strtotime( $view_date ) );
+
+	// Set up base query arguments.
+	$query_args['meta_query']['wsuwp_event_start_date']['value'] = $current_view_date;
+
+	// Query for a previous adjacent event.
+	$previous_event = get_posts( $query_args );
+
+	// Set up the previous link label and URL if a previous adjacent event was found.
+	if ( 0 !== count( $previous_event ) ) {
+		$start_date = strtotime( get_post_meta( $previous_event[0], 'wp_event_calendar_date_time', true ) );
+		$path = date_i18n( 'Y/m/d/', $start_date );
+		$today = date_i18n( 'Y/m/d/' ) === $path;
+		$link_data['previous'] = ( $today ) ? $base_url : $base_url . $path;
+		$link_data['previous_label'] = ( $today ) ? 'Today’s events' : date_i18n( 'F d', $start_date );
+	}
+
+	// Adjust query arguments to find the next adjacent event.
+	$next_date = date_i18n( 'Y-m-d 00:00:00', strtotime( $current_view_date . ' + 1 day' ) );
+	$query_args['order'] = 'ASC';
+	$query_args['meta_query']['wsuwp_event_start_date']['compare'] = '>=';
+	$query_args['meta_query']['wsuwp_event_start_date']['value'] = $next_date;
+
+	// Query for the next upcoming adjacent event.
+	$next_event = get_posts( $query_args );
+
+	// Set up the next link label and URL if an upcoming adjacent event was found.
+	if ( 0 !== count( $next_event ) ) {
+		$start_date = get_post_meta( $next_event[0], 'wp_event_calendar_date_time' );
+
+		foreach ( $start_date as $start ) {
+			if ( $start < $next_date ) {
+				continue;
+			}
+
+			$next_start_date = strtotime( $start );
+
+			break;
+		}
+
+		$path = date_i18n( 'Y/m/d', $next_start_date );
+		$today = date_i18n( 'Y/m/d' ) === $path;
+		$link_data['next'] = ( $today ) ? $base_url : $base_url . $path;
+		$link_data['next_label'] = ( $today ) ? 'Today’s events' : date_i18n( 'F j', $next_start_date );
+	}
+
+	return $link_data;
+}
+
+/**
+ * Generate the URLs and labels used to view previous and next date archives.
+ *
+ * @since 0.2.0
+ * @since 0.3.0 Refactored to skip over empty views.
+ * @since 0.4.3 Refactored to separate day handling from all other handling.
+ *
+ * @return array
+ */
+function get_pagination_links() {
+	$view_date = ( is_date() ) ? get_query_var( 'wsuwp_event_date' ) : date_i18n( 'Y-m-d 00:00:00' );
+	$base_url = get_post_type_archive_link( 'event' );
+	$base_link_data = array(
+		'previous' => false,
+		'previous_label' => false,
+		'next' => false,
+		'next_label' => false,
+	);
+	$base_query_args = array(
 		'post_type' => 'event',
 		'post_status' => array( 'publish', 'passed' ),
 		'posts_per_page' => 1,
@@ -236,104 +376,16 @@ function get_pagination_urls() {
 			'wsuwp_event_start_date' => array(
 				'key' => 'wp_event_calendar_date_time',
 				'compare' => '<',
-				'value' => $current_view_date,
 				'type' => 'DATETIME',
 			),
 		),
 	);
 
-	// Override `$base_url` and add query arguments for taxonomy views.
-	if ( $is_tax ) {
-		$term = ( is_tag() ) ? get_query_var( 'tag' ) : get_query_var( 'term' );
-		$taxonomy = ( is_tag() ) ? 'post_tag' : get_query_var( 'taxonomy' );
-		$base_url = get_term_link( $term, $taxonomy );
-		$adjacent_event_query_args['tax_query'] = array(
-			array(
-				'taxonomy' => $taxonomy,
-				'field' => 'slug',
-				'terms' => $term,
-			),
-		);
+	if ( ( is_post_type_archive( 'event' ) && ! is_month() ) || is_day() ) {
+		$pagination = get_day_pagination_link_data( $view_date, $base_url, $base_query_args, $base_link_data );
+	} else {
+		$pagination = get_pagination_link_data( $view_date, $base_url, $base_query_args, $base_link_data );
 	}
 
-	// Query for the previous adjacent event.
-	$previous_event = get_posts( $adjacent_event_query_args );
-
-	// Set up the previous link URL if a previous adjacent event was found.
-	if ( 0 !== count( $previous_event ) ) {
-		$start_date = get_post_meta( $previous_event[0], 'wp_event_calendar_date_time', true );
-		$path = date_i18n( 'Y/m/d/', strtotime( $start_date ) );
-		$previous_url = $base_url . $path;
-	}
-
-	/**
-	 * Build out the next link URL and label.
-	 *
-	 * Paging forward is available for, in order of appearance in the condition:
-	 *   1) the `event` post type archive view;
-	 *   2) day archive views;
-	 *   3) taxonomy views that are also day archive views.
-	 *
-	 * ("Normal" taxonomy archive views display all upcoming events already).
-	 */
-	if ( is_post_type_archive( 'event' ) || is_day() || ( ! $is_tax || ( $is_tax && is_day() ) ) ) {
-
-		// Adjust query arguments to find the next adjacent event.
-		$next_day = date_i18n( 'Y-m-d 00:00:00', strtotime( $current_view_date . ' + 1 days' ) );
-		$adjacent_event_query_args['order'] = 'ASC';
-		$adjacent_event_query_args['meta_query']['wsuwp_event_start_date']['compare'] = '>=';
-		$adjacent_event_query_args['meta_query']['wsuwp_event_start_date']['value'] = $next_day;
-
-		// Query for the next adjacent event.
-		$next_event = get_posts( $adjacent_event_query_args );
-
-		// Set up the next link URL if an upcoming adjacent event was found.
-		if ( 0 !== count( $next_event ) ) {
-			if ( date_i18n( 'Y-m-d 00:00:00' ) === $next_day ) {
-				$next_url = $base_url;
-				$next_label = ( $is_tax ) ? 'Upcoming events' : 'Today’s events';
-			} else {
-				$start_date = get_post_meta( $next_event[0], 'wp_event_calendar_date_time' );
-
-				foreach ( $start_date as $start ) {
-					if ( $start === $current_view_date ) {
-						continue;
-					}
-
-					$path = date_i18n( 'Y/m/d/', strtotime( $start ) );
-
-					break;
-				}
-
-				if ( $next_day > date_i18n( 'Y-m-d 00:00:00' ) || $path > date_i18n( 'Y/m/d/' ) ) {
-					$next_label = 'Upcoming events';
-					$next_url = ( $is_tax ) ? $base_url : $base_url . $path;
-				} else {
-					$next_label = 'Next events';
-					$next_url = $base_url . $path;
-				}
-			}
-		}
-	}
-
-	if ( is_month() ) {
-		$previous_month = date_i18n( 'Y/m/', strtotime( $current_view_date . ' - 1 month' ) );
-		$previous_label = ( date_i18n( 'Y/m/' ) === $previous_month ) ? 'This month' : 'Previous month';
-		$next_month = date_i18n( 'Y/m/', strtotime( $current_view_date . ' + 1 month' ) );
-		$next_label = ( date_i18n( 'Y/m/' ) === $next_month ) ? 'This month' : 'Next month';
-
-		return array(
-			'previous' => $base_url . $previous_month,
-			'previous_label' => $previous_label,
-			'next' => $base_url . $next_month,
-			'next_label' => $next_label,
-		);
-	}
-
-	return array(
-		'previous' => $previous_url,
-		'previous_label' => 'Previous events',
-		'next' => $next_url,
-		'next_label' => $next_label,
-	);
+	return $pagination;
 }
