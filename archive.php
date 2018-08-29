@@ -42,8 +42,12 @@ $subheader = ( $day_view ) ? date_i18n( 'l, F j, Y', $date ) : date_i18n( 'F Y',
 			else :
 				?>
 				<article class="card card--event no-events">
-					<p>No events listed today.</p>
-					<p>Know of any events happening on this day? <a href="<?php echo esc_url( admin_url( 'post-new.php?post_type=event' ) ); ?>">Submit an event.</a></p>
+					<?php if ( $day_view ) { ?>
+						<p>No events listed today.</p>
+					<?php } else { ?>
+						<p>No <?php if ( is_tax() || is_tag() ) { echo '<span class="term-name">' . esc_html( single_term_title( '', false ) ) . '</span> '; } ?>events listed this month.</p>
+					<?php } ?>
+					<p>Know of something happening? <a href="<?php echo esc_url( admin_url( 'post-new.php?post_type=event' ) ); ?>">Submit an event.</a></p>
 				</article>
 				<?php
 			endif;
