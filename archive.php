@@ -6,16 +6,9 @@ global $is_today;
 
 $is_today = false;
 
-if ( is_post_type_archive( 'event' ) || is_date() ) {
-	$date = strtotime( get_query_var( 'wsuwp_event_date' ) );
-	$current_view = date_i18n( 'F j, Y', $date );
-	$todays_date = date_i18n( 'F j, Y' );
-	$subtitle = date_i18n( 'l, F j, Y', $date );
-
-	if ( is_month() ) {
-		$subtitle = date_i18n( 'F Y', $date );
-	}
-}
+$date = strtotime( get_query_var( 'wsuwp_event_date' ) );
+$day_view = is_post_type_archive( 'event' ) && ! is_month();
+$subheader = ( $day_view ) ? date_i18n( 'l, F j, Y', $date ) : date_i18n( 'F Y', $date );
 ?>
 <main id="wsuwp-main">
 
@@ -28,15 +21,13 @@ if ( is_post_type_archive( 'event' ) || is_date() ) {
 		} elseif ( is_post_type_archive( 'event' ) ) {
 			echo 'What’s happening';
 
-			if ( ! is_date() || $current_view === $todays_date ) {
+			if ( ! is_date() || date_i18n( 'F j, Y', $date ) === date_i18n( 'F j, Y' ) ) {
 				echo ' today';
 			}
 		}
 		?></h1>
 
-		<?php if ( is_post_type_archive( 'event' ) || ( is_date() && $current_view !== $todays_date ) ) { ?>
-		<p><?php echo esc_html( $subtitle ); ?></p>
-		<?php } ?>
+		<p><?php echo esc_html( $subheader ); ?></p>
 	</header>
 
 	<section class="row single divider-bottom">
