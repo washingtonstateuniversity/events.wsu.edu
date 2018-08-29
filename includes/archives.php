@@ -43,14 +43,16 @@ function filter_query( $wp_query ) {
 
 	// Get the end date for the `BETWEEN` query.
 	if ( ( is_post_type_archive( 'event' ) && ! is_month() ) ) {
-		$next_date = date_i18n( 'Y-m-d', strtotime( $current_date . ' +1 day' ) );
+		$next_date_time = $current_date . ' 23:59:59';
 	} else {
-		$next_date = date_i18n( 'Y-m', strtotime( $current_date . ' +1 month' ) ) . '-01';
+		$next_date = new \DateTime( $current_date );
+		$next_date->modify( '+1 month' );
+		$next_date->modify( '-1 second' );
+		$next_date_time = $next_date->format( 'Y-m-d H:i:s' );
 	}
 
-	// Append a time to the start and end date.
+	// Append a time to the start date.
 	$current_date_time = $current_date . ' 00:00:00';
-	$next_date_time = $next_date . ' 00:00:00';
 
 	// Set the query args to find events between the start and end dates.
 	$wp_query->set( 'orderby', 'wsuwp_event_start_date' );
