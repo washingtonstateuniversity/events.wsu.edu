@@ -42,7 +42,7 @@ function filter_query( $wp_query ) {
 	set_query_var( 'wsuwp_event_date', $current_date );
 
 	// Get the end date for the `BETWEEN` query.
-	if ( ( is_post_type_archive( 'event' ) && ! is_month() ) || is_day() ) {
+	if ( ( is_post_type_archive( 'event' ) && ! is_month() ) ) {
 		$next_date = date_i18n( 'Y-m-d', strtotime( $current_date . ' +1 day' ) );
 	} else {
 		$next_date = date_i18n( 'Y-m', strtotime( $current_date . ' +1 month' ) ) . '-01';
@@ -381,7 +381,7 @@ function get_pagination_links() {
 		),
 	);
 
-	if ( ( is_post_type_archive( 'event' ) && ! is_month() ) || is_day() ) {
+	if ( is_post_type_archive( 'event' ) && ! is_month() ) {
 		$pagination = get_day_pagination_link_data( $view_date, $base_url, $base_query_args, $base_link_data );
 	} else {
 		$pagination = get_pagination_link_data( $view_date, $base_url, $base_query_args, $base_link_data );
