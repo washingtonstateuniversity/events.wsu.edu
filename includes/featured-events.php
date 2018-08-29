@@ -2,11 +2,11 @@
 
 namespace WSU\Events\Featured;
 
-add_action( 'add_meta_boxes_event', 'WSU\Events\Featured\add_meta_boxes', 10 );
-add_action( 'save_post_event', 'WSU\Events\Featured\save_post', 10, 2 );
-add_filter( 'manage_event_posts_columns', 'WSU\Events\Featured\manage_columns', 10, 1 );
-add_action( 'manage_event_posts_custom_column', 'WSU\Events\Featured\manage_custom_column', 10, 2 );
-add_action( 'rest_event_query', 'WSU\Events\Featured\filter_rest_query' );
+add_action( 'add_meta_boxes_event', __NAMESPACE__ . '\\add_meta_boxes', 10 );
+add_action( 'save_post_event', __NAMESPACE__ . '\\save_post', 10, 2 );
+add_filter( 'manage_event_posts_columns', __NAMESPACE__ . '\\manage_columns', 10, 1 );
+add_action( 'manage_event_posts_custom_column', __NAMESPACE__ . '\\manage_custom_column', 10, 2 );
+add_action( 'rest_event_query', __NAMESPACE__ . '\\filter_rest_query' );
 
 /**
  * Adds a meta box for capturing an excerpt to display on the home page.

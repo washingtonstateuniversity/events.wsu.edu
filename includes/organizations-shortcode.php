@@ -2,7 +2,7 @@
 
 namespace WSU\Events\Organizations_Shortcode;
 
-add_shortcode( 'wsu_events_organizations', 'WSU\Events\Organizations_Shortcode\display', 11 );
+add_shortcode( 'wsu_events_organizations', __NAMESPACE__ . '\\display', 11 );
 
 /**
  * Display an index of organization terms.

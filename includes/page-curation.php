@@ -2,7 +2,7 @@
 
 namespace WSU\Events\Page_Curation;
 
-add_filter( 'pre_get_posts', 'WSU\Events\Page_Curation\filter_front_page_featured_events_query', 11 );
+add_filter( 'pre_get_posts', __NAMESPACE__ . '\\filter_front_page_featured_events_query', 11 );
 
 /**
  * Filter the query for the front page featured events.

@@ -2,8 +2,8 @@
 
 namespace WSU\Events\Calendar;
 
-add_filter( 'wp_ajax_nopriv_load_month', 'WSU\Events\Calendar\ajax_callback' );
-add_action( 'wp_ajax_load_month', 'WSU\Events\Calendar\ajax_callback' );
+add_filter( 'wp_ajax_nopriv_load_month', __NAMESPACE__ . '\\ajax_callback' );
+add_action( 'wp_ajax_load_month', __NAMESPACE__ . '\\ajax_callback' );
 
 $dates_with_events = array();
 

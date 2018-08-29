@@ -2,10 +2,10 @@
 
 namespace WSU\Events\Search;
 
-add_filter( 'query_vars', 'WSU\Events\Search\filter_query_variable' );
-add_action( 'template_redirect', 'WSU\Events\Search\redirect_wp_default_search' );
-add_filter( 'wsuwp_search_post_types', 'WSU\Events\Search\filter_post_types' );
-add_filter( 'wsuwp_search_post_data', 'WSU\Events\Search\search_data', 10, 2 );
+add_filter( 'query_vars', __NAMESPACE__ . '\\filter_query_variable' );
+add_action( 'template_redirect', __NAMESPACE__ . '\\redirect_wp_default_search' );
+add_filter( 'wsuwp_search_post_types', __NAMESPACE__ . '\\filter_post_types' );
+add_filter( 'wsuwp_search_post_data', __NAMESPACE__ . '\\search_data', 10, 2 );
 
 /**
  * Redirect requests to the default WordPress search to our new URL.

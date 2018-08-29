@@ -2,10 +2,10 @@
 
 namespace WSU\Events\Archives;
 
-add_filter( 'pre_get_posts', 'WSU\Events\Archives\filter_query', 11 );
-add_filter( 'register_taxonomy_args', 'WSU\Events\Archives\taxonomy_rewrites', 10, 2 );
-add_action( 'generate_rewrite_rules', 'WSU\Events\Archives\generate_date_archive_rewrite_rules', 10, 1 );
-add_filter( 'spine_get_title', 'WSU\Events\Archives\filter_page_title', 11, 3 );
+add_filter( 'pre_get_posts', __NAMESPACE__ . '\\filter_query', 11 );
+add_filter( 'register_taxonomy_args', __NAMESPACE__ . '\\taxonomy_rewrites', 10, 2 );
+add_action( 'generate_rewrite_rules', __NAMESPACE__ . '\\generate_date_archive_rewrite_rules', 10, 1 );
+add_filter( 'spine_get_title', __NAMESPACE__ . '\\filter_page_title', 11, 3 );
 add_action( 'init', __NAMESPACE__ . '\\add_excerpt_support' );
 add_filter( 'excerpt_length', __NAMESPACE__ . '\\excerpt_length' );
 add_filter( 'excerpt_more', __NAMESPACE__ . '\\excerpt_more' );

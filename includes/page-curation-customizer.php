@@ -2,11 +2,11 @@
 
 namespace WSU\Events\Page_Curation\Customizer;
 
-add_action( 'rest_api_init', 'WSU\Events\Page_Curation\Customizer\register_rest_route' );
-add_filter( 'pre_get_posts', 'WSU\Events\Page_Curation\Customizer\filter_query' );
-add_filter( 'customize_register', 'WSU\Events\Page_Curation\Customizer\register_featured_events' );
-add_action( 'customize_controls_print_footer_scripts', 'WSU\Events\Page_Curation\Customizer\enqueue_scripts' );
-add_action( 'customize_controls_enqueue_scripts', 'WSU\Events\Page_Curation\Customizer\enqueue_styles' );
+add_action( 'rest_api_init', __NAMESPACE__ . '\\register_rest_route' );
+add_filter( 'pre_get_posts', __NAMESPACE__ . '\\filter_query' );
+add_filter( 'customize_register', __NAMESPACE__ . '\\register_featured_events' );
+add_action( 'customize_controls_print_footer_scripts', __NAMESPACE__ . '\\enqueue_scripts' );
+add_action( 'customize_controls_enqueue_scripts', __NAMESPACE__ . '\\enqueue_styles' );
 
 /**
  * Register a custom endpoint to handle lookups for featured events from the Customizer.
