@@ -116,7 +116,7 @@ function taxonomy_rewrites( $args, $taxonomy ) {
 }
 
 /**
- * Generate day based archive rewrite rules.
+ * Generate rewrite rules for various archive views.
  *
  * @since 0.2.0
  *
@@ -163,7 +163,7 @@ function generate_date_archive_rewrite_rules( $wp_rewrite ) {
 }
 
 /**
- * Filter the document title used for daily archives.
+ * Filter the document title used for archive views.
  *
  * @since 0.2.0
  *
