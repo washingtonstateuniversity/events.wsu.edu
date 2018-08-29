@@ -72,11 +72,11 @@ $ics_link = add_query_arg( 'wsuwp_events_ics', '1', get_the_permalink() );
 
 				<?php the_post_thumbnail( 'large' ); ?>
 
-				<?php $featured_image_caption = get_post( get_post_thumbnail_id() )->post_excerpt; ?>
+				<?php $featured_image_post = get_post( get_post_thumbnail_id() ); ?>
 
-				<?php if ( $featured_image_caption ) { ?>
+				<?php if ( $featured_image_post && ! empty( $featured_image_post->post_excerpt ) ) { ?>
 				<figcaption class="wp-caption-text">
-					<?php echo esc_html( $featured_image_caption ); ?>
+					<?php echo esc_html( $featured_image_post->post_excerpt ); ?>
 				</figcaption>
 				<?php } ?>
 
