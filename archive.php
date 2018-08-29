@@ -2,10 +2,6 @@
 
 get_header();
 
-global $is_today;
-
-$is_today = false;
-
 $date = strtotime( get_query_var( 'wsuwp_event_date' ) );
 $day_view = is_post_type_archive( 'event' ) && ! is_month();
 $subheader = ( $day_view ) ? date_i18n( 'l, F j, Y', $date ) : date_i18n( 'F Y', $date );
@@ -37,7 +33,7 @@ $subheader = ( $day_view ) ? date_i18n( 'l, F j, Y', $date ) : date_i18n( 'F Y',
 			<?php
 			if ( have_posts() ) :
 				while ( have_posts() ) : the_post();
-					get_template_part( 'components/event/content' );
+					get_template_part( 'components/event/card' );
 				endwhile;
 			else :
 				?>

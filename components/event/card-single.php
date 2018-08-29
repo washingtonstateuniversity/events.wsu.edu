@@ -1,21 +1,16 @@
 <?php
-
-global $is_today;
-
 $event_data = get_event_data( get_the_ID() );
 $types = wp_get_post_terms( get_the_ID(), 'event-type' );
+$type = ( ! empty( $types[0] ) ) ? $types[0] : false;
 $ics_link = add_query_arg( 'wsuwp_events_ics', '1', get_the_permalink() );
-
 ?>
 <article id="event-<?php the_ID(); ?>" class="card card--event">
 
-<?php if ( is_single() && ! $is_today ) { ?>
-
 	<header class="card-header">
 
-		<?php if ( ! empty( $types[0] ) ) { ?>
+		<?php if ( $type ) { ?>
 		<p class="card-taxonomy card-type">
-			<a href="<?php echo esc_url( get_term_link( $types[0]->term_id ) ); ?>"><?php echo esc_html( $types[0]->name ); ?></a>
+			<a href="<?php echo esc_url( get_term_link( $type->term_id ) ); ?>"><?php echo esc_html( $type->name ); ?></a>
 		</p>
 		<?php } ?>
 
@@ -161,61 +156,5 @@ $ics_link = add_query_arg( 'wsuwp_events_ics', '1', get_the_permalink() );
 		<div class="column two"></div>
 
 	</footer>
-
-<?php } else { ?>
-
-	<?php if ( $is_today ) { ?>
-
-		<?php if ( ! empty( $types[0] ) ) { ?>
-		<div class="card-taxonomy card-type"><?php echo esc_html( $types[0]->name ); ?></div>
-		<?php } ?>
-
-	<?php } else { ?>
-
-		<div class="card-date">
-		<?php
-		if ( ! is_archive() || ( is_tax() && ! is_day() ) || is_month() || is_tag() ) {
-			echo esc_html( $event_data['start']['river_date'] ) . ' @';
-		}
-		echo esc_html( $event_data['start']['time'] );
-		?>
-		</div>
-
-	<?php } ?>
-
-	<header class="card-title">
-		<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
-	</header>
-
-	<?php if ( $is_today ) { ?>
-
-		<div class="card-date"><?php echo esc_html( $event_data['start']['time'] ); ?></div>
-
-	<?php } else { ?>
-
-		<?php if ( ! empty( $types[0] ) && ! is_tax( 'event-type' ) ) { ?>
-		<div class="card-taxonomy card-type"><?php echo esc_html( $types[0]->name ); ?></div>
-		<?php } ?>
-
-		<?php $locations = wp_get_post_terms( get_the_ID(), 'wsuwp_university_location' ); ?>
-		<?php if ( ! empty( $locations[0] ) && ! is_tax( 'wsuwp_university_location' ) ) { ?>
-		<div class="card-taxonomy card-location"><?php echo esc_html( $locations[0]->name ); ?></div>
-		<?php } ?>
-
-		<div class="card-excerpt">
-			<?php
-			$featured_excerpt = get_post_meta( $post->ID, '_wsuwp_event_featured_excerpt', true );
-
-			if ( is_front_page() && $featured_excerpt ) {
-				echo wp_kses_post( apply_filters( 'the_content', $featured_excerpt ) );
-			} else {
-				the_excerpt();
-			}
-			?>
-		</div>
-
-	<?php } ?>
-
-<?php } ?>
 
 </article>

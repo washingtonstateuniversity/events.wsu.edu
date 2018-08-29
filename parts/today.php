@@ -1,6 +1,4 @@
 <?php
-global $is_today;
-
 $args = array(
 	'post_type' => 'event',
 	'posts_per_page' => 10,
@@ -25,7 +23,7 @@ if ( $events_today->have_posts() ) {
 			while ( $events_today->have_posts() ) {
 				$events_today->the_post();
 				$is_today = true;
-				get_template_part( 'components/event/content' );
+				get_template_part( 'components/event/card', 'today' );
 			}
 			?>
 
