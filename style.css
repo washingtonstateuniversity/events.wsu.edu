@@ -305,6 +305,11 @@ main a.button.card-cta:focus {
 	font-weight: 400;
 }
 
+.card-location-notes {
+	color: #333;
+	color: var(--color-gray-80);
+}
+
 .card-date a {
 	white-space: nowrap;
 }
