@@ -25,7 +25,17 @@ $location = ( ! empty( $locations[0] ) ) ? $locations[0]->name : false;
 	<?php } ?>
 
 	<?php if ( $location && ! is_tax( 'wsuwp_university_location' ) ) { ?>
-	<div class="card-taxonomy card-location"><?php echo esc_html( $location ); ?></div>
+	<div class="card-taxonomy card-location"><?php
+		echo esc_html( $location );
+
+		if ( ! is_front_page() ) {
+			$venue = WSU\Events\Venues\get_venue();
+
+			if ( $venue ) {
+				echo ' - ' . esc_html( $venue['raw']['name'] );
+			}
+		}
+	?></div>
 	<?php } ?>
 
 	<div class="card-excerpt">
