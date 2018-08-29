@@ -15,10 +15,6 @@ add_filter( 'spine_child_theme_version', 'events_theme_version' );
 add_action( 'wp_enqueue_scripts', 'events_enqueue_scripts' );
 add_action( 'wp_footer', 'events_social_media_icons' );
 add_filter( 'pre_get_posts', 'events_filter_today_query', 11 );
-add_filter( 'excerpt_length', 'events_excerpt_length' );
-add_filter( 'excerpt_more', 'events_excerpt_more' );
-add_filter( 'wp_trim_excerpt', 'events_trim_excerpt' );
-add_action( 'init', 'events_add_excerpt_support' );
 add_action( 'admin_init', 'events_remove_featured_image_position' );
 
 /**
@@ -253,65 +249,6 @@ function events_filter_today_query( $wp_query ) {
 
 	$wp_query->set( 'orderby', 'wsuwp_event_start_date' );
 	$wp_query->set( 'order', 'ASC' );
-}
-
-/**
- * Filters the number of words in an excerpt.
- *
- * @since 0.2.1
- *
- * @param int $number
- *
- * @return int
- */
-function events_excerpt_length( $number ) {
-	return 50;
-}
-
-/**
- * Filters the string in the “more” link displayed after a trimmed excerpt.
- *
- * @since 0.2.1
- *
- * @param string $more_string
- *
- * @return string
- */
-function events_excerpt_more( $more_string ) {
-	return '&hellip;';
-}
-
-/**
- * Filters the excerpt content.
- *
- * @since 0.2.2
- *
- * @param string $text
- *
- * @return string
- */
-function events_trim_excerpt( $text ) {
-	// Allow the tags the Spine parent theme allows, minus `img`.
-	$allowed_tags = '<p>,<a>,<em>,<strong>,<h2>,<h3>,<h4>,<h5>,<blockquote>';
-	$text = strip_tags( $text, $allowed_tags );
-
-	// Remove any empty `a` tags that the image removal might have left.
-	$text = preg_replace( '/<a[^>]*><\/a>/', '', $text );
-
-	// Remove any 'p' tags that are empty or contain only `&nbsp;`.
-	$text = preg_replace( '/<p[^>]*>([\s]|&nbsp;)*<\/p>/', '', $text );
-
-	return $text;
-}
-
-/**
- * Adds Excerpt support to the Event post type.
- *
- * @since 0.2.3
- * @since 0.3.0 Adds Excerpt support for all users.
- */
-function events_add_excerpt_support() {
-	add_post_type_support( 'event', 'excerpt' );
 }
 
 /**

@@ -6,6 +6,10 @@ add_filter( 'pre_get_posts', 'WSU\Events\Archives\filter_query', 11 );
 add_filter( 'register_taxonomy_args', 'WSU\Events\Archives\taxonomy_rewrites', 10, 2 );
 add_action( 'generate_rewrite_rules', 'WSU\Events\Archives\generate_date_archive_rewrite_rules', 10, 1 );
 add_filter( 'spine_get_title', 'WSU\Events\Archives\filter_page_title', 11, 3 );
+add_action( 'init', __NAMESPACE__ . '\\add_excerpt_support' );
+add_filter( 'excerpt_length', __NAMESPACE__ . '\\excerpt_length' );
+add_filter( 'excerpt_more', __NAMESPACE__ . '\\excerpt_more' );
+add_filter( 'wp_trim_excerpt', __NAMESPACE__ . '\\trim_excerpt' );
 
 /**
  * Filter the query for all archive views.
@@ -203,6 +207,65 @@ function filter_page_title( $title, $site_part, $global_part ) {
 	$title .= ' | ' . $site_part . $global_part;
 
 	return $title;
+}
+
+/**
+ * Adds Excerpt support to the Event post type.
+ *
+ * @since 0.2.3
+ * @since 0.3.0 Adds Excerpt support for all users.
+ */
+function add_excerpt_support() {
+	add_post_type_support( 'event', 'excerpt' );
+}
+
+/**
+ * Filters the number of words in an excerpt.
+ *
+ * @since 0.2.1
+ *
+ * @param int $number
+ *
+ * @return int
+ */
+function excerpt_length( $number ) {
+	return 50;
+}
+
+/**
+ * Filters the string in the “more” link displayed after a trimmed excerpt.
+ *
+ * @since 0.2.1
+ *
+ * @param string $more_string
+ *
+ * @return string
+ */
+function excerpt_more( $more_string ) {
+	return '&hellip;';
+}
+
+/**
+ * Filters the excerpt content.
+ *
+ * @since 0.2.2
+ *
+ * @param string $text
+ *
+ * @return string
+ */
+function trim_excerpt( $text ) {
+	// Allow the tags the Spine parent theme allows, minus `img`.
+	$allowed_tags = '<p>,<a>,<em>,<strong>,<h2>,<h3>,<h4>,<h5>,<blockquote>';
+	$text = strip_tags( $text, $allowed_tags );
+
+	// Remove any empty `a` tags that the image removal might have left.
+	$text = preg_replace( '/<a[^>]*><\/a>/', '', $text );
+
+	// Remove any 'p' tags that are empty or contain only `&nbsp;`.
+	$text = preg_replace( '/<p[^>]*>([\s]|&nbsp;)*<\/p>/', '', $text );
+
+	return $text;
 }
 
 /**
