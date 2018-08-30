@@ -21,7 +21,6 @@ function filter_front_page_featured_events_query( $wp_query ) {
 	$wp_query->set( 'orderby', 'wsuwp_event_start_date' );
 	$wp_query->set( 'order', 'ASC' );
 	$wp_query->set( 'meta_query', array(
-		'relation' => 'AND',
 		'wsuwp_event_start_date' => array(
 			'key' => 'wp_event_calendar_date_time',
 			'compare' => 'EXISTS',
