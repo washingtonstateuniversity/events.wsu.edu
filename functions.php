@@ -82,29 +82,10 @@ function events_social_media_icons() {
  */
 function get_event_data( $post_id ) {
 	$start_date = strtotime( get_post_meta( $post_id, 'wp_event_calendar_date_time', true ) );
+	$all_day = get_post_meta( $post_id, 'wp_event_calendar_all_day', true );
 
-	$data = array(
-		'start' => array(
-			'date_time' => date_i18n( 'Y-m-d H:i', $start_date ),
-			'date' => date_i18n( 'l, F j, Y', $start_date ),
-			'time' => str_replace( ':00', '', date_i18n( 'g:i a', $start_date ) ),
-			'river_date' => date_i18n( 'l, F j', $start_date ),
-		),
-		'location_notes' => get_post_meta( $post_id, '_wsuwp_event_location_notes', true ),
-		'contact' => array(
-			'name' => get_post_meta( $post_id, '_wsuwp_event_contact_name', true ),
-			'email' => get_post_meta( $post_id, '_wsuwp_event_contact_email', true ),
-			'phone' => get_post_meta( $post_id, '_wsuwp_event_contact_phone', true ),
-		),
-		'action' => array(
-			'text' => get_post_meta( $post_id, '_wsuwp_event_action_text', true ),
-			'url' => get_post_meta( $post_id, '_wsuwp_event_action_url', true ),
-		),
-		'cost' => get_post_meta( $post_id, '_wsuwp_event_cost', true ),
-	);
-
-	// Build more verbose date and time output for display on individual events.
 	if ( is_single() ) {
+		// Build out a more robust data set for individual event views
 		$end_date = strtotime( get_post_meta( $post_id, 'wp_event_calendar_end_date_time', true ) );
 		$start_parts = explode( ' ', date_i18n( 'l, F j, Y g:i a', $start_date ) );
 		$end_parts = explode( ' ', date_i18n( 'l, F j, Y g:i a', $end_date ) );
@@ -131,15 +112,47 @@ function get_event_data( $post_id ) {
 			$date .= $end_parts[2] . ' ' . $end_parts[3];
 		}
 
-		$data['full_date'] = $date;
-
 		// Build the time output.
-		$time = $start_parts[4];
-		$time .= ( $end_parts[5] !== $start_parts[5] ) ? ' ' . $start_parts[5] . ' to ' : '-';
-		$time .= $end_parts[4] . ' ' . $end_parts[5];
-		$time = str_replace( ':00', '', $time );
+		if ( ! empty( $all_day ) ) {
+			$time = 'All day';
+		} else {
+			$time = $start_parts[4];
+			$time .= ( $end_parts[5] !== $start_parts[5] ) ? ' ' . $start_parts[5] . ' to ' : '-';
+			$time .= $end_parts[4] . ' ' . $end_parts[5];
+			$time = str_replace( ':00', '', $time );
+		}
 
-		$data['full_time'] = $time;
+		$data = array(
+			'date_time' => date_i18n( 'Y-m-d H:i', $start_date ),
+			'date' => $date,
+			'time' => $time,
+			'location_notes' => get_post_meta( $post_id, '_wsuwp_event_location_notes', true ),
+			'contact' => array(
+				'name' => get_post_meta( $post_id, '_wsuwp_event_contact_name', true ),
+				'email' => get_post_meta( $post_id, '_wsuwp_event_contact_email', true ),
+				'phone' => get_post_meta( $post_id, '_wsuwp_event_contact_phone', true ),
+			),
+			'action' => array(
+				'text' => get_post_meta( $post_id, '_wsuwp_event_action_text', true ),
+				'url' => get_post_meta( $post_id, '_wsuwp_event_action_url', true ),
+			),
+			'cost' => get_post_meta( $post_id, '_wsuwp_event_cost', true ),
+		);
+
+	} else {
+		$event_time = ( ! empty( $all_day ) ) ? 'All day' : str_replace( ':00', '', date_i18n( 'g:i a', $start_date ) );
+
+		if ( is_post_type_archive( 'event' ) && ! is_month() ) {
+			$event_date = '';
+		} else {
+			$event_date = date_i18n( 'l, F j', $start_date );
+			$event_date .= ( empty( $all_day ) ) ? ' @' : ' ';
+		}
+
+		$data = array(
+			'date' => $event_date,
+			'time' => $event_time,
+		);
 	}
 
 	return $data;

@@ -7,14 +7,7 @@ $location = ( ! empty( $locations[0] ) ) ? $locations[0]->name : false;
 ?>
 <article id="event-<?php the_ID(); ?>" class="card card--event">
 
-	<div class="card-date">
-		<?php
-		if ( ! is_archive() || ( is_tax() && ! is_day() ) || is_month() || is_tag() ) {
-			echo esc_html( $event_data['start']['river_date'] ) . ' @';
-		}
-		echo esc_html( $event_data['start']['time'] );
-		?>
-	</div>
+	<div class="card-date"><?php echo esc_html( $event_data['date'] . $event_data['time'] ); ?></div>
 
 	<header class="card-title">
 		<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>

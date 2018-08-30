@@ -11,6 +11,6 @@ $type = ( ! empty( $types[0] ) ) ? $types[0]->name : false;
 		<a href="<?php the_permalink(); ?>"><?php the_title(); ?></a>
 	</header>
 
-	<div class="card-date"><?php echo esc_html( $event_data['start']['time'] ); ?></div>
+	<div class="card-date"><?php echo esc_html( $event_data['time'] ); ?></div>
 
 </article>
