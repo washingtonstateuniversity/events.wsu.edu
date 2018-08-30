@@ -150,14 +150,11 @@ function generate_date_archive_rewrite_rules( $wp_rewrite ) {
 	$taxonomies = get_object_taxonomies( 'event', 'objects' );
 
 	foreach ( $taxonomies as $taxonomy ) {
-		$tax_day_rule = $taxonomy->rewrite['slug'] . '/([^/]+)/([0-9]{4})/([0-9]{1,2})/([0-9]{1,2})';
 		$tax_month_rule = $taxonomy->rewrite['slug'] . '/([^/]+)/([0-9]{4})/([0-9]{1,2})';
 		$query_tax = 'index.php?' . $taxonomy->query_var . '=' . $wp_rewrite->preg_index( 1 );
 		$query_year = '&year=' . $wp_rewrite->preg_index( 2 );
 		$query_month = '&monthnum=' . $wp_rewrite->preg_index( 3 );
-		$query_day = '&day=' . $wp_rewrite->preg_index( 4 );
 
-		$rules[ $tax_day_rule . '/?$' ] = $query_tax . $query_year . $query_month . $query_day;
 		$rules[ $tax_month_rule . '/?$' ] = $query_tax . $query_year . $query_month;
 	}
 
