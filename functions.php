@@ -235,28 +235,31 @@ function events_filter_today_query( $wp_query ) {
 		return;
 	}
 
-	$today = date_i18n( 'Y-m-d 00:00:00' );
-	$tomorrow = date_i18n( 'Y-m-d 00:00:00', strtotime( $today . ' +1 day' ) );
+	$todays_date = date_i18n( 'Y-m-d' );
+
+	$today = $todays_date . ' 00:00:00';
+	$end_of_day = $todays_date . ' 23:59:59';
 
 	$wp_query->set( 'meta_query', array(
-		'relation' => 'AND',
 		'wsuwp_event_start_date' => array(
 			'key' => 'wp_event_calendar_date_time',
-			'value' => $today,
-			'compare' => '>=',
+			'value' => array( $today, $end_of_day ),
+			'compare' => 'BETWEEN',
 			'type' => 'DATETIME',
 		),
-		'wsuwp_tomorrow_date' => array(
-			'key' => 'wp_event_calendar_date_time',
-			'value' => $tomorrow,
-			'compare' => '<',
-			'type' => 'DATETIME',
-		),
-		'wsuwp_event_end_date' => array(
-			'key' => 'wp_event_calendar_end_date_time',
-			'value' => current_time( 'mysql' ),
-			'compare' => '>',
-			'type' => 'DATETIME',
+		array(
+			'relation' => 'OR',
+			array(
+				'key' => 'wp_event_calendar_end_date_time',
+				'value' => current_time( 'mysql' ),
+				'compare' => '>',
+				'type' => 'DATETIME',
+			),
+			array(
+				'key' => 'wp_event_calendar_all_day',
+				'value' => '1',
+				'compare' => '=',
+			),
 		),
 	) );
 
