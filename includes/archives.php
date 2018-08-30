@@ -5,6 +5,7 @@ namespace WSU\Events\Archives;
 add_filter( 'pre_get_posts', __NAMESPACE__ . '\\filter_query', 11 );
 add_filter( 'register_taxonomy_args', __NAMESPACE__ . '\\taxonomy_rewrites', 10, 2 );
 add_action( 'generate_rewrite_rules', __NAMESPACE__ . '\\generate_date_archive_rewrite_rules', 10, 1 );
+add_filter( 'do_parse_request', __NAMESPACE__ . '\\month_url_redirect' );
 add_filter( 'spine_get_title', __NAMESPACE__ . '\\filter_page_title', 11, 3 );
 add_action( 'init', __NAMESPACE__ . '\\add_excerpt_support' );
 add_filter( 'excerpt_length', __NAMESPACE__ . '\\excerpt_length' );
@@ -161,6 +162,23 @@ function generate_date_archive_rewrite_rules( $wp_rewrite ) {
 	$wp_rewrite->rules = $rules + $wp_rewrite->rules;
 
 	return $wp_rewrite;
+}
+
+/**
+ * Redirect `/this-month/` to the current month archive URL.
+ *
+ * @since 0.5.0
+ */
+function month_url_redirect( $continue ) {
+	$requested_url = esc_url_raw( network_home_url( add_query_arg( [] ) ) );
+	$month_url = home_url( 'this-month/' );
+
+	if ( $requested_url === $month_url ) {
+		wp_safe_redirect( get_post_type_archive_link( 'event' ) . date_i18n( 'Y/m/' ) );
+		die();
+	}
+
+	return $continue;
 }
 
 /**
