@@ -114,7 +114,7 @@ function search_data( $data, $post ) {
 	}
 
 	$start_date = strtotime( get_post_meta( $post->ID, 'wp_event_calendar_date_time', true ) );
-	$start_date = date( 'l, M. j Y @g:i a', $start_date );
+	$start_date = date_i18n( 'l, M. j Y @g:i a', $start_date );
 
 	$types = wp_get_post_terms( $post->ID, 'event-type' );
 	$type = ( ! empty( $types[0] ) ) ? esc_html( $types[0]->name ) : '';
