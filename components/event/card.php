@@ -4,6 +4,7 @@ $types = wp_get_post_terms( get_the_ID(), 'event-type' );
 $type = ( ! empty( $types[0] ) ) ? $types[0]->name : false;
 $locations = wp_get_post_terms( get_the_ID(), 'wsuwp_university_location' );
 $location = ( ! empty( $locations[0] ) ) ? $locations[0]->name : false;
+$venue = ( ! is_front_page() ) ? WSU\Events\Venues\get_venue() : false;
 ?>
 <article id="event-<?php the_ID(); ?>" class="card card--event">
 
@@ -17,16 +18,18 @@ $location = ( ! empty( $locations[0] ) ) ? $locations[0]->name : false;
 	<div class="card-taxonomy card-type"><?php echo esc_html( $type ); ?></div>
 	<?php } ?>
 
-	<?php if ( $location && ! is_tax( 'wsuwp_university_location' ) ) { ?>
+	<?php if ( $location || $venue ) { ?>
 	<div class="card-taxonomy card-location"><?php
-		echo esc_html( $location );
-
-		if ( ! is_front_page() ) {
-			$venue = WSU\Events\Venues\get_venue();
+		if ( $location && ! is_tax( 'wsuwp_university_location' ) ) {
+			echo esc_html( $location );
 
 			if ( $venue ) {
-				echo ' - ' . esc_html( $venue['raw']['name'] );
+				echo ' - ';
 			}
+		}
+
+		if ( $venue ) {
+			echo esc_html( $venue['raw']['name'] );
 		}
 	?></div>
 	<?php } ?>
