@@ -3,7 +3,7 @@
 namespace WSU\Events\Dashboard_Widget;
 
 add_action( 'admin_init', __NAMESPACE__ . '\\settings_init' );
-add_action( 'wp_dashboard_setup', __NAMESPACE__ . '\\add_dashboard_widget' );
+add_action( 'wp_dashboard_setup', __NAMESPACE__ . '\\widget_setup' );
 
 /**
  * Register settings for the Q&A Dashboard widget on the Reading page.
@@ -52,11 +52,21 @@ function page_input_display() {
 }
 
 /**
- * Registers the Q&A widget to the dashboard.
+ * Reconfigures the Dashboard widgets.
  *
- * @since 0.4.1
+ * @since 0.4.3
  */
-function add_dashboard_widget() {
+function widget_setup() {
+	remove_meta_box( 'dashboard_right_now', 'dashboard', 'normal' );
+	remove_meta_box( 'dashboard_activity', 'dashboard', 'normal' );
+
+	add_screen_option( 'layout_columns',
+		array(
+			'max' => 2,
+			'default' => 1,
+		)
+	);
+
 	wp_add_dashboard_widget(
 		'events_q_a_dashboard_widget',
 		'Events Q&A',
@@ -80,4 +90,3 @@ function dashboard_widget_display() {
 
 	echo wp_kses_post( wpautop( $page->post_content ) );
 }
-
