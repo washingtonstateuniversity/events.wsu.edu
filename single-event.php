@@ -9,7 +9,7 @@ get_header();
 
 	<?php while ( have_posts() ) : the_post(); ?>
 
-		<?php get_template_part( 'components/event/content' ) ?>
+		<?php get_template_part( 'components/event/card', 'single' ) ?>
 
 	<?php endwhile; ?>
 

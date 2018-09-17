@@ -2,8 +2,8 @@
 
 namespace WSU\Events\Calendar;
 
-add_filter( 'wp_ajax_nopriv_load_month', 'WSU\Events\Calendar\ajax_callback' );
-add_action( 'wp_ajax_load_month', 'WSU\Events\Calendar\ajax_callback' );
+add_filter( 'wp_ajax_nopriv_load_month', __NAMESPACE__ . '\\ajax_callback' );
+add_action( 'wp_ajax_load_month', __NAMESPACE__ . '\\ajax_callback' );
 
 $dates_with_events = array();
 
@@ -23,17 +23,10 @@ function days_with_events( $start, $end ) {
 		'post_status' => array( 'publish', 'passed' ),
 		'posts_per_page' => -1,
 		'meta_query' => array(
-			'relation' => 'AND',
 			array(
 				'key' => 'wp_event_calendar_date_time',
-				'value' => $start,
-				'compare' => '>',
-				'type' => 'DATETIME',
-			),
-			array(
-				'key' => 'wp_event_calendar_date_time',
-				'value' => $end,
-				'compare' => '<',
+				'value' => array( $start, $end ),
+				'compare' => 'BETWEEN',
 				'type' => 'DATETIME',
 			),
 		),

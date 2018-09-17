@@ -45,7 +45,7 @@
 				if ( $featured_posts->have_posts() ) {
 					while ( $featured_posts->have_posts() ) {
 						$featured_posts->the_post();
-						get_template_part( 'components/event/content' );
+						get_template_part( 'components/event/card' );
 					}
 				}
 				wp_reset_postdata();

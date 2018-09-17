@@ -15,10 +15,6 @@ add_filter( 'spine_child_theme_version', 'events_theme_version' );
 add_action( 'wp_enqueue_scripts', 'events_enqueue_scripts' );
 add_action( 'wp_footer', 'events_social_media_icons' );
 add_filter( 'pre_get_posts', 'events_filter_today_query', 11 );
-add_filter( 'excerpt_length', 'events_excerpt_length' );
-add_filter( 'excerpt_more', 'events_excerpt_more' );
-add_filter( 'wp_trim_excerpt', 'events_trim_excerpt' );
-add_action( 'init', 'events_add_excerpt_support' );
 add_action( 'admin_init', 'events_remove_featured_image_position' );
 
 /**
@@ -86,29 +82,10 @@ function events_social_media_icons() {
  */
 function get_event_data( $post_id ) {
 	$start_date = strtotime( get_post_meta( $post_id, 'wp_event_calendar_date_time', true ) );
+	$all_day = get_post_meta( $post_id, 'wp_event_calendar_all_day', true );
 
-	$data = array(
-		'start' => array(
-			'date_time' => date_i18n( 'Y-m-d H:i', $start_date ),
-			'date' => date_i18n( 'l, F j, Y', $start_date ),
-			'time' => str_replace( ':00', '', date_i18n( 'g:i a', $start_date ) ),
-			'river_date' => date_i18n( 'l, F j', $start_date ),
-		),
-		'location_notes' => get_post_meta( $post_id, '_wsuwp_event_location_notes', true ),
-		'contact' => array(
-			'name' => get_post_meta( $post_id, '_wsuwp_event_contact_name', true ),
-			'email' => get_post_meta( $post_id, '_wsuwp_event_contact_email', true ),
-			'phone' => get_post_meta( $post_id, '_wsuwp_event_contact_phone', true ),
-		),
-		'action' => array(
-			'text' => get_post_meta( $post_id, '_wsuwp_event_action_text', true ),
-			'url' => get_post_meta( $post_id, '_wsuwp_event_action_url', true ),
-		),
-		'cost' => get_post_meta( $post_id, '_wsuwp_event_cost', true ),
-	);
-
-	// Build more verbose date and time output for display on individual events.
 	if ( is_single() ) {
+		// Build out a more robust data set for individual event views
 		$end_date = strtotime( get_post_meta( $post_id, 'wp_event_calendar_end_date_time', true ) );
 		$start_parts = explode( ' ', date_i18n( 'l, F j, Y g:i a', $start_date ) );
 		$end_parts = explode( ' ', date_i18n( 'l, F j, Y g:i a', $end_date ) );
@@ -135,15 +112,47 @@ function get_event_data( $post_id ) {
 			$date .= $end_parts[2] . ' ' . $end_parts[3];
 		}
 
-		$data['full_date'] = $date;
-
 		// Build the time output.
-		$time = $start_parts[4];
-		$time .= ( $end_parts[5] !== $start_parts[5] ) ? ' ' . $start_parts[5] . ' to ' : '-';
-		$time .= $end_parts[4] . ' ' . $end_parts[5];
-		$time = str_replace( ':00', '', $time );
+		if ( ! empty( $all_day ) ) {
+			$time = 'All day';
+		} else {
+			$time = $start_parts[4];
+			$time .= ( $end_parts[5] !== $start_parts[5] ) ? ' ' . $start_parts[5] . ' to ' : '-';
+			$time .= $end_parts[4] . ' ' . $end_parts[5];
+			$time = str_replace( ':00', '', $time );
+		}
 
-		$data['full_time'] = $time;
+		$data = array(
+			'date_time' => date_i18n( 'Y-m-d H:i', $start_date ),
+			'date' => $date,
+			'time' => $time,
+			'location_notes' => get_post_meta( $post_id, '_wsuwp_event_location_notes', true ),
+			'contact' => array(
+				'name' => get_post_meta( $post_id, '_wsuwp_event_contact_name', true ),
+				'email' => get_post_meta( $post_id, '_wsuwp_event_contact_email', true ),
+				'phone' => get_post_meta( $post_id, '_wsuwp_event_contact_phone', true ),
+			),
+			'action' => array(
+				'text' => get_post_meta( $post_id, '_wsuwp_event_action_text', true ),
+				'url' => get_post_meta( $post_id, '_wsuwp_event_action_url', true ),
+			),
+			'cost' => get_post_meta( $post_id, '_wsuwp_event_cost', true ),
+		);
+
+	} else {
+		$event_time = ( ! empty( $all_day ) ) ? 'All day' : str_replace( ':00', '', date_i18n( 'g:i a', $start_date ) );
+
+		if ( is_post_type_archive( 'event' ) && ! is_month() ) {
+			$event_date = '';
+		} else {
+			$event_date = date_i18n( 'l, F j', $start_date );
+			$event_date .= ( empty( $all_day ) ) ? ' @' : ' ';
+		}
+
+		$data = array(
+			'date' => $event_date,
+			'time' => $event_time,
+		);
 	}
 
 	return $data;
@@ -226,92 +235,36 @@ function events_filter_today_query( $wp_query ) {
 		return;
 	}
 
-	$today = date_i18n( 'Y-m-d 00:00:00' );
-	$tomorrow = date_i18n( 'Y-m-d 00:00:00', strtotime( $today . ' +1 day' ) );
+	$todays_date = date_i18n( 'Y-m-d' );
+
+	$today = $todays_date . ' 00:00:00';
+	$end_of_day = $todays_date . ' 23:59:59';
 
 	$wp_query->set( 'meta_query', array(
-		'relation' => 'AND',
 		'wsuwp_event_start_date' => array(
 			'key' => 'wp_event_calendar_date_time',
-			'value' => $today,
-			'compare' => '>=',
+			'value' => array( $today, $end_of_day ),
+			'compare' => 'BETWEEN',
 			'type' => 'DATETIME',
 		),
-		'wsuwp_tomorrow_date' => array(
-			'key' => 'wp_event_calendar_date_time',
-			'value' => $tomorrow,
-			'compare' => '<',
-			'type' => 'DATETIME',
-		),
-		'wsuwp_event_end_date' => array(
-			'key' => 'wp_event_calendar_end_date_time',
-			'value' => current_time( 'mysql' ),
-			'compare' => '>',
-			'type' => 'DATETIME',
+		array(
+			'relation' => 'OR',
+			array(
+				'key' => 'wp_event_calendar_end_date_time',
+				'value' => current_time( 'mysql' ),
+				'compare' => '>',
+				'type' => 'DATETIME',
+			),
+			array(
+				'key' => 'wp_event_calendar_all_day',
+				'value' => '1',
+				'compare' => '=',
+			),
 		),
 	) );
 
 	$wp_query->set( 'orderby', 'wsuwp_event_start_date' );
 	$wp_query->set( 'order', 'ASC' );
-}
-
-/**
- * Filters the number of words in an excerpt.
- *
- * @since 0.2.1
- *
- * @param int $number
- *
- * @return int
- */
-function events_excerpt_length( $number ) {
-	return 50;
-}
-
-/**
- * Filters the string in the “more” link displayed after a trimmed excerpt.
- *
- * @since 0.2.1
- *
- * @param string $more_string
- *
- * @return string
- */
-function events_excerpt_more( $more_string ) {
-	return '&hellip;';
-}
-
-/**
- * Filters the excerpt content.
- *
- * @since 0.2.2
- *
- * @param string $text
- *
- * @return string
- */
-function events_trim_excerpt( $text ) {
-	// Allow the tags the Spine parent theme allows, minus `img`.
-	$allowed_tags = '<p>,<a>,<em>,<strong>,<h2>,<h3>,<h4>,<h5>,<blockquote>';
-	$text = strip_tags( $text, $allowed_tags );
-
-	// Remove any empty `a` tags that the image removal might have left.
-	$text = preg_replace( '/<a[^>]*><\/a>/', '', $text );
-
-	// Remove any 'p' tags that are empty or contain only `&nbsp;`.
-	$text = preg_replace( '/<p[^>]*>([\s]|&nbsp;)*<\/p>/', '', $text );
-
-	return $text;
-}
-
-/**
- * Adds Excerpt support to the Event post type.
- *
- * @since 0.2.3
- * @since 0.3.0 Adds Excerpt support for all users.
- */
-function events_add_excerpt_support() {
-	add_post_type_support( 'event', 'excerpt' );
 }
 
 /**

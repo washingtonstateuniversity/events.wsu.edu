@@ -1,6 +1,6 @@
 <div class="calendar">
 
-	<header><?php echo esc_html( date( 'F Y' ) ); ?></header>
+	<header><?php echo esc_html( date_i18n( 'F Y' ) ); ?></header>
 
 	<div class="weekday-heading">
 
@@ -18,7 +18,7 @@
 
 	<div class="month">
 
-		<?php WSU\Events\Calendar\get_calendar( date( 'm' ), date( 'Y' ) ); ?>
+		<?php WSU\Events\Calendar\get_calendar( date_i18n( 'm' ), date_i18n( 'Y' ) ); ?>
 
 	</div>
 

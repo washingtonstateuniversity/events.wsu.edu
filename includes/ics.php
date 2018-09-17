@@ -5,8 +5,8 @@
 
 namespace WSU\Events\ICS;
 
-add_filter( 'query_vars', 'WSU\Events\ICS\add_query_vars' );
-add_filter( 'template_include', 'WSU\Events\ICS\include_template' );
+add_filter( 'query_vars', __NAMESPACE__ . '\\add_query_vars' );
+add_filter( 'template_include', __NAMESPACE__ . '\\include_template' );
 
 /**
  * Adds a custom query var for `.ics` generation.

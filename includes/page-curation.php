@@ -2,7 +2,7 @@
 
 namespace WSU\Events\Page_Curation;
 
-add_filter( 'pre_get_posts', 'WSU\Events\Page_Curation\filter_front_page_featured_events_query', 11 );
+add_filter( 'pre_get_posts', __NAMESPACE__ . '\\filter_front_page_featured_events_query', 11 );
 
 /**
  * Filter the query for the front page featured events.
@@ -21,7 +21,6 @@ function filter_front_page_featured_events_query( $wp_query ) {
 	$wp_query->set( 'orderby', 'wsuwp_event_start_date' );
 	$wp_query->set( 'order', 'ASC' );
 	$wp_query->set( 'meta_query', array(
-		'relation' => 'AND',
 		'wsuwp_event_start_date' => array(
 			'key' => 'wp_event_calendar_date_time',
 			'compare' => 'EXISTS',
