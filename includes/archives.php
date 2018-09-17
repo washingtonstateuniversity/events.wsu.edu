@@ -167,7 +167,7 @@ function generate_date_archive_rewrite_rules( $wp_rewrite ) {
 /**
  * Redirect `/this-month/` to the current month archive URL.
  *
- * @since 0.5.0
+ * @since 0.4.3
  */
 function month_url_redirect( $continue ) {
 	$requested_url = esc_url_raw( network_home_url( add_query_arg( [] ) ) );
