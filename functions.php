@@ -25,7 +25,7 @@ add_action( 'admin_init', 'events_remove_featured_image_position' );
  * @return string
  */
 function events_theme_version() {
-	return '0.4.3';
+	return '0.4.4';
 }
 
 /**
