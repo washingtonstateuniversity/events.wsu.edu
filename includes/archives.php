@@ -194,7 +194,7 @@ function month_url_redirect( $continue ) {
  * @return array Modified list of nav menu classes.
  */
 function menu_classes( $classes, $item, $args ) {
-	if ( is_month() && home_url( 'this-month/' ) === $item->url ) {
+	if ( is_month() && home_url( 'this-month/' ) === $item->url && ! is_tax() ) {
 		$classes[] = 'active dogeared';
 	}
 
