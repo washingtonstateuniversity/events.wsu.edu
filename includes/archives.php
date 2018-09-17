@@ -170,7 +170,7 @@ function generate_date_archive_rewrite_rules( $wp_rewrite ) {
  * @since 0.4.3
  */
 function month_url_redirect( $continue ) {
-	$requested_url = esc_url_raw( network_home_url( add_query_arg( [] ) ) );
+	$requested_url = esc_url_raw( home_url( add_query_arg( [] ) ) );
 	$month_url = home_url( 'this-month/' );
 
 	if ( $requested_url === $month_url ) {
