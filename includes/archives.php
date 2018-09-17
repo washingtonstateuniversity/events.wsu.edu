@@ -6,6 +6,7 @@ add_filter( 'pre_get_posts', __NAMESPACE__ . '\\filter_query', 11 );
 add_filter( 'register_taxonomy_args', __NAMESPACE__ . '\\taxonomy_rewrites', 10, 2 );
 add_action( 'generate_rewrite_rules', __NAMESPACE__ . '\\generate_date_archive_rewrite_rules', 10, 1 );
 add_filter( 'do_parse_request', __NAMESPACE__ . '\\month_url_redirect' );
+add_filter( 'nav_menu_css_class', __NAMESPACE__ . '\\menu_classes', 11, 3 );
 add_filter( 'spine_get_title', __NAMESPACE__ . '\\filter_page_title', 11, 3 );
 add_action( 'init', __NAMESPACE__ . '\\add_excerpt_support' );
 add_filter( 'excerpt_length', __NAMESPACE__ . '\\excerpt_length' );
@@ -179,6 +180,25 @@ function month_url_redirect( $continue ) {
 	}
 
 	return $continue;
+}
+
+/**
+ * Marks the menu item with the url of `/this-month/` as active for month views.
+ *
+ * @since 0.4.5
+ *
+ * @param array    $classes Current list of nav menu classes.
+ * @param WP_Post  $item    Post object representing the menu item.
+ * @param stdClass $args    Arguments used to create the menu.
+ *
+ * @return array Modified list of nav menu classes.
+ */
+function menu_classes( $classes, $item, $args ) {
+	if ( is_month() && home_url( 'this-month/' ) === $item->url && ! is_tax() ) {
+		$classes[] = 'active dogeared';
+	}
+
+	return $classes;
 }
 
 /**
