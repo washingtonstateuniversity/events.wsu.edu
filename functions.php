@@ -191,6 +191,7 @@ function display_event_filter( $button_text, $taxonomy ) {
 			'WSU Spokane',
 			'WSU Tri-Cities',
 			'WSU Vancouver',
+			'WSU Everett',
 		);
 	}
 
