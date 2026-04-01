@@ -63,7 +63,7 @@ function filter_query( $wp_query ) {
 	// Set the query args to find events between the start and end dates.
 	$wp_query->set( 'orderby', 'wsuwp_event_start_date' );
 	$wp_query->set( 'order', 'ASC' );
-	$wp_query->set( 'posts_per_page', '100' );
+	$wp_query->set( 'posts_per_page', '999' );
 	$wp_query->set( 'meta_query', array(
 		'wsuwp_event_start_date' => array(
 			'key' => 'wp_event_calendar_date_time',
